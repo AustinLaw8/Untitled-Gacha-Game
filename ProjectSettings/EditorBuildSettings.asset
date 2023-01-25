@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  m_configObjects:
+  - enabled: 1
+    path: Assets/Example/CatClicker.unity
+    guid: 72392e75959604ca6871baeda29df384
+  m_configObjects: 
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 64470b9f59899409b8f173d9fc70ce58, type: 2}
