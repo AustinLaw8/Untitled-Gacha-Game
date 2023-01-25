@@ -6,6 +6,8 @@ using TMPro;
 
 public class HPBar : MonoBehaviour
 {
+    private static int BAD_NOTE_AMOUNT = 3;
+    private static int MISS_NOTE_AMOUNT = 5;
 
     [SerializeField] private Slider healthBar;
     [SerializeField] private int lowHealth = 20;
@@ -19,10 +21,6 @@ public class HPBar : MonoBehaviour
     [SerializeField] private Image hpBarBackground;
 
 
-    [SerializeField] private int healthRecoveryAmount = 5;
-    [SerializeField] private int badNoteAmount = 3;
-    [SerializeField] private int missNoteAmount = 5;
-
     [SerializeField] private int startingHP = 100;
 
     [SerializeField] private TextMeshProUGUI health;
@@ -33,44 +31,30 @@ public class HPBar : MonoBehaviour
         //healthBar = GameObject.GetComponent<Slider>();
         healthBar.maxValue = startingHP;
         currentHealth = startingHP;
-        setHealthSlider();
-        colorCheck();
+        SetHealthSlider();
+        ColorCheck();
     }
 
-
-    public void addHealth()
+    public void IncreaseHealth(int amount)
     {
-        currentHealth += healthRecoveryAmount;
-        colorCheck();
-        setHealthSlider();
+        currentHealth += amount;
+        ColorCheck();
+        SetHealthSlider();
     }
 
-    public void badNote()
+    public void DecreaseHealth(int amount)
     {
-        currentHealth -= badNoteAmount;
-        colorCheck();
+        currentHealth -= amount;
+        ColorCheck();
         if (currentHealth <= 0)
         {
             EndGame();
             currentHealth = 0;
         }
-        setHealthSlider();        
+        SetHealthSlider();        
     }
 
-    public void missNote()
-    {
-        currentHealth -= missNoteAmount;
-        colorCheck();
-        if (currentHealth <= 0)
-        {
-            EndGame();
-            currentHealth = 0;
-        }
-        setHealthSlider();
-    }
-
-
-    private void setHealthSlider()
+    private void SetHealthSlider()
     {
         if (currentHealth >= startingHP)
         {
@@ -83,8 +67,7 @@ public class HPBar : MonoBehaviour
         health.text = currentHealth.ToString();
     }
 
-
-    private void colorCheck()
+    private void ColorCheck()
     {
         if(currentHealth <= 0)
         {
@@ -108,9 +91,8 @@ public class HPBar : MonoBehaviour
         }
     }
 
-
     private void EndGame()
     {
-        Debug.Log("Oh rip, better luck next time lmao");
+        EventManager.Broadcast(Events.DeathEvent);
     }
 }
