@@ -50,8 +50,7 @@ public class BeatManager : MonoBehaviour
 
     void Awake()
     {
-
-        /** TOOD 
+        /** TODO:
          *
          * Create a BeatmapController that loads beatmap from memory and loads it into controller
          * It will probably set the bpm too 
@@ -77,8 +76,8 @@ public class BeatManager : MonoBehaviour
     {
         songPosition = ((float)AudioSettings.dspTime - startTime);
         songPositionInBeats = beatsPerSecond * songPosition;
-        float center;
-        Note note;
+        // float center;
+        // Note note;
 
         // if (beatmap.Count > 0) 
         {
@@ -99,7 +98,6 @@ public class BeatManager : MonoBehaviour
          */
     }
 
-    // void HandleNotePress(Note note)
 
     /*** Helpers ***/
 

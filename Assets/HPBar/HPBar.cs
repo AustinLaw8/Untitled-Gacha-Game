@@ -6,8 +6,8 @@ using TMPro;
 
 public class HPBar : MonoBehaviour
 {
-    private static int BAD_NOTE_AMOUNT = 3;
-    private static int MISS_NOTE_AMOUNT = 5;
+    public static int BAD_NOTE_AMOUNT = 3;
+    public static int MISS_NOTE_AMOUNT = 5;
 
     [SerializeField] private Slider healthBar;
     [SerializeField] private int lowHealth = 20;
@@ -33,6 +33,8 @@ public class HPBar : MonoBehaviour
         currentHealth = startingHP;
         SetHealthSlider();
         ColorCheck();
+
+        EventManager.AddListener<DamageEvent>(DecreaseHealth);
     }
 
     public void IncreaseHealth(int amount)
@@ -42,9 +44,9 @@ public class HPBar : MonoBehaviour
         SetHealthSlider();
     }
 
-    public void DecreaseHealth(int amount)
+    public void DecreaseHealth(DamageEvent evt)
     {
-        currentHealth -= amount;
+        currentHealth -= evt.amount;
         ColorCheck();
         if (currentHealth <= 0)
         {

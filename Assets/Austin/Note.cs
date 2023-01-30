@@ -2,33 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Accuracy
-{
-    Perfect, Great, Good, Bad, Miss
-}
-
+[RequireComponent(typeof(Collider2D))]
 public class Note : MonoBehaviour
 {
-    private float fallSpeed;    
+    [SerializeField] private float fallSpeed = 10f;    
 
-    // Start is called before the first frame update
-    void Start()
+    // Note fall!
+    void FixedUpdate()
     {
-        
+        this.transform.position = new Vector3(
+                this.transform.position.x,
+                this.transform.position.y - fallSpeed * Time.fixedDeltaTime, 
+                0
+        );
     }
 
-    // Update is called once per frame
-    void Update()
+    // TODO: placeholder to return value of the note
+    // note from austin ~ this will probably just be a function that calls a score manager or something like that, since it will be probably be something external that will do score calcs; however, since tap/flick notes will probably have different score values than hold notes, this is here so that Lane can call Note.GetScoreValue() to get the score number
+    public int GetScoreValue()
     {
-        // fall down   
-    }   
-
-    // TODO should this be in note or in fall line
-    void OnNotePressed()
-    {
-        // Calculate Accuracy
-        // Tell ScoreManager something if necessary
-        // Tell HPBar something if necessary
-
+        return 0;
     }
 }
