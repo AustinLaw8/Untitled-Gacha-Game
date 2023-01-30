@@ -22,19 +22,31 @@ public class Lane : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"Note reaching {this.gameObject.name}");
+        Debug.Log($"{other.gameObject.name} reaching {this.gameObject.name}");
         notes.Enqueue(other.gameObject);
     }
     
     void OnTriggerExit2D(Collider2D other)
     {
+        /**
+         * Note by austin
+         *  Theoretically, `notes` can never be empty when OnTriggerExit is called. There are two scenarios for dequeing `notes`:
+         *  1) Player pressed it. In this case, then, the note should be destroyed, and OnTriggerExit should not be called since the object never left the trigger (cant leave the trigger if its destroyed)
+         *  2) Player missed it. Then, `notes` never got dequeued since the original enqueue so `notes` cannot be empty
+         */
+        if(notes.Count == 0)
+        {
+            Debug.LogWarning("not sure how this is getting called, but something odd is happening...");
+            Debug.LogWarning(other.gameObject.name);
+            return;
+        }
         if (other.gameObject != notes.Dequeue())
         {
             Debug.LogError($"Object leaving {this.gameObject.name} is not the same as object removed from queue!! This means something probably went wrong or got desynced! If this is happening often, it means the code is buggy and probably should be rethought.");
         }
         else
         {
-            Debug.Log($"Note reaching {this.gameObject.name}");
+            Debug.Log($"{other.gameObject.name} leaving {this.gameObject.name}");
         }
         Destroy(other.gameObject);
         DamageEvent evt = Events.DamageEvent;
@@ -83,8 +95,11 @@ public class Lane : MonoBehaviour
      */
     private void OnNotePressed(Note note)
     {
-        notes.Dequeue();
+        // Note by austin... i feel like this line should be here... needs more testing...
+        // notes.Dequeue();
+
         Debug.Log($"Note pressed at {this.gameObject.name}");
+
         // TODO: Score, health, and combo calcs
         // this is all justin here, probably
         Accuracy accuracy = GetAccuracy(note);
@@ -119,6 +134,7 @@ public class Lane : MonoBehaviour
                 Debug.LogWarning("Invalid switch path taken, this should never be called...");
                 break;
         }
+        Debug.Log($"Destroying {note.gameObject.name}");
         Destroy(note.gameObject);
     }
 
