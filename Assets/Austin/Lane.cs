@@ -76,13 +76,14 @@ public class Lane : MonoBehaviour
      */
     void OnMouseDrag()
     {
+
         // foreach(Touch touch in Input.touches)
         // {
-            // if (touch.phase == iPhoneTouchPhase.Moved) {
-            //     if (touch.deltaPosition.y > 50) {
-            //     //Do Something with upward flick
-            //     }
-            // }
+        // if (touch.phase == iPhoneTouchPhase.Moved) {
+        //     if (touch.deltaPosition.y > 50) {
+        //     //Do Something with upward flick
+        //     }
+        // }
         // }
     }
 
@@ -103,40 +104,56 @@ public class Lane : MonoBehaviour
         // TODO: Score, health, and combo calcs
         // this is all justin here, probably
         Accuracy accuracy = GetAccuracy(note);
-        switch(accuracy)
-        {
+        float accuracyMultiplier = 0;
+        switch (accuracy)
+        { 
             case Accuracy.Perfect:
+                accuracyMultiplier = 5; // TODO placeholder
+                break;
             case Accuracy.Great:
+                accuracyMultiplier = 4; // TODO
+                break;
             case Accuracy.Good:
+                accuracyMultiplier = 3;
+                break;
             case Accuracy.Bad:
+                accuracyMultiplier = 2;
                 Debug.Log("Score, health, and combo calculation calcs in Lane.cs are placeholdered; please define functionality.");
-                /* Probable pseudocode
-
-                int baseScore = note.GetScoreValue();
-
-                // TODO: get combo from... somewhere
-                int curCombo = GetCombo(); 
-
-                // TODO: define some sort of mapping from curCombo -> multiplier
-                float comboMultiplier = GetComboMultiplier(curCombo); 
-
-                // TODO: define a mapping from accuracy -> multiplier
-                float accuracyMultiplier = accuracyMultiplierMap[accuracy];
-                
-                // TODO: conduct full score calcs
-                int deltaScore = Math.Ceiling(baseScore * comboMultiplier * accuracyMultiplier);
-                
-                // TODO: tell a score manager or some other similar manager to increase the score
-                */
                 break;
-            case Accuracy.Miss:
+                case Accuracy.Miss:
+                    ScoreManager.Instance.ResetCombo();
+            break;
             default:
-                Debug.LogWarning("Invalid switch path taken, this should never be called...");
-                break;
+                    Debug.LogWarning("Invalid switch path taken, this should never be called...");
+            break;
         }
+        // Tiffany: placeholder - can decide which accuracy breaks combo later
+        ScoreManager.Instance.IncCombo();
+
+
+        // Probable pseudocode
+
+        int baseScore = note.GetScoreValue();
+
+        // TODO: get combo from... ScoreManager
+        int curCombo = ScoreManager.Instance.GetCombo();
+
+        // TODO: define some sort of mapping from curCombo -> multiplier
+        float comboMultiplier = ScoreManager.Instance.GetComboMultiplier(curCombo);
+
+        // TODO: define a mapping from accuracy -> multiplier
+        //float accuracyMultiplier = accuracyMultiplierMap[accuracy];
+
+        // TODO: conduct full score calcs
+        int deltaScore = (int)Mathf.Ceil(baseScore * comboMultiplier * accuracyMultiplier);
+
+        // TODO: tell a score manager or some other similar manager to increase the score
+        ScoreManager.Instance.IncScore(deltaScore);
+        Debug.Log(ScoreManager.Instance.GetScore());
+
         Debug.Log($"Destroying {note.gameObject.name}");
-        Destroy(note.gameObject);
-    }
+    Destroy(note.gameObject);
+}
 
 
     // Wrapper around Queue.Peek() to conduct validation
