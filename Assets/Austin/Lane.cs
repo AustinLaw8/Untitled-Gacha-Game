@@ -49,6 +49,8 @@ public class Lane : MonoBehaviour
             Debug.Log($"{other.gameObject.name} leaving {this.gameObject.name}");
         }
         Destroy(other.gameObject);
+
+        // TODO: ima get rid of all this event stuff and just replace it with singletons everywhere
         DamageEvent evt = Events.DamageEvent;
         evt.amount = HPBar.MISS_NOTE_AMOUNT;
         EventManager.Broadcast(evt);

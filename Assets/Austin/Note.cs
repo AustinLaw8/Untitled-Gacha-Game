@@ -13,7 +13,7 @@ public class Note : MonoBehaviour
         this.transform.position = new Vector3(
                 this.transform.position.x,
                 this.transform.position.y - fallSpeed * Time.fixedDeltaTime, 
-                0
+                this.transform.position.z
         );
     }
 
