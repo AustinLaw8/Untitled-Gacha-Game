@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Note : MonoBehaviour
 {
     [SerializeField] private float fallSpeed = 10f;    
 
+    void Start()
+    {
+        GetComponent<Rigidbody2D>().isKinematic = true;
+    }
+    
     // Note fall!
     void FixedUpdate()
     {

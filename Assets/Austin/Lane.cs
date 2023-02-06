@@ -10,13 +10,21 @@ public enum Accuracy
 [RequireComponent(typeof(Collider2D))]
 public class Lane : MonoBehaviour
 {
+    private Collider2D col;
+
     // Queue containing the notes that are in the "hittable" range
     private Queue<GameObject> notes;
+
+    // For flick notes
+    private static float FLICK_THRESHOLD = .1f;
+    private Vector2 startPos;
+    private int touchId;
 
     void Start()
     {
         // FIXME: move the queries hit triggers to some other game manager
         Physics2D.queriesHitTriggers = true;
+        col = GetComponent<Collider2D>();
         notes = new Queue<GameObject>();
     }
     
@@ -63,9 +71,35 @@ public class Lane : MonoBehaviour
     void OnMouseDown()
     {
         Note note = PeekFirstNote();
-        if (note && note.GetType() == typeof(Note))
+        if (note)
         {
-            OnNotePressed(note);
+            // Handle tap notes
+            if (note.GetType() == typeof(Note))
+            {
+                OnNotePressed(note);
+            }
+            else
+            {
+                // Require flick input for flick note
+                Debug.Log($"Note {note.gameObject.name} detected at {this.gameObject.name}, but wrong input was given");
+                if (Application.isEditor)
+                {
+                    startPos = Input.mousePosition;
+                }
+                else
+                {
+                    foreach(Touch touch in Input.touches)
+                    {
+                        float y = Camera.main.ScreenToWorldPoint(touch.position).y;
+                        if(col.bounds.min.y <= y && y <= col.bounds.max.y)
+                        {
+                            startPos = touch.position;
+                            touchId = touch.fingerId;
+                            break;
+                        }
+                    }
+                }
+            }
         }
         else
         {
@@ -73,20 +107,47 @@ public class Lane : MonoBehaviour
         }
     }
 
-    /**
-     * TODO: Unsure about this yet, but this will probably handle flick and hold notes
-     */
     void OnMouseDrag()
     {
+        Note note = PeekFirstNote();
+        if (note)
+        {
+            // Handle flick notes
+            // Note that this is only applicable to click input right now, have not tested for mobile
+            if (note.GetType() == typeof(FlickNote))
+            {
+                // foreach(Touch touch in Input.touches)
+                    // {
+                    // if (touch.phase == iPhoneTouchPhase.Moved) {
+                    //     if (touch.deltaPosition.y > 50) {
+                    //     //Do Something with upward flick
+                    //     }
+                    // }
+                // }
+                foreach(Touch touch in Input.touches)
+                {
+                    if (touch.fingerId == touchId)
+                    {
+                        if (touch.phase == TouchPhase.Moved && Vector3.Distance(touch.position, startPos) > FLICK_THRESHOLD)
+                        {
+                            OnNotePressed(note);
+                        }
+                    }
+                }
+                if (Application.isEditor)
+                {
+                    if (Vector3.Distance(Input.mousePosition, startPos) > FLICK_THRESHOLD)
+                    {
+                        OnNotePressed(note);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.Log($"No notes detected {this.gameObject.name}");
+        }
 
-        // foreach(Touch touch in Input.touches)
-        // {
-        // if (touch.phase == iPhoneTouchPhase.Moved) {
-        //     if (touch.deltaPosition.y > 50) {
-        //     //Do Something with upward flick
-        //     }
-        // }
-        // }
     }
 
     /* Helpers */

@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set;  }
     public float Score { get; private set; }
     public int Combo { get; private set; }
+    public TMP_Text scoreText;
 
-
-
-    private void Awake()
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -20,6 +20,11 @@ public class ScoreManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    void Update()
+    {
+        scoreText.text = $"Score: {Score}";
     }
 
     public float GetScore()
