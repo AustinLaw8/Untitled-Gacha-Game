@@ -130,62 +130,13 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
      * the score, health, and combo calcs should be the same irrespective of the note type
      * ... although that isn't necessarily set in stone.
      */
+    // Gets accuracy, tells ScoreManager to increase the score, and destroys the pressed Note.
     private void OnNotePressed(Note note)
     {
-        // Note by austin... i feel like this line should be here... needs more testing...
-        // notes.Dequeue();
-
         // Debug.Log($"Note pressed at {this.gameObject.name}");
 
-        // TODO: Score, health, and combo calcs
-        // this is all justin here, probably
         Accuracy accuracy = GetAccuracy(note);
-        float accuracyMultiplier = 0;
-        switch (accuracy)
-        { 
-            case Accuracy.Perfect:
-                accuracyMultiplier = 5; // TODO placeholder
-                break;
-            case Accuracy.Great:
-                accuracyMultiplier = 4; // TODO
-                break;
-            case Accuracy.Good:
-                accuracyMultiplier = 3;
-                break;
-            case Accuracy.Bad:
-                accuracyMultiplier = 2;
-                // Debug.Log("Score, health, and combo calculation calcs in Lane.cs are placeholdered; please define functionality.");
-                break;
-                case Accuracy.Miss:
-                    ScoreManager.Instance.ResetCombo();
-            break;
-            default:
-                    // Debug.LogWarning("Invalid switch path taken, this should never be called...");
-            break;
-        }
-        // Tiffany: placeholder - can decide which accuracy breaks combo later
-        ScoreManager.Instance.IncCombo();
-
-
-        // Probable pseudocode
-
-        int baseScore = note.GetScoreValue();
-
-        // TODO: get combo from... ScoreManager
-        int curCombo = ScoreManager.Instance.GetCombo();
-
-        // TODO: define some sort of mapping from curCombo -> multiplier
-        float comboMultiplier = ScoreManager.Instance.GetComboMultiplier(curCombo);
-
-        // TODO: define a mapping from accuracy -> multiplier
-        //float accuracyMultiplier = accuracyMultiplierMap[accuracy];
-
-        // TODO: conduct full score calcs
-        int deltaScore = (int)Mathf.Ceil(baseScore * comboMultiplier * accuracyMultiplier);
-
-        // TODO: tell a score manager or some other similar manager to increase the score
-        ScoreManager.Instance.IncScore(deltaScore);
-        // Debug.Log(ScoreManager.Instance.GetScore());
+        ScoreManager.scoreManager.IncreaseScore(accuracy);
 
         // Debug.Log($"Destroying {note.gameObject.name}");
         Destroy(note.gameObject);

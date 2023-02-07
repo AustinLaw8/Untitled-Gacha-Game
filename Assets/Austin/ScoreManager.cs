@@ -5,61 +5,85 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance { get; private set;  }
-    public float Score { get; private set; }
-    public int Combo { get; private set; }
-    public TMP_Text scoreText;
+    public static ScoreManager scoreManager { get; private set;  }
+
+    private float score;
+    private int combo;
+    private int mapBaseScore;
+    [SerializeField] private TMP_Text scoreText;
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (scoreManager != null && scoreManager != this)
         {
             Destroy(this);
         }
         else
         {
-            Instance = this;
+            scoreManager = this;
         }
+    }
+
+    void Start()
+    {
+        score = 0;
+        combo = 0;
     }
 
     void Update()
     {
-        scoreText.text = $"Score: {Score}";
+        scoreText.text = $"Score: {score}";
     }
 
-    public float GetScore()
+    public void IncreaseScore(Accuracy accuracy)
     {
-        return Score;
+        float accuracyMultiplier = GetAccuracyMultiplierAndUpdateCombo(accuracy);
+
+        int baseScore = 
+            // Some value based on team
+            + mapBaseScore;
+
+        float comboMultiplier = GetComboMultiplier(combo);
+
+        // TODO: conduct full score calcs
+        int deltaScore = (int)Mathf.Ceil(baseScore * comboMultiplier * accuracyMultiplier);
+
+        // TODO: tell a score manager or some other similar manager to increase the score
+        score += deltaScore;
     }
 
-    public void IncScore(int deltaScore)
+    // Updates combo based on accuracy
+    // Returns the score multiplier for a given accuracy
+    private float GetAccuracyMultiplierAndUpdateCombo(Accuracy accuracy)
     {
-        Score += deltaScore;
+        // TODO: Set all these values to their actual values, and determine what reset combos.
+        switch (accuracy)
+        { 
+            case Accuracy.Perfect:
+                combo += 1;
+                return 5;
+            case Accuracy.Great:
+                combo += 1;
+                return 4;
+            case Accuracy.Good:
+                combo = 0;
+                return 3;
+            case Accuracy.Bad:
+                combo = 0;
+                return 2;
+            case Accuracy.Miss:
+                combo = 0;
+                return 0;
+            default:
+                // Debug.LogWarning("Invalid switch path taken, this should never be called...");
+                return 0;
+        }
     }
 
-    public void ResetScore()
+    // Returns the score muliplier for a given accuracy
+    // TODO: determine actual values and formula
+    private float GetComboMultiplier(int curCombo)
     {
-        Score = 0;
-    }
-
-    public int GetCombo()
-    {
-        return Combo;
-    }
-
-    public void IncCombo()
-    {
-        Combo++;
-    }
-
-    public void ResetCombo()
-    {
-        Combo = 0;
-    }
-
-    public float GetComboMultiplier(int curCombo)
-    {
-        // TODO add combo multipliers
         switch (curCombo)
         { 
             case 10:
@@ -69,7 +93,12 @@ public class ScoreManager : MonoBehaviour
             default:
                 break;
         }
-        // placeholder number
         return 1;
     }
+
+    /* Various getters/setters */
+    public float GetScore() { return score; }
+    public float GetCombo() { return combo; }
+    public void ResetScore() { score = 0; }
+    public void ResetCombo() { combo = 0; }
 }
