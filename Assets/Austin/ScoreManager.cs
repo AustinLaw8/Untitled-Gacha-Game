@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
 
     private float score;
     private int combo;
-    private int mapBaseScore;
+    private int mapBaseScore=1;
     [SerializeField] private TMP_Text scoreText;
 
     void Awake()
@@ -75,7 +75,6 @@ public class ScoreManager : MonoBehaviour
                 combo = 0;
                 return 0;
             default:
-                // Debug.LogWarning("Invalid switch path taken, this should never be called...");
                 return 0;
         }
     }

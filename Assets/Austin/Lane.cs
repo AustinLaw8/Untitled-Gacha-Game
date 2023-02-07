@@ -31,7 +31,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Debug.Log($"{other.gameObject.name} reaching {this.gameObject.name}");
         notes.Enqueue(other.gameObject.GetComponent<Note>());
     }
     
@@ -43,20 +42,8 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
          *  1) Player pressed it. In this case, then, the note should be destroyed, and OnTriggerExit should not be called since the object never left the trigger (cant leave the trigger if its destroyed)
          *  2) Player missed it. Then, `notes` never got dequeued since the original enqueue so `notes` cannot be empty
          */
-        if(notes.Count == 0)
-        {
-            // Debug.LogWarning("not sure how this is getting called, but something odd is happening...");
-            // Debug.LogWarning(other.gameObject.name);
-            return;
-        }
-        if (other.gameObject != notes.Dequeue())
-        {
-            // Debug.LogError($"Object leaving {this.gameObject.name} is not the same as object removed from queue!! This means something probably went wrong or got desynced! If this is happening often, it means the code is buggy and probably should be rethought.");
-        }
-        else
-        {
-            // Debug.Log($"{other.gameObject.name} leaving {this.gameObject.name}");
-        }
+        if(notes.Count == 0) return;
+
         Destroy(other.gameObject);
 
         // TODO: ima get rid of all this event stuff and just replace it with singletons everywhere
@@ -82,7 +69,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
             else
             {
                 // Require flick input for flick note
-                // Debug.Log($"Note {note.gameObject.name} detected at {this.gameObject.name}, but wrong input was given");
                 startPos = e.pointerCurrentRaycast.worldPosition;
                 // foreach(Touch touch in Input.touches)
                 // {
@@ -95,10 +81,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
                 //     }
                 // }
             }
-        }
-        else
-        {
-            // Debug.Log($"No notes detected {this.gameObject.name}");
         }
     }
 
@@ -116,11 +98,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
                 }
             }
         }
-        else
-        {
-            // Debug.Log($"No notes detected {this.gameObject.name}");
-        }
-
     }
 
     /* Helpers */
@@ -133,12 +110,8 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     // Gets accuracy, tells ScoreManager to increase the score, and destroys the pressed Note.
     private void OnNotePressed(Note note)
     {
-        // Debug.Log($"Note pressed at {this.gameObject.name}");
-
         Accuracy accuracy = GetAccuracy(note);
         ScoreManager.scoreManager.IncreaseScore(accuracy);
-
-        // Debug.Log($"Destroying {note.gameObject.name}");
         Destroy(note.gameObject);
     }
 
@@ -153,7 +126,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     // TODO: Calculate accuracy based on distance from fall line
     private Accuracy GetAccuracy(Note note)
     {
-        // Debug.Log("GetAccuracy in Lane.cs is placeholdered; please define functionality.");
         return Accuracy.Great;
     }
 }
