@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum Accuracy
 {
@@ -8,12 +9,12 @@ public enum Accuracy
 }
 
 [RequireComponent(typeof(Collider2D))]
-public class Lane : MonoBehaviour
+public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     private Collider2D col;
 
     // Queue containing the notes that are in the "hittable" range
-    private Queue<GameObject> notes;
+    private Queue<Note> notes;
 
     // For flick notes
     private static float FLICK_THRESHOLD = .1f;
@@ -25,13 +26,13 @@ public class Lane : MonoBehaviour
         // FIXME: move the queries hit triggers to some other game manager
         Physics2D.queriesHitTriggers = true;
         col = GetComponent<Collider2D>();
-        notes = new Queue<GameObject>();
+        notes = new Queue<Note>();
     }
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"{other.gameObject.name} reaching {this.gameObject.name}");
-        notes.Enqueue(other.gameObject);
+        // Debug.Log($"{other.gameObject.name} reaching {this.gameObject.name}");
+        notes.Enqueue(other.gameObject.GetComponent<Note>());
     }
     
     void OnTriggerExit2D(Collider2D other)
@@ -44,17 +45,17 @@ public class Lane : MonoBehaviour
          */
         if(notes.Count == 0)
         {
-            Debug.LogWarning("not sure how this is getting called, but something odd is happening...");
-            Debug.LogWarning(other.gameObject.name);
+            // Debug.LogWarning("not sure how this is getting called, but something odd is happening...");
+            // Debug.LogWarning(other.gameObject.name);
             return;
         }
         if (other.gameObject != notes.Dequeue())
         {
-            Debug.LogError($"Object leaving {this.gameObject.name} is not the same as object removed from queue!! This means something probably went wrong or got desynced! If this is happening often, it means the code is buggy and probably should be rethought.");
+            // Debug.LogError($"Object leaving {this.gameObject.name} is not the same as object removed from queue!! This means something probably went wrong or got desynced! If this is happening often, it means the code is buggy and probably should be rethought.");
         }
         else
         {
-            Debug.Log($"{other.gameObject.name} leaving {this.gameObject.name}");
+            // Debug.Log($"{other.gameObject.name} leaving {this.gameObject.name}");
         }
         Destroy(other.gameObject);
 
@@ -68,7 +69,7 @@ public class Lane : MonoBehaviour
      * Leverages the Unity builtin OnMouseDown to handle tap notes
      * Since tap notes only require a single tap, we can use OnMouseDown to track that happening.
      */
-    void OnMouseDown()
+    public void OnPointerDown(PointerEventData e)
     {
         Note note = PeekFirstNote();
         if (note)
@@ -81,71 +82,43 @@ public class Lane : MonoBehaviour
             else
             {
                 // Require flick input for flick note
-                Debug.Log($"Note {note.gameObject.name} detected at {this.gameObject.name}, but wrong input was given");
-                if (Application.isEditor)
-                {
-                    startPos = Input.mousePosition;
-                }
-                else
-                {
-                    foreach(Touch touch in Input.touches)
-                    {
-                        float y = Camera.main.ScreenToWorldPoint(touch.position).y;
-                        if(col.bounds.min.y <= y && y <= col.bounds.max.y)
-                        {
-                            startPos = touch.position;
-                            touchId = touch.fingerId;
-                            break;
-                        }
-                    }
-                }
+                // Debug.Log($"Note {note.gameObject.name} detected at {this.gameObject.name}, but wrong input was given");
+                startPos = e.pointerCurrentRaycast.worldPosition;
+                // foreach(Touch touch in Input.touches)
+                // {
+                //     float y = Camera.main.ScreenToWorldPoint(touch.position).y;
+                //     if(col.bounds.min.y <= y && y <= col.bounds.max.y)
+                //     {
+                //         startPos = touch.position;
+                //         touchId = touch.fingerId;
+                //         break;
+                //     }
+                // }
             }
         }
         else
         {
-            Debug.Log($"No notes detected {this.gameObject.name}");
+            // Debug.Log($"No notes detected {this.gameObject.name}");
         }
     }
 
-    void OnMouseDrag()
+    public void OnDrag(PointerEventData e)
     {
         Note note = PeekFirstNote();
         if (note)
         {
             // Handle flick notes
-            // Note that this is only applicable to click input right now, have not tested for mobile
             if (note.GetType() == typeof(FlickNote))
             {
-                // foreach(Touch touch in Input.touches)
-                    // {
-                    // if (touch.phase == iPhoneTouchPhase.Moved) {
-                    //     if (touch.deltaPosition.y > 50) {
-                    //     //Do Something with upward flick
-                    //     }
-                    // }
-                // }
-                foreach(Touch touch in Input.touches)
+                if (Vector3.Distance(e.pointerCurrentRaycast.worldPosition, startPos) > FLICK_THRESHOLD)
                 {
-                    if (touch.fingerId == touchId)
-                    {
-                        if (touch.phase == TouchPhase.Moved && Vector3.Distance(touch.position, startPos) > FLICK_THRESHOLD)
-                        {
-                            OnNotePressed(note);
-                        }
-                    }
-                }
-                if (Application.isEditor)
-                {
-                    if (Vector3.Distance(Input.mousePosition, startPos) > FLICK_THRESHOLD)
-                    {
-                        OnNotePressed(note);
-                    }
+                    OnNotePressed(note);
                 }
             }
         }
         else
         {
-            Debug.Log($"No notes detected {this.gameObject.name}");
+            // Debug.Log($"No notes detected {this.gameObject.name}");
         }
 
     }
@@ -162,7 +135,7 @@ public class Lane : MonoBehaviour
         // Note by austin... i feel like this line should be here... needs more testing...
         // notes.Dequeue();
 
-        Debug.Log($"Note pressed at {this.gameObject.name}");
+        // Debug.Log($"Note pressed at {this.gameObject.name}");
 
         // TODO: Score, health, and combo calcs
         // this is all justin here, probably
@@ -181,13 +154,13 @@ public class Lane : MonoBehaviour
                 break;
             case Accuracy.Bad:
                 accuracyMultiplier = 2;
-                Debug.Log("Score, health, and combo calculation calcs in Lane.cs are placeholdered; please define functionality.");
+                // Debug.Log("Score, health, and combo calculation calcs in Lane.cs are placeholdered; please define functionality.");
                 break;
                 case Accuracy.Miss:
                     ScoreManager.Instance.ResetCombo();
             break;
             default:
-                    Debug.LogWarning("Invalid switch path taken, this should never be called...");
+                    // Debug.LogWarning("Invalid switch path taken, this should never be called...");
             break;
         }
         // Tiffany: placeholder - can decide which accuracy breaks combo later
@@ -212,25 +185,24 @@ public class Lane : MonoBehaviour
 
         // TODO: tell a score manager or some other similar manager to increase the score
         ScoreManager.Instance.IncScore(deltaScore);
-        Debug.Log(ScoreManager.Instance.GetScore());
+        // Debug.Log(ScoreManager.Instance.GetScore());
 
-        Debug.Log($"Destroying {note.gameObject.name}");
-    Destroy(note.gameObject);
-}
-
+        // Debug.Log($"Destroying {note.gameObject.name}");
+        Destroy(note.gameObject);
+    }
 
     // Wrapper around Queue.Peek() to conduct validation
     // Removes and returns "first"/"lowest" note in lane if it exists, otherwise null
     private Note PeekFirstNote()
     { 
         if (notes.Count == 0) return null;
-        else return notes.Peek().GetComponent<Note>();
+        else return notes.Peek();
     }
 
     // TODO: Calculate accuracy based on distance from fall line
     private Accuracy GetAccuracy(Note note)
     {
-        Debug.Log("GetAccuracy in Lane.cs is placeholdered; please define functionality.");
+        // Debug.Log("GetAccuracy in Lane.cs is placeholdered; please define functionality.");
         return Accuracy.Great;
     }
 }
