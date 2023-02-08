@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Austin/Home Screen.unity
     guid: e5f402b0fb0654f87b1e43c8c405557f
   - enabled: 0
-    path: Assets/Austin/Rhythm Game.unity
+    path: Assets/Austin/Scenes/Rhythm Game.unity
     guid: afc368685240f4cd9aad00b985362650
   - enabled: 0
     path: Assets/Scenes/TitleScreen.unity
@@ -39,7 +39,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SongScreen.unity
     guid: 840b3368c82085944a873df2ed427b39
   - enabled: 1
-    path: Assets/Austin/AustinTestScene.unity
+    path: Assets/Austin/Scenes/AustinTestScene.unity
     guid: eba7d0a4524e24e9780d8d4c0a23b05b
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 0580bda10815841ce90f076297198ab9, type: 2}

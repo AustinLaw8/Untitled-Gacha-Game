@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+// using UnityEngine.UI;
 
 public enum Rarity
 {
     One, Two, Three
 }
 
+[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 public class CardSO : ScriptableObject
 {
-    public static int CARD_WIDTH = 2048;
-    public static int CARD_HEIGHT = 1261;
 
-    public Image cardArt;
+    public uint ID;
+    public Texture2D cardArt;
     public string artist;
     public Rarity rarity;
 }
