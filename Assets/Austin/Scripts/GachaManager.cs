@@ -74,7 +74,8 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
             {
                 id = 2;
             }
-            yield return StartCoroutine(GetRequest("https://austinlaw8.github.io/test_art.png", res => ImageConversion.LoadImage(textures[i], res) ));
+            /* insert code here to add a card to players inventory */ 
+            yield return GetCard(id, i);
             Debug.Log($"acquired data for {i}");
         }
     }
@@ -90,6 +91,13 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    /* GetCard(int) is acting as sort of interface so that we can change this later down the line if necessary */
+    IEnumerator GetCard(int id, int i)
+    {
+        yield return StartCoroutine(GetRequest("https://austinlaw8.github.io/test_art.png", res => ImageConversion.LoadImage(textures[i], res) ));
+    }
+
+    // Conducts a get request to a URL and takes the resulting png and loads it into a texture.
     IEnumerator GetRequest(string url, System.Action<byte[]> lambda)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
