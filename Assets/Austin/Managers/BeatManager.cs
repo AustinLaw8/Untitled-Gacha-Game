@@ -44,8 +44,10 @@ public class BeatManager : MonoBehaviour
     [SerializeField] private GameObject tapNotePrefab;
 
     /* Fields to set up notes */
-    // private Queue<(float, float)> beatmap = new Queue<(float, float)>();
 
+    // A beatmap is a queue of times notes are meant to exist (i.e. there should be a note to press at 2.2 seconds)
+    private Queue<float> beatmap = new Queue<float>();
+    
     // private static UnityEvent NotePressedEvent;
 
     void Awake()
@@ -79,6 +81,7 @@ public class BeatManager : MonoBehaviour
         // float center;
         // Note note;
 
+        
         // if (beatmap.Count > 0) 
         {
             // center = beatmap.Peek();
@@ -86,8 +89,6 @@ public class BeatManager : MonoBehaviour
             // if(songPosition >= middle - Note.fallTime)
             {
                 // note = GameObject.Instantiate(notePrefab).GetComponent<Note>();
-                // note.SetInitialState(start, end, ((middle - Note.fallTime) - songPosition));
-                // beatmap.Dequeue();
             }
         }
 
