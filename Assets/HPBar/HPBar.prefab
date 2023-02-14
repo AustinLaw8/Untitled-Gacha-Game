@@ -550,8 +550,5 @@ MonoBehaviour:
   highHealthColor: {r: 0, g: 1, b: 0.052369595, a: 1}
   ded: {r: 0, g: 0, b: 0, a: 0}
   hpBarBackground: {fileID: 4586620743312871093}
-  healthRecoveryAmount: 5
-  badNoteAmount: 3
-  missNoteAmount: 5
   startingHP: 100
   health: {fileID: 4586620743168998856}
