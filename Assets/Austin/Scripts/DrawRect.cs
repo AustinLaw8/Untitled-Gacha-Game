@@ -7,8 +7,8 @@ public class DrawRect : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
+        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        // meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
 
         MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
 
@@ -56,9 +56,8 @@ public class DrawRect : MonoBehaviour
             new Vector3(.5f, -4f, 0f),
             new Vector3(4.5f, 0f, 0f),
             new Vector3(3.5f, 0f, 0f),
-            new Vector3(-.5f, -4f, 0f),
         };
-        shapes.AddEdges(verts);
+        shapes.AddPolygon(verts);
         GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
         // gameObject.AddComponent<MeshCollider>();
     }

@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 4009924112487508808}
   - component: {fileID: 6680711622552916906}
   - component: {fileID: 5894421683890897480}
-  - component: {fileID: 766560579274399601}
-  - component: {fileID: 4263778334087509891}
+  - component: {fileID: 6503741706893999705}
   m_Layer: 0
   m_Name: Flick Note
   m_TagString: Untagged
@@ -97,34 +96,13 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &766560579274399601
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2421845432899483416}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &4263778334087509891
+--- !u!114 &6503741706893999705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,8 +111,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2421845432899483416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68ccf826554b148668ab739d1d0e5cb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 431fb30e306064a4295b593f7db67ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lane: {fileID: 0}
   fallSpeed: 2
-  noteType: 1
+  noteType: 0

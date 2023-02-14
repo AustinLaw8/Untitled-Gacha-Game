@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum Accuracy
+{
+    Perfect, Great, Good, Bad, Miss
+}
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager scoreManager { get; private set;  }

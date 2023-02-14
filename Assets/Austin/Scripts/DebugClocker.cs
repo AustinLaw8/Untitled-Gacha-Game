@@ -8,6 +8,8 @@ public class DebugClocker : MonoBehaviour
 
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject flickNote;
+    [SerializeField] private GameObject holdNote;
+
     private float timer;
     private uint counter;
 
@@ -15,6 +17,7 @@ public class DebugClocker : MonoBehaviour
     void Start()
     {
         timer = 0f;
+        counter = 0;
     }
 
     // Update is called once per frame
@@ -24,15 +27,24 @@ public class DebugClocker : MonoBehaviour
         if (timer > ONE_SECOND)
         {
             timer = 0f;
-            counter += 1;
-            if (counter % 4 == 0)
+            if (counter < 4)
             {
-                GameObject.Instantiate(flickNote);
+                if (counter % 4 == 0)
+                {
+                    GameObject.Instantiate(flickNote);
+                }
+                else
+                {
+                    GameObject.Instantiate(note);
+                    GameObject note2 =  GameObject.Instantiate(note);
+                    note2.transform.position -= new Vector3(4f, 0, 0);
+                }
             }
-            else
+            else if (counter == 5)
             {
-                GameObject.Instantiate(note);
+                GameObject.Instantiate(holdNote);
             }
+            counter = (counter + 1) % 10;
         }
     }
 }

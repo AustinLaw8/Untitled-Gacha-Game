@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 2575545971778024945}
   - component: {fileID: 2575545971778024944}
   - component: {fileID: 2575545971778024947}
-  - component: {fileID: 2575545971778024949}
-  - component: {fileID: 2575545971778024946}
+  - component: {fileID: 4672930347990094993}
   m_Layer: 0
   m_Name: Note
   m_TagString: Untagged
@@ -97,7 +96,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -113,28 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &2575545971778024949
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2575545971778024959}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &2575545971778024946
+--- !u!114 &4672930347990094993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +121,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2575545971778024959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68ccf826554b148668ab739d1d0e5cb9, type: 3}
+  m_Script: {fileID: 11500000, guid: af8f570082f3d459eb37ff4db48f7f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lane: {fileID: 0}
   fallSpeed: 2
+  noteType: 0
