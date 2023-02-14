@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class HPBar : MonoBehaviour
+public class HealthManager : MonoBehaviour
 {
     public static int BAD_NOTE_AMOUNT = 3;
     public static int MISS_NOTE_AMOUNT = 5;
+
+    public static HealthManager healthManager;
 
     [SerializeField] private Slider healthBar;
     [SerializeField] private int lowHealth = 20;
@@ -26,15 +28,25 @@ public class HPBar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI health;
     private int currentHealth;
 
+    void Awake()
+    {
+        if (healthManager != null && healthManager != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            healthManager = this;
+        }
+    }
+
     void Start()
     {
-        //healthBar = GameObject.GetComponent<Slider>();
+        if (healthBar == null) healthBar = GetComponent<Slider>();
         healthBar.maxValue = startingHP;
         currentHealth = startingHP;
         SetHealthSlider();
         ColorCheck();
-
-        EventManager.AddListener<DamageEvent>(DecreaseHealth);
     }
 
     public void IncreaseHealth(int amount)
@@ -44,9 +56,9 @@ public class HPBar : MonoBehaviour
         SetHealthSlider();
     }
 
-    public void DecreaseHealth(DamageEvent evt)
+    public void DecreaseHealth(int amount)
     {
-        currentHealth -= evt.amount;
+        currentHealth -= amount;
         ColorCheck();
         if (currentHealth <= 0)
         {
@@ -95,6 +107,7 @@ public class HPBar : MonoBehaviour
 
     private void EndGame()
     {
-        EventManager.Broadcast(Events.DeathEvent);
+        // TODO: do something about dying
+        Debug.Log("u died");
     }
 }
