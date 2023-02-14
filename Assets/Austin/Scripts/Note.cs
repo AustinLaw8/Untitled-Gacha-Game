@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum NoteType
+{
+    Tap, Flick, Hold
+}
+
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class Note : MonoBehaviour
 {
     [SerializeField] private float fallSpeed = 10f;    
+    [SerializeField] private NoteType noteType;    
 
     void Start()
     {
@@ -22,4 +28,6 @@ public class Note : MonoBehaviour
                 this.transform.position.z
         );
     }
+
+    public NoteType GetNoteType() { return noteType; }
 }

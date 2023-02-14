@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.EventSystems;
 
 public enum Accuracy
@@ -8,30 +9,133 @@ public enum Accuracy
     Perfect, Great, Good, Bad, Miss
 }
 
-[RequireComponent(typeof(Collider2D))]
-public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class Map<T1, T2> : IEnumerable<KeyValuePair<T1, T2>>
 {
+    private readonly Dictionary<T1, T2> _forward = new Dictionary<T1, T2>();
+    private readonly Dictionary<T2, T1> _reverse = new Dictionary<T2, T1>();
+
+    public Map()
+    {
+        Forward = new Indexer<T1, T2>(_forward);
+        Reverse = new Indexer<T2, T1>(_reverse);
+    }
+
+    public Indexer<T1, T2> Forward { get; private set; }
+    public Indexer<T2, T1> Reverse { get; private set; }
+
+    public void Add(T1 t1, T2 t2)
+    {
+        _forward.Add(t1, t2);
+        _reverse.Add(t2, t1);
+    }
+
+    public void Remove(T1 t1)
+    {
+        T2 revKey = Forward[t1];
+        _forward.Remove(t1);
+        _reverse.Remove(revKey);
+    }
+    
+    public void Remove(T2 t2)
+    {
+        T1 forwardKey = Reverse[t2];
+        _reverse.Remove(t2);
+        _forward.Remove(forwardKey);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    public IEnumerator<KeyValuePair<T1, T2>> GetEnumerator()
+    {
+        return _forward.GetEnumerator();
+    }
+
+    public class Indexer<T3, T4>
+    {
+        private readonly Dictionary<T3, T4> _dictionary;
+
+        public Indexer(Dictionary<T3, T4> dictionary)
+        {
+            _dictionary = dictionary;
+        }
+
+        public T4 this[T3 index]
+        {
+            get { return _dictionary[index]; }
+            set { _dictionary[index] = value; }
+        }
+
+        public bool Contains(T3 key)
+        {
+            return _dictionary.ContainsKey(key);
+        }
+    }
+}
+
+[RequireComponent(typeof(Collider2D))]
+public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+{
+    private static List<float> LANE_LOCATIONS = new List<float>(){ -20, 20 };
     private Collider2D col;
 
     // Queue containing the notes that are in the "hittable" range
-    private Queue<Note> notes;
+    private Dictionary<int, Queue<Note>> notes;
 
     // For flick notes
     private static float FLICK_THRESHOLD = .1f;
-    private Vector2 startPos;
-    private int touchId;
+    private Dictionary<int, Vector3> touchStartPositions;
+
+    // For drag notes
+    private Dictionary<Note, Vector3> dragNotes;
+
 
     void Start()
     {
         // FIXME: move the queries hit triggers to some other game manager
         Physics2D.queriesHitTriggers = true;
+        EnhancedTouchSupport.Enable();
         col = GetComponent<Collider2D>();
-        notes = new Queue<Note>();
+
+        // init dicts
+        notes = new Dictionary<int, Queue<Note>>();
+        touchStartPositions = new Dictionary<int, Vector3>();
+        dragNotes = new Dictionary<Note, Vector3>();
+
+        for(int i = 0; i < LANE_LOCATIONS.Count; i++) {
+            notes.Add(i, new Queue<Note>());
+            touchStartPositions.Add(i + 1, Vector3.zero);
+        }
     }
     
+    void FixedUpdate()
+    {
+        foreach(KeyValuePair<Note, Vector3> pair in dragNotes)
+        {   
+            if(pair.Value != Vector3.zero)
+            {
+
+                if(pair.Key.GetComponent<Collider2D>().OverlapPoint(pair.Value))
+                {
+                    Debug.Log("u hit pog");
+                }
+                else
+                {
+                    /*missing the drag*/
+                    Debug.Log("u missed");
+                }
+            }
+        }
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
-        notes.Enqueue(other.gameObject.GetComponent<Note>());
+        int lane = GetLane(other);
+        Note note = other.gameObject.GetComponent<Note>();
+        if (note.GetNoteType() == NoteType.Hold)
+            dragNotes.Add(note, Vector3.zero);
+        notes[lane].Enqueue(note);
     }
     
     void OnTriggerExit2D(Collider2D other)
@@ -44,6 +148,10 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
          */
         if(notes.Count == 0) return;
 
+        if(other.gameObject.GetComponent<Note>().GetNoteType() == NoteType.Hold)
+        {
+            dragNotes.Remove(other.gameObject.GetComponent<Note>());
+        }
         Destroy(other.gameObject);
 
         // TODO: ima get rid of all this event stuff and just replace it with singletons everywhere
@@ -53,51 +161,64 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     }
 
     /**
-     * Leverages the Unity builtin OnMouseDown to handle tap notes
-     * Since tap notes only require a single tap, we can use OnMouseDown to track that happening.
+     * Leverages the Unity builtin OnPointerDown event to handle tap notes
+     * Since tap notes only require a single tap, we can use OnPointerDown  to track that happening.
      */
     public void OnPointerDown(PointerEventData e)
     {
-        Note note = PeekFirstNote();
+        int lane = GetLane(e);
+        Note note = PeekFirstInLane(lane);
         if (note)
         {
-            // Handle tap notes
-            if (note.GetType() == typeof(Note))
+            switch (note.GetNoteType())
             {
-                OnNotePressed(note);
-            }
-            else
-            {
-                // Require flick input for flick note
-                startPos = e.pointerCurrentRaycast.worldPosition;
-                // foreach(Touch touch in Input.touches)
-                // {
-                //     float y = Camera.main.ScreenToWorldPoint(touch.position).y;
-                //     if(col.bounds.min.y <= y && y <= col.bounds.max.y)
-                //     {
-                //         startPos = touch.position;
-                //         touchId = touch.fingerId;
-                //         break;
-                //     }
-                // }
+                case NoteType.Tap:
+                    OnNotePressed(note);
+                    break;
+                case NoteType.Flick:
+                    touchStartPositions[lane] = e.pointerCurrentRaycast.worldPosition;
+                    break;
+                case NoteType.Hold:
+                    if(dragNotes.ContainsKey(note))
+                        dragNotes[note] = e.pointerCurrentRaycast.worldPosition;
+                    else
+                        dragNotes.Add(note, e.pointerCurrentRaycast.worldPosition);
+                    OnNotePressed(note);
+                    break;
+                default:
+                    return;
+
             }
         }
     }
 
     public void OnDrag(PointerEventData e)
     {
-        Note note = PeekFirstNote();
-        if (note)
+        int lane = GetLane(e);
+        Note note = PeekFirstInLane(lane);
+        if (note && 
+            note.GetNoteType() == NoteType.Flick &&
+            touchStartPositions[lane] != Vector3.zero &&
+            Vector3.Distance(e.pointerCurrentRaycast.worldPosition, touchStartPositions[lane]) > FLICK_THRESHOLD)
         {
-            // Handle flick notes
-            if (note.GetType() == typeof(FlickNote))
+            OnNotePressed(note);
+            touchStartPositions[lane] = Vector3.zero;
+        }
+        foreach(KeyValuePair<Note, Vector3> pair in dragNotes)
+        {   
+            if(pair.Key.GetComponent<Collider2D>().OverlapPoint(e.pointerCurrentRaycast.worldPosition))
             {
-                if (Vector3.Distance(e.pointerCurrentRaycast.worldPosition, startPos) > FLICK_THRESHOLD)
-                {
-                    OnNotePressed(note);
-                }
+                dragNotes[pair.Key] = e.pointerCurrentRaycast.worldPosition;
             }
         }
+    }
+
+    public void OnPointerUp(PointerEventData e)
+    {
+        // if(currentlyHeldNotes.ContainsKey(e.pointerId))
+        // {
+        //     Debug.Log("released hold");
+        // }
     }
 
     /* Helpers */
@@ -112,15 +233,37 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         Accuracy accuracy = GetAccuracy(note);
         ScoreManager.scoreManager.IncreaseScore(accuracy);
-        Destroy(note.gameObject);
+        if (note.GetNoteType() != NoteType.Hold)
+        {
+            notes[GetLane(note.transform.position)].Dequeue();
+            Destroy(note.gameObject);
+        }
     }
 
-    // Wrapper around Queue.Peek() to conduct validation
+    // Maps location to lane
+    private int GetLane(Collider2D col)
+    {
+        return ~LANE_LOCATIONS.BinarySearch(col.gameObject.transform.position.x);
+    }
+
+    // Maps location to lane
+    private int GetLane(Vector3 loc)
+    {
+        return ~LANE_LOCATIONS.BinarySearch(loc.x);
+    }
+
+    // Maps location to lane
+    private int GetLane(PointerEventData e)
+    {
+        return ~LANE_LOCATIONS.BinarySearch(e.pointerCurrentRaycast.worldPosition.x);
+    }
+
+    // Wrapper around Queue.Peek() to peek into a specific lane validation 
     // Removes and returns "first"/"lowest" note in lane if it exists, otherwise null
-    private Note PeekFirstNote()
+    private Note PeekFirstInLane(int lane)
     { 
-        if (notes.Count == 0) return null;
-        else return notes.Peek();
+        if (notes[lane].Count == 0) return null;
+        else return notes[lane].Peek();
     }
 
     // TODO: Calculate accuracy based on distance from fall line

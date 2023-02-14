@@ -25,9 +25,7 @@ public class DrawRect : MonoBehaviour
 
         int[] tris = new int[6]
         {
-            // lower left triangle
             0, 2, 1,
-            // upper right triangle
             2, 3, 1
         };
         mesh.triangles = tris;
@@ -52,10 +50,14 @@ public class DrawRect : MonoBehaviour
 
         meshFilter.mesh = mesh;
         PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
-        List<Vector2> verts = new List<Vector2>();
-        foreach (Vector3 vert in vertices) {
-            verts.Add(vert);
-        }
+        List<Vector2> verts = new List<Vector2>()
+        {
+            new Vector3(-.5f, -4f, 0f),
+            new Vector3(.5f, -4f, 0f),
+            new Vector3(4.5f, 0f, 0f),
+            new Vector3(3.5f, 0f, 0f),
+            new Vector3(-.5f, -4f, 0f),
+        };
         shapes.AddEdges(verts);
         GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
         // gameObject.AddComponent<MeshCollider>();
