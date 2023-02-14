@@ -9,33 +9,33 @@ EditorBuildSettings:
     path: Assets/Example/CatClicker.unity
     guid: 72392e75959604ca6871baeda29df384
   - enabled: 0
-    path: Assets/Austin/Home Screen.unity
-    guid: e5f402b0fb0654f87b1e43c8c405557f
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Austin/Scenes/Rhythm Game.unity
     guid: afc368685240f4cd9aad00b985362650
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TitleScreen.unity
     guid: 94f1f2e007eb9fe41b55fa3e2a8cc6b7
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/HomeScreen.unity
     guid: 64a6510d8c2837842a2ba4d0690fe0ad
-  - enabled: 0
-    path: Assets/Scenes/CharaScreen.unity
+  - enabled: 1
+    path: Assets/Scenes/CharacterScreen.unity
     guid: e7c9cae54e12dff4f83f354eb4aa443a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/CreditScreen.unity
     guid: 66bdffe8a6d1ea648a7de8f7a2fb20d0
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/GatchaScreen.unity
     guid: 5146535163119194aacba3b382d06594
-  - enabled: 0
-    path: Assets/Scenes/RythmGame(TEMP).unity
+  - enabled: 1
+    path: Assets/Scenes/GameScreen.unity
     guid: a45e8c708979e4841b39a99078861b56
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SettingsScreen.unity
     guid: 74ffc6d2b066de5489bc9a4730216215
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SongScreen.unity
     guid: 840b3368c82085944a873df2ed427b39
   - enabled: 1
