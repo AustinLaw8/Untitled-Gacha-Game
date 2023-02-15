@@ -10,12 +10,14 @@ public abstract class Note : MonoBehaviour
     private bool interactable;
     public bool IsInteractable { get { return interactable; } } 
 
-    protected Collider2D lane;
+    public Collider2D lane;
     protected Collider2D col;
+    protected ParticleSystem particles;
 
     void Start()
     {
         lane = GameObject.Find("Lane").GetComponent<Collider2D>();
+        particles = this.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         col = GetComponent<Collider2D>();
         interactable = false;
     }
@@ -29,7 +31,7 @@ public abstract class Note : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject == lane)
+        if (other == lane)
         {
             Destroy(this.gameObject);
             // TODO: Deal damage to player
@@ -48,6 +50,7 @@ public abstract class Note : MonoBehaviour
     {
         if (interactable)
         {
+            ScoreManager.scoreManager.EmitParticles(particles);
             Accuracy accuracy = GetAccuracy();
             ScoreManager.scoreManager.IncreaseScore(accuracy);
             Destroy(this.gameObject);

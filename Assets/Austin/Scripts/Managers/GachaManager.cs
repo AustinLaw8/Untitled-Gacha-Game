@@ -24,6 +24,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
 
     [SerializeField] private GameObject card;
     [SerializeField] private Texture2D placeholder;
+    private Animator cardAnimator;
 
     void Awake()
     {
@@ -32,6 +33,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
                 Mathf.Min(1.0f * CARD_WIDTH / Screen.width, 1.0f * CARD_HEIGHT / Screen.height);
 
         card.transform.localScale = new Vector3(scale, scale, 1f);
+        cardAnimator = card.GetComponent<Animator>();
     }
 
     void Start()
@@ -85,9 +87,12 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         // insert some async stuff here about waiting for cards to be received 
         if (summonsDone)
         {
+
+            cardImage.color = new Color(cardImage.color.r,cardImage.color.g,cardImage.color.b,0);
             currentCard += 1;
             if (currentCard == CARDS_PER_ROLL) { Debug.Log("display all acquired cards anim"); return; }
             cardImage.texture = textures[currentCard];
+            cardAnimator.Play("FadeToNext");
         }
     }
 

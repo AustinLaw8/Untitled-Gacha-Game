@@ -59,6 +59,7 @@ public class DrawRect : MonoBehaviour
         };
         shapes.AddPolygon(verts);
         GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
+
         // gameObject.AddComponent<MeshCollider>();
     }
 
