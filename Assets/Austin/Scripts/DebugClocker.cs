@@ -42,7 +42,14 @@ public class DebugClocker : MonoBehaviour
             }
             else if (counter == 5)
             {
-                GameObject.Instantiate(holdNote);
+                HoldNote note = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
+                DrawRect drawer = note.gameObject.GetComponent<DrawRect>();
+                drawer.SetPoints(new List<Vector2>(){
+                    new Vector2(0,0),
+                    new Vector2(4,4),
+                    // new Vector2(0,8),
+                });
+                drawer.Draw();
             }
             counter = (counter + 1) % 10;
         }

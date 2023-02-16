@@ -78,7 +78,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
             }
             /* insert code here to add a card to players inventory */ 
             yield return GetCard(id, i);
-            Debug.Log($"acquired data for {i}");
+            // Debug.Log($"acquired data for {i}");
         }
     }
 

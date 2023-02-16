@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class DrawRect : MonoBehaviour
 {
+    private static float X_OFFSET=.5f;
+
+    private MeshRenderer meshRenderer;
+    private MeshFilter meshFilter;
+    private Mesh mesh;
+
+    private List<Vector2> points;
+    private List<Vector3> vertices;
+    private List<Vector3> triangles;
+
     // Start is called before the first frame update
-    public void Start()
+    void Awake()
     {
-        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        // meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
+        meshRenderer = GetComponent<MeshRenderer>();
+        meshFilter = GetComponent<MeshFilter>();
+        mesh = new Mesh();
+        points = new List<Vector2>();
+    }
 
-        MeshFilter meshFilter = gameObject.AddComponent<MeshFilter>();
+    public void SetPoints(List<Vector2> points)
+    {
+        this.points = points;
+    }
 
-        Mesh mesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[4]
-        {
-            new Vector3(-.5f, -4f, 0f),
-            new Vector3(.5f, -4f, 0f),
-            new Vector3(3.5f, 0f, 0f),
-            new Vector3(4.5f, 0f, 0f)
-        };
-        mesh.vertices = vertices;
-
-        int[] tris = new int[6]
-        {
-            0, 2, 1,
-            2, 3, 1
-        };
-        mesh.triangles = tris;
-
+    public void Draw()
+    {
         Vector3[] normals = new Vector3[4]
         {
             -Vector3.forward,
@@ -37,7 +37,6 @@ public class DrawRect : MonoBehaviour
             -Vector3.forward,
             -Vector3.forward
         };
-        mesh.normals = normals;
 
         Vector2[] uv = new Vector2[4]
         {
@@ -46,26 +45,58 @@ public class DrawRect : MonoBehaviour
             new Vector2(0, 1),
             new Vector2(1, 1)
         };
+
+        CalculateVertices();
+        // CalculateTris();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = CalculateTris();
+        mesh.normals = normals;
         mesh.uv = uv;
 
         meshFilter.mesh = mesh;
-        PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
-        List<Vector2> verts = new List<Vector2>()
-        {
-            new Vector3(-.5f, -4f, 0f),
-            new Vector3(.5f, -4f, 0f),
-            new Vector3(4.5f, 0f, 0f),
-            new Vector3(3.5f, 0f, 0f),
-        };
-        shapes.AddPolygon(verts);
-        GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
 
-        // gameObject.AddComponent<MeshCollider>();
+        PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
+        // List<Vector2> verts = new List<Vector2>()
+        // {
+        //     mesh.vertices[0],
+        //     mesh.vertices[1],
+        //     mesh.vertices[3],
+        //     mesh.vertices[2],
+        // };
+        shapes.AddPolygon(vertices.ConvertAll<Vector2>( x => x ));
+        GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
     }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+    private void CalculateVertices()
+    {
+        vertices = new List<Vector3>(points.Count * 2);
+        for (int i = 0; i < points.Count; i++)
+        {
+            vertices.Add(new Vector3(
+                points[i].x - X_OFFSET,
+                points[i].y,
+                0f
+            ));
+            vertices.Add(new Vector3(
+                points[i].x + X_OFFSET,
+                points[i].y,
+                0f
+            ));
+        }
+    }
+
+    private int[] CalculateTris()
+    {
+        int[] tris = new int[6]{
+            0, 2, 1,
+            1, 2, 3,
+        };
+        // int[] tris = new int[points.Count * 3];
+        // for (int i = 0; i < points.Count; i++);
+        // {
+        //     0, 2, 1,
+        //     2, 3, 1
+        // };
+        return tris;
+    }
 }
