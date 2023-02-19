@@ -6,8 +6,8 @@ public class ParticleManager : MonoBehaviour
 {
     public static ParticleManager particleManager { get; private set;  }
 
-    private static int POOL_SIZE=5;
-    private static float TAP_EMISSION_TIME = .2f;
+    private static int POOL_SIZE=10;
+    private static float TAP_EMISSION_TIME = .25f;
 
     [SerializeField] public GameObject targetParticleSystem;
 

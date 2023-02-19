@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public abstract class Note : MonoBehaviour
 {
-    [SerializeField] private float fallSpeed = 2f;    
+    [SerializeField] protected float fallSpeed = 2f;    
 
     private bool interactable;
     public bool IsInteractable { get { return interactable; } } 
@@ -13,7 +13,7 @@ public abstract class Note : MonoBehaviour
     protected Collider2D lane;
     protected Collider2D col;
 
-    void Awake()
+    protected virtual void Awake()
     {
         lane = GameObject.Find("Lane").GetComponent<Collider2D>();
         col = GetComponent<Collider2D>();
@@ -31,7 +31,7 @@ public abstract class Note : MonoBehaviour
     {
         if (other == lane)
         {
-            Destroy(this.gameObject);
+            StartCoroutine(DelayedDestroy());
             // TODO: Deal damage to player
         }
     }
@@ -59,5 +59,11 @@ public abstract class Note : MonoBehaviour
     protected Accuracy GetAccuracy()
     {
         return Accuracy.Great;
+    }
+
+    private IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(this.gameObject);
     }
 }

@@ -25,6 +25,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject card;
     [SerializeField] private Texture2D placeholder;
     private Animator cardAnimator;
+    public float animationTime;
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
                 Mathf.Min(1.0f * CARD_WIDTH / Screen.width, 1.0f * CARD_HEIGHT / Screen.height);
 
         card.transform.localScale = new Vector3(scale, scale, 1f);
+        animationTime = 0f;
         cardAnimator = card.GetComponent<Animator>();
     }
 
@@ -42,17 +44,44 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         textures = new Texture2D[CARD_HEIGHT];
         for (int i = 0; i < CARDS_PER_ROLL; i++) textures[i] = placeholder;
         // for (int i = 0; i < CARDS_PER_ROLL; i++) textures[i] = new Texture2D(CARD_WIDTH,CARD_HEIGHT);
-        currentCard = 0;
+        currentCard = -1;
         cardImage = card.GetComponent<RawImage>();
+    }
+
+    void Update()
+    {
+        animationTime += Time.deltaTime;
+        if(AnimatorIsPlaying())
+        {
+            cardAnimator.SetFloat("time", animationTime);
+        }
     }
 
     public void Roll()
     {
-        StartCoroutine(DoRoll());
+        // StartCoroutine(DoRoll());
 
         summonsDone = true;
-        cardImage.texture = textures[currentCard];
         card.SetActive(true);
+        RunAnimationLoop();
+    }
+
+    private void RunAnimationLoop()
+    {
+        if (AnimatorIsPlaying())
+        {
+            SkipAnimatorToEnd();
+        }
+        else
+        {
+            currentCard += 1;
+            if (currentCard == CARDS_PER_ROLL) { Debug.Log("display all acquired cards anim"); card.SetActive(false); }
+            animationTime = 0f;
+            cardImage.color = new Color(cardImage.color.r,cardImage.color.g,cardImage.color.b,0);
+            cardImage.texture = textures[currentCard];
+            cardAnimator.Play("FadeToNext");
+            cardAnimator.SetFloat("time", animationTime);
+        }
     }
 
     // TODO: Make this async, with loading screen or animation or something to allow the async to run
@@ -87,12 +116,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         // insert some async stuff here about waiting for cards to be received 
         if (summonsDone)
         {
-
-            cardImage.color = new Color(cardImage.color.r,cardImage.color.g,cardImage.color.b,0);
-            currentCard += 1;
-            if (currentCard == CARDS_PER_ROLL) { Debug.Log("display all acquired cards anim"); return; }
-            cardImage.texture = textures[currentCard];
-            cardAnimator.Play("FadeToNext");
+            RunAnimationLoop();
         }
     }
 
@@ -126,6 +150,18 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
                     yield break;
             }
         }
+    }
+
+    private bool AnimatorIsPlaying()
+    {
+        AnimatorStateInfo currentAnim = cardAnimator.GetCurrentAnimatorStateInfo(0);
+        return currentAnim.IsName("FadeToNext") && animationTime < currentAnim.length;
+    }
+
+    private void SkipAnimatorToEnd()
+    {
+        animationTime = cardAnimator.GetCurrentAnimatorStateInfo(0).length;
+        cardAnimator.SetFloat("time", animationTime);
     }
 }
 

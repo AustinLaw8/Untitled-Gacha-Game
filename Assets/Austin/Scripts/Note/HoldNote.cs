@@ -30,31 +30,42 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
 
     private bool holding;
     private ParticleSystem particles;
-    private Line midpointLine;
-    public float length;
 
-    void Start()
+    private List<Line> midLines;
+    private List<float> distances;
+    private int currentLine;
+    private float distanceTravelled;
+
+    protected override void Awake()
     {
-        PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
-        col.GetShapes(shapes);
-        midpointLine = new Line(
-            (shapes.GetShapeVertex(0,0) + shapes.GetShapeVertex(0,1)) / 2,
-            (shapes.GetShapeVertex(0,2) + shapes.GetShapeVertex(0,3)) / 2
-        );
-        length = Mathf.Abs(shapes.GetShapeVertex(0,2).y - shapes.GetShapeVertex(0,1).y);
+        base.Awake();
+        currentLine = 0;
+        holding = false;
+        particles = null;
+        distanceTravelled = -.5f;
+        midLines = new List<Line>();
+        distances = new List<float>();
     }
-
+    
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
         if (IsInteractable)
         {
+            distanceTravelled += fallSpeed * Time.fixedDeltaTime;
             if (holding)
             {
                 GiveHoldPoints();
                 if(!particles.isPlaying) particles.Play();
-                particles.transform.position = BoundsAtCurrentY();
-                // Debug.Log(BoundsAtCurrentY());
+                Vector3 newPos = BoundsAtCurrentY();
+                if (newPos != Vector3.zero)
+                {
+                    particles.transform.position = newPos;
+                }
+                else
+                {
+                    particles.Stop();
+                }
             }
             else
             {
@@ -111,13 +122,38 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         holding = false;
     }
 
+    public void SetPoints(List<Vector2> newPoints)
+    {
+        DrawRect drawer = GetComponent<DrawRect>();
+        drawer.SetPoints(newPoints);
+        drawer.Draw();
+        distances.Add(0);
+        for(int i = 0; i < newPoints.Count - 1; i++)
+        {
+            midLines.Add(new Line(newPoints[i], newPoints[i+1]));
+            distances.Add(newPoints[i + 1].y - newPoints[i].y + distances[i]);
+        }
+        distances.RemoveAt(0);
+    }
+
     private Vector3 BoundsAtCurrentY()
     {
-        return new Vector3(
-            midpointLine.getX(lane.transform.position.y - (transform.position.y - length)) - length,
-            lane.transform.position.y,
-            0f
-        );
+        while (currentLine < distances.Count && distanceTravelled > distances[currentLine])
+        {
+            currentLine++;
+        }
+        if(currentLine == distances.Count)
+        {
+            return Vector3.zero;
+        }
+        else
+        {
+            return new Vector3(
+                midLines[currentLine].getX(distanceTravelled),
+                lane.transform.position.y,
+                0f
+            );
+        }
     }
 
     private void GiveHoldPoints()

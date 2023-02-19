@@ -11,8 +11,11 @@ public class DrawRect : MonoBehaviour
     private Mesh mesh;
 
     private List<Vector2> points;
+    private List<Vector2> uv;
     private List<Vector3> vertices;
-    private List<Vector3> triangles;
+    private List<int> triangles;
+
+    private int pointCount;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,54 +26,34 @@ public class DrawRect : MonoBehaviour
         points = new List<Vector2>();
     }
 
-    public void SetPoints(List<Vector2> points)
+    public void SetPoints(List<Vector2> newPoints)
     {
-        this.points = points;
+        pointCount = newPoints.Count;
+        this.points = newPoints;
     }
 
     public void Draw()
     {
-        Vector3[] normals = new Vector3[4]
-        {
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward
-        };
-
-        Vector2[] uv = new Vector2[4]
-        {
-            new Vector2(0, 0),
-            new Vector2(1, 0),
-            new Vector2(0, 1),
-            new Vector2(1, 1)
-        };
-
         CalculateVertices();
-        // CalculateTris();
+        CalculateTris();
+        CalculateUV();
+
         mesh.vertices = vertices.ToArray();
-        mesh.triangles = CalculateTris();
-        mesh.normals = normals;
-        mesh.uv = uv;
+        mesh.triangles = triangles.ToArray();
+        mesh.normals = vertices.ConvertAll<Vector3>( x => -Vector3.forward ).ToArray();
+        mesh.uv = uv.ToArray();
 
         meshFilter.mesh = mesh;
 
         PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
-        // List<Vector2> verts = new List<Vector2>()
-        // {
-        //     mesh.vertices[0],
-        //     mesh.vertices[1],
-        //     mesh.vertices[3],
-        //     mesh.vertices[2],
-        // };
         shapes.AddPolygon(vertices.ConvertAll<Vector2>( x => x ));
         GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
     }
 
     private void CalculateVertices()
     {
-        vertices = new List<Vector3>(points.Count * 2);
-        for (int i = 0; i < points.Count; i++)
+        vertices = new List<Vector3>(pointCount * 2);
+        for (int i = 0; i < pointCount; i++)
         {
             vertices.Add(new Vector3(
                 points[i].x - X_OFFSET,
@@ -85,18 +68,33 @@ public class DrawRect : MonoBehaviour
         }
     }
 
-    private int[] CalculateTris()
+    private void CalculateTris()
     {
-        int[] tris = new int[6]{
-            0, 2, 1,
-            1, 2, 3,
+        triangles = new List<int>(pointCount * 3);
+        for (int i = 0; i < pointCount - 1; i++) {
+            triangles.Add(i * 2);
+            triangles.Add(i * 2 + 2);
+            triangles.Add(i * 2 + 1);
+            triangles.Add(i * 2 + 1);
+            triangles.Add(i * 2 + 2);
+            triangles.Add(i * 2 + 3);
         };
-        // int[] tris = new int[points.Count * 3];
-        // for (int i = 0; i < points.Count; i++);
-        // {
-        //     0, 2, 1,
-        //     2, 3, 1
-        // };
-        return tris;
+    }
+
+    private void CalculateUV()
+    {
+        uv = new List<Vector2>(pointCount * 2);
+        for (int i = 0; i < pointCount; i++) {
+            if (i % 2 == 0)
+            {
+                uv.Add(new Vector2(0, 0));
+                uv.Add(new Vector2(1, 0));
+            }
+            else
+            {
+                uv.Add(new Vector2(0, 1));
+                uv.Add(new Vector2(1, 1));
+            }
+        };
     }
 }
