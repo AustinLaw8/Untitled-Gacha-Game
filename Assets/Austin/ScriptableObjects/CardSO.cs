@@ -5,7 +5,12 @@ using UnityEngine;
 
 public enum Rarity
 {
-    One, Two, Three
+    Three, Four, Five, Six
+}
+
+public enum Zodiac
+{
+    Rabbit, Dragon, Tiger, Horse
 }
 
 /* It is not set in stone if we are going to have assets be stored here like this, or if they will be online*/
@@ -15,9 +20,12 @@ public class CardSO : ScriptableObject
 {
     public uint ID;
     public Texture2D cardArt;
+    public Sprite cardIcon;
     public string artist;
     public Rarity rarity;
-
+    public Zodiac zodiac;
+    public int power;
+    public int numCopies;
     // A card's "pivot" is the location about which its icon and character slice will be framed
     public Vector2 pivot;
 }
