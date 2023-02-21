@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/** 
+ * Base class for all notes
+ * Handles main update loop of moving note
+ * And checks its position relative to interactable zone
+ */
 [RequireComponent(typeof(Collider2D))]
 public abstract class Note : MonoBehaviour
 {
     [SerializeField] protected float fallSpeed = 2f;    
 
+    // If the note is within the interactable zone
     private bool interactable;
     public bool IsInteractable { get { return interactable; } } 
 
+    // Collider of the lane (interactable zone) and the Note itself
     protected Collider2D lane;
     protected Collider2D col;
 
@@ -27,6 +34,7 @@ public abstract class Note : MonoBehaviour
         interactable = col.IsTouching(lane);
     }
 
+    // If the note passes the interactable zone, destroy it
     void OnTriggerExit2D(Collider2D other)
     {
         if (other == lane)
@@ -63,7 +71,7 @@ public abstract class Note : MonoBehaviour
 
     private IEnumerator DelayedDestroy()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.1f);
         Destroy(this.gameObject);
     }
 }

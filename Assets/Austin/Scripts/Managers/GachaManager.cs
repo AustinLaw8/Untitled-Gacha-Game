@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
+// Handles rolling and animating the roll
 public class GachaManager : MonoBehaviour, IPointerDownHandler
 {
     public static int CARD_WIDTH = 2048;
@@ -19,9 +20,11 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
 
     private int currentCard;
     private RawImage cardImage;
+    // array to hold the texture results of the roll
     private Texture2D[] textures;
     private bool summonsDone;
 
+    // the game object on which the cards are displayed and animated
     [SerializeField] private GameObject card;
     [SerializeField] private Texture2D placeholder;
     private Animator cardAnimator;
@@ -29,6 +32,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
 
     void Awake()
     {
+        // calculates the scale about which all card pngs will scaled by, dependent on screen size
         float scale = Screen.width > CARD_WIDTH ? 
                 Mathf.Max(1.0f * Screen.width / CARD_WIDTH, 1.0f * Screen.height / CARD_HEIGHT): 
                 Mathf.Min(1.0f * CARD_WIDTH / Screen.width, 1.0f * CARD_HEIGHT / Screen.height);
@@ -57,6 +61,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    // Interface for a button to tell the GachaManager to start rolling
     public void Roll()
     {
         // StartCoroutine(DoRoll());
@@ -66,6 +71,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         RunAnimationLoop();
     }
 
+    // Either retrieves and animates summon for next roll, or skips the summon animation and displays the current roll
     private void RunAnimationLoop()
     {
         if (AnimatorIsPlaying())
@@ -152,12 +158,14 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    // Checks if animator is currently playing the fade animation (essentially the animation the plays between each roll)
     private bool AnimatorIsPlaying()
     {
         AnimatorStateInfo currentAnim = cardAnimator.GetCurrentAnimatorStateInfo(0);
         return currentAnim.IsName("FadeToNext") && animationTime < currentAnim.length;
     }
 
+    // Skips the animator to the end of the animation (assumed that the fade animation is playing)
     private void SkipAnimatorToEnd()
     {
         animationTime = cardAnimator.GetCurrentAnimatorStateInfo(0).length;

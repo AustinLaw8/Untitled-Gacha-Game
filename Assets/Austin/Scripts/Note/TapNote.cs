@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class TapNote : Note, IPointerDownHandler
 {
+    // when you write a class that just calls the base class...
     public void OnPointerDown(PointerEventData e)
     {
         OnNotePressed();

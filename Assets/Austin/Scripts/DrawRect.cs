@@ -32,6 +32,7 @@ public class DrawRect : MonoBehaviour
         this.points = newPoints;
     }
 
+    // Given a set of points, draws parallelograms connecting the points.
     public void Draw()
     {
         CalculateVertices();

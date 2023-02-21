@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/**
+ * Stores the slope intercept form of a line
+ * Exists to calculate the midpoint X value of a given note at any Y point
+ */
 public class Line
 {
     private float slope;
@@ -25,15 +29,20 @@ public class Line
     }
 }
 
+// Given the lines a hold note follows, handles the interactions of tapping, particle effects, and holding
 public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
     private bool holding;
     private ParticleSystem particles;
 
+    // The lines about which this hold note will follow
     private List<Line> midLines;
+    // The distances between each pivot point (if a note is made of multiple lines)
     private List<float> distances;
+    // Pointer to whatever line is the currently interactable one
     private int currentLine;
+    // Current amount of distance note has travelled
     private float distanceTravelled;
 
     protected override void Awake()
@@ -47,6 +56,9 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         distances = new List<float>();
     }
     
+    /**
+     * Once the note is tapped, gives points and plays particles while it is being held 
+     */
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -74,6 +86,10 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         }
     }
 
+    /**
+     * Checks if player released the hold note at the end of the hold, and gives points if so
+     * Also destroys the hold note since interaction is finished
+     */
     public void OnPointerUp(PointerEventData e)
     {
         if (IsInteractable)
@@ -87,6 +103,12 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         }
     }
 
+    /**
+     * When the player presses the hold note
+     *  If interaction is at the beginning of the hold, gives the extra tap points
+     *  Otherwise, it means the player released at some point and is pressing again now, so give hold points
+     *  If a particle system doesn't exist yet, requests a particle system
+     */
     public void OnPointerDown(PointerEventData e)
     {
         if (IsInteractable)
@@ -108,6 +130,10 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         }
     }
 
+    /**
+     * Occurs when the player moves their finger from somewhere not on the hold into the hold
+     *  Particle system null check occurs if player missed the initial tap
+     */
     public void OnPointerEnter(PointerEventData e)
     {
         holding = e.rawPointerPress != null;
@@ -117,11 +143,16 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         }
     }
     
+    // When player releases or their finger moves out of the hold at any point during its lifetime
     public void OnPointerExit(PointerEventData e)
     {
         holding = false;
     }
 
+    /** 
+     * Interface to set the points the hold note will connect when initialized
+     *  Calculates distances between points, lines, and calls the drawer to draw the mesh
+     */
     public void SetPoints(List<Vector2> newPoints)
     {
         DrawRect drawer = GetComponent<DrawRect>();
@@ -136,6 +167,7 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         distances.RemoveAt(0);
     }
 
+    // Acquires the (midpoint) x position of the mesh at the given y position
     private Vector3 BoundsAtCurrentY()
     {
         while (currentLine < distances.Count && distanceTravelled > distances[currentLine])
@@ -162,6 +194,7 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         ScoreManager.scoreManager.IncreaseScore(accuracy);
     }
 
+    // Returns the particles back to the particle manager if they were acquired
     void OnDestroy()
     {
         if (particles) ParticleManager.particleManager.DetachParticlesForHold(particles);

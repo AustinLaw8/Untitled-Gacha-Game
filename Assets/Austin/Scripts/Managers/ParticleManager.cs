@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Creates and maintains a pool of particle systems for when player interacts with a note
 public class ParticleManager : MonoBehaviour
 {
     public static ParticleManager particleManager { get; private set;  }
@@ -37,6 +38,10 @@ public class ParticleManager : MonoBehaviour
         }
     }
     
+    /**
+     * Interface for notes to tell particle manager to play a particle
+     * This interface is for tap and flick notes, who just need the particles played at a certain location once
+     */
     public void EmitParticlesOnPress(Vector3 location)
     {
         ParticleSystem currentParticles = GetAvailableParticles();
@@ -49,6 +54,13 @@ public class ParticleManager : MonoBehaviour
         StartCoroutine(PauseParticles(currentParticles, TAP_EMISSION_TIME));
     }
 
+    /**
+     * Interface for hold notes
+     * Hold notes have special interactions, where they need the particle system for longer
+     * And may have to turn the particles on or off
+     * Instead of constantly telling the particle manager to move the particle system and turn them on or off,
+     * hand off the particle system to the note itself
+     */
     public ParticleSystem AttachParticlesForHold(Transform note)
     {
         ParticleSystem particles = GetAvailableParticles();
@@ -56,12 +68,17 @@ public class ParticleManager : MonoBehaviour
         return particles;
     }
 
+    /**
+     * Once the hold note is finished with the particle system, it should return it back to the manager
+     * This essentially like freeing memory in C/C++; the hold note asks for memory and has to return it back
+     */
     public void DetachParticlesForHold(ParticleSystem particles)
     {
         particles.transform.SetParent(this.transform);
         particles.gameObject.SetActive(false);
     }
 
+    // Gets the first available particle system
     private ParticleSystem GetAvailableParticles()
     {
         foreach(GameObject obj in particles)
