@@ -14,9 +14,9 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
 
     private static int CARDS_PER_ROLL=10;
 
-    // private static float THREE_STAR_CHANCE=.01f;
-    private static float TWO_STAR_CHANCE=.1f;
-    private static float ONE_STAR_CHANCE=.89f;
+    // private static float THREE_STAR_CHANCE=.05f;
+    private static float TWO_STAR_CHANCE=.35f;
+    private static float ONE_STAR_CHANCE=.60f;
 
     private int currentCard;
     private RawImage cardImage;
