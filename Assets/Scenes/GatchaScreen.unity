@@ -355,30 +355,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4573626403959341177, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573626403959341177, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573626403959341177, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573626403959341177, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573626403959341177, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573626403959341177, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
 --- !u!1 &447839368
@@ -751,7 +727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1703656819
 RectTransform:
   m_ObjectHideFlags: 0

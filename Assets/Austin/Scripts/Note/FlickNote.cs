@@ -10,12 +10,14 @@ public class FlickNote : Note, IPointerDownHandler, IDragHandler
     private int pointerId;
     private Vector3 startPos;
 
+    // On tap, records tap location
     public void OnPointerDown(PointerEventData e)
     {
         startPos = e.pointerCurrentRaycast.worldPosition;
         pointerId = e.pointerId;
     }
 
+    // On drag, checks if distance between initial tap position and current position registers as far enough to flick
     public void OnDrag(PointerEventData e)
     {
         if (e.pointerId == pointerId &&
