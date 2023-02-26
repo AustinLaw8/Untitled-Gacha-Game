@@ -7,6 +7,14 @@ public enum Accuracy
 {
     Perfect, Great, Good, Bad, Miss
 }
+public enum Grade
+{
+    S, A, B, C
+}
+public enum Combo
+{
+    _0, _25, _50, _75, _100
+}
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager scoreManager { get; private set;  }
@@ -52,7 +60,6 @@ public class ScoreManager : MonoBehaviour
         // TODO: conduct full score calcs
         int deltaScore = (int)Mathf.Ceil(baseScore * comboMultiplier * accuracyMultiplier);
 
-        // TODO: tell a score manager or some other similar manager to increase the score
         score += deltaScore;
     }
 

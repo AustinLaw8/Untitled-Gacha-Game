@@ -12,23 +12,24 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     public static int CARD_WIDTH = 2048;
     public static int CARD_HEIGHT = 1261;
 
-    private static int CARDS_PER_ROLL=10;
-
-    // private static float THREE_STAR_CHANCE=.05f;
-    private static float TWO_STAR_CHANCE=.35f;
-    private static float ONE_STAR_CHANCE=.60f;
-
     private int currentCard;
     private RawImage cardImage;
     // array to hold the texture results of the roll
     private Texture2D[] textures;
     private bool summonsDone;
+    private int numRolls = 10;
+
+    // roll rates
+    // private float threeStarChance=.05f;
+    private float twoStarChance = .35f;
+    private float oneStarChance = .60f;
 
     // the game object on which the cards are displayed and animated
     [SerializeField] private GameObject card;
     [SerializeField] private Texture2D placeholder;
     private Animator cardAnimator;
-    public float animationTime;
+    private float animationTime;
+   
 
     void Awake()
     {
@@ -45,9 +46,9 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     void Start()
     {
         summonsDone = false;
-        textures = new Texture2D[CARD_HEIGHT];
-        for (int i = 0; i < CARDS_PER_ROLL; i++) textures[i] = placeholder;
-        // for (int i = 0; i < CARDS_PER_ROLL; i++) textures[i] = new Texture2D(CARD_WIDTH,CARD_HEIGHT);
+        textures = new Texture2D[numRolls];
+        for (int i = 0; i < numRolls; i++) textures[i] = placeholder;
+        // for (int i = 0; i < numRolls; i++) textures[i] = new Texture2D(CARD_WIDTH,CARD_HEIGHT);
         currentCard = -1;
         cardImage = card.GetComponent<RawImage>();
     }
@@ -62,13 +63,20 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     }
 
     // Interface for a button to tell the GachaManager to start rolling
-    public void Roll()
+    public void Roll(int numberOfRolls, Combo combo)
     {
         // StartCoroutine(DoRoll());
-
+        SetRates(combo);
+        numRolls = numberOfRolls;
         summonsDone = true;
         card.SetActive(true);
         RunAnimationLoop();
+    }
+
+    // Interface for a button to tell the GachaManager to start rolling
+    public void Roll(int numberOfRolls)
+    {
+        Roll(numberOfRolls, Combo._0);
     }
 
     // Either retrieves and animates summon for next roll, or skips the summon animation and displays the current roll
@@ -81,7 +89,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         else
         {
             currentCard += 1;
-            if (currentCard == CARDS_PER_ROLL) { Debug.Log("display all acquired cards anim"); card.SetActive(false); }
+            if (currentCard == numRolls) { Debug.Log("display all acquired cards anim"); card.SetActive(false); }
             animationTime = 0f;
             cardImage.color = new Color(cardImage.color.r,cardImage.color.g,cardImage.color.b,0);
             cardImage.texture = textures[currentCard];
@@ -96,14 +104,14 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         float roll;
         int id;
 
-        for(int i = 0; i < CARDS_PER_ROLL; i++)
+        for(int i = 0; i < numRolls; i++)
         {
             roll = Random.Range(0f, 1f);
-            if (roll > ONE_STAR_CHANCE)
+            if (roll > oneStarChance)
             {
                 id = 0;
             }
-            else if (roll > TWO_STAR_CHANCE)
+            else if (roll > twoStarChance)
             {
                 id = 1;
             }
@@ -170,6 +178,38 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     {
         animationTime = cardAnimator.GetCurrentAnimatorStateInfo(0).length;
         cardAnimator.SetFloat("time", animationTime);
+    }
+
+    private void SetRates(Combo combo)
+    {
+        switch (combo)
+        {
+            case Combo._0:
+                // threeStarChance = .05f;
+                twoStarChance = .35f;
+                oneStarChance = .60f;
+                break;
+            case Combo._25:
+                // threeStarChance = .07f;
+                twoStarChance = .34f;
+                oneStarChance = .59f;
+                break;
+            case Combo._50:
+                // threeStarChance = .09f;
+                twoStarChance = .33f;
+                oneStarChance = .58f;
+                break;
+            case Combo._75:
+                // threeStarChance = .11f;
+                twoStarChance = .32f;
+                oneStarChance = .57f;
+                break;
+            case Combo._100:
+                // threeStarChance = .13f;
+                twoStarChance = .31f;
+                oneStarChance = .56f;
+                break;
+        }
     }
 }
 
