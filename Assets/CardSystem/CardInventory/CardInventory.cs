@@ -43,16 +43,40 @@ public class CardInventory : MonoBehaviour
     }
 
     public void DisplayCards()
-    {
-        
+    {        
         for (int i = 0; i < ownedCards.Count; i++)
         {
             var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, cardScreen.transform);
             obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
+            obj.GetComponent<RectTransform>().sizeDelta = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
             obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
             
         }
     }   
+
+    public void UpdateDisplay()
+    {
+
+        foreach(Transform child in cardScreen.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        //Debug.Log(transform.childCount);
+        UpdateCards();
+        DisplayCards();
+    }
+
+    public void UpdateCards()
+    {
+        ownedCards.Clear();
+        for(int i = 0; i < cardManager.cardDB.Length; i++)
+        {
+            if (cardManager.cardDB[i].numCopies > 0)
+            {
+                ownedCards.Add(cardManager.cardDB[i]);
+            }
+        }
+    }
 
     public Vector2 GetPosition(int i)
     {
