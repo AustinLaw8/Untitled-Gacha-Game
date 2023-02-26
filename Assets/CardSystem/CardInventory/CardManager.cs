@@ -10,6 +10,7 @@ public class CardManager : MonoBehaviour
 
     public void Awake()
     {
+        LoadCards();
         //Load cards in here
     }
 
