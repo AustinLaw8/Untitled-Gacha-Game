@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public abstract class Note : MonoBehaviour
 {
-    [SerializeField] protected float fallSpeed = 2f;    
+    [SerializeField] public static float fallSpeed = 2f;    
 
     // If the note is within the interactable zone
     private bool interactable;

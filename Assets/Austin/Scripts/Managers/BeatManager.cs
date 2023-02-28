@@ -41,15 +41,21 @@ public class BeatManager : MonoBehaviour
 
     /* Various external components */
     [Header("External Objects")]
-    [SerializeField] private GameObject tapNotePrefab;
 
     /* Fields to set up notes */
 
     // A beatmap is a queue of times notes are meant to exist (i.e. there should be a note to press at 2.2 seconds)
-    private Queue<float> beatmap = new Queue<float>();
-    
-    // private static UnityEvent NotePressedEvent;
+    static (float, int)[] exampleNotes = {(1f,0), (2f,0), (3f,0), (4f,0), (5f,0), (6f,0), (7f,0), (8f,0), (9f,0), (10f,0)};
 
+    private Queue<(float, int)> beatmap = new Queue<(float, int)>(exampleNotes);
+    [SerializeField] private GameObject note;
+    [SerializeField] private GameObject flickNote;
+    [SerializeField] private GameObject holdNote;
+
+    [SerializeField] private Transform spawnLine;
+    [SerializeField] private Transform playLine;
+
+    private float spawnDiff;
     void Awake()
     {
         /** TODO:
@@ -58,15 +64,20 @@ public class BeatManager : MonoBehaviour
          * It will probably set the bpm too 
          */
 
-
-        // NotePressedEvent.AddListener(HandleNotePress);
-
+        if (bpm == 0)
+        {
+            Debug.LogError("Give BPM a value or else you will infinite loop");
+            Destroy(this.gameObject);
+        }
         beatsPerSecond = bpm / 60;
         secondsPerBeat = 1 / beatsPerSecond;
         songStartOffsetInSeconds = songStartOffset * secondsPerBeat;
 
         startTime = (float)AudioSettings.dspTime + songStartOffsetInSeconds;
         endTime += songStartOffset * secondsPerBeat;
+
+        spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
+        songPosition = 0;
     }
 
     void Start()
@@ -74,44 +85,42 @@ public class BeatManager : MonoBehaviour
         StartCoroutine(PlayMusicWithOffset());
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        songPosition = ((float)AudioSettings.dspTime - startTime);
+        // songPosition = ((float)AudioSettings.dspTime - startTime);
         songPositionInBeats = beatsPerSecond * songPosition;
-        // float center;
-        // Note note;
 
-        
-        // if (beatmap.Count > 0) 
+        songPosition += Time.fixedDeltaTime;
+        float pos;
+        int lane;
+        GameObject noteSpawned;
+        while (beatmap.Count > 0)
         {
-            // center = beatmap.Peek();
-
-            // if(songPosition >= middle - Note.fallTime)
+            (pos, lane) = beatmap.Peek();
+            
+            if (Mathf.Abs(pos) > songPosition - spawnDiff)
             {
-                // note = GameObject.Instantiate(notePrefab).GetComponent<Note>();
+                break;
             }
-        }
 
-        /**TODO*
-         * 
-         * Implement a ScoreManager that handles score
-         * Ideally have it be event based?
-         */
-    }
-
-
-    /*** Helpers ***/
-
-    /*** TODO
-    private void SetBeatmap()
-    {
-        beatmap.Clear(); 
-        for (float i = 3; i < 31; i ++)
-        {
-            beatmap.Enqueue(((i - Note.DEFAULT_LEEWAY) * secondsPerBeat, (i + Note.DEFAULT_LEEWAY) * secondsPerBeat));
+            if (pos > 0)
+            {
+                noteSpawned = GameObject.Instantiate(note);
+            }
+            else
+            {
+                noteSpawned = GameObject.Instantiate(flickNote);
+            }
+            beatmap.Dequeue();
+            // calculate the difference in time when the note was supposed to spawn and the time now
+            float diffTime = (songPosition - spawnDiff) - Mathf.Abs(pos);
+            float diffDist = (diffTime*Note.fallSpeed);
+            Debug.Log(diffDist);
+            // push down the note a small about based on that difference in time
+            noteSpawned.transform.position -= new Vector3(0f, diffDist, 0f);
+            // noteSpawned.transform.position -= new Vector3(0f, <the amount to push>, 0f);
         }
     }
-    */
 
     // Adds the offset to the song (to wait for the beat map to start)
     IEnumerator PlayMusicWithOffset()

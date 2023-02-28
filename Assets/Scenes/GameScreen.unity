@@ -260,6 +260,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364463420}
   m_CullTransparentMesh: 1
+--- !u!4 &388919031 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4947746568248999375, guid: 751bc2da8678544f1a1c3aa15c830639, type: 3}
+  m_PrefabInstance: {fileID: 1814806623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &408275565 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8823745638676713592, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
@@ -278,6 +283,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: playLine
+      value: 
+      objectReference: {fileID: 1088980685}
+    - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: spawnLine
+      value: 
+      objectReference: {fileID: 388919031}
     - target: {fileID: 1536787873329030460, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: scoreText
       value: 
@@ -478,6 +491,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 784863269}
   m_CullTransparentMesh: 1
+--- !u!4 &1088980685 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3164779377984884049, guid: 751bc2da8678544f1a1c3aa15c830639, type: 3}
+  m_PrefabInstance: {fileID: 1814806623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1245716108
 GameObject:
   m_ObjectHideFlags: 0

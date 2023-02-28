@@ -85,13 +85,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536787873281861804}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1d4f7300f43d4c55829761059a92366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bpm: 0
-  songStartOffset: 0
+  bpm: 60
+  songStartOffset: 1
   endTime: 0
   startTime: 0
   beatsPerSecond: 0
@@ -99,7 +99,11 @@ MonoBehaviour:
   songStartOffsetInSeconds: 0
   songPosition: 0
   songPositionInBeats: 0
-  tapNotePrefab: {fileID: 0}
+  note: {fileID: 2575545971778024959, guid: 45714e0fe0908448591b0eff8eb9eb7f, type: 3}
+  flickNote: {fileID: 2421845432899483416, guid: a7fd6e89b0764486f9a5af2379de70e4, type: 3}
+  holdNote: {fileID: 4411028347111245439, guid: 32b951473bfd04dcf93d76ced8c88b22, type: 3}
+  spawnLine: {fileID: 0}
+  playLine: {fileID: 0}
 --- !u!114 &1536787873281861811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +111,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536787873281861804}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1076afa7262e4571894d1f01c7da716, type: 3}
   m_Name: 
