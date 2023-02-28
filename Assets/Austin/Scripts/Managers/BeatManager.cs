@@ -98,7 +98,7 @@ public class BeatManager : MonoBehaviour
         {
             (pos, lane) = beatmap.Peek();
             
-            if (Mathf.Abs(pos) > songPosition - spawnDiff)
+            if (Mathf.Abs(pos) > songPosition + spawnDiff)
             {
                 break;
             }
@@ -113,7 +113,7 @@ public class BeatManager : MonoBehaviour
             }
             beatmap.Dequeue();
             // calculate the difference in time when the note was supposed to spawn and the time now
-            float diffTime = (songPosition - spawnDiff) - Mathf.Abs(pos);
+            float diffTime = (songPosition + spawnDiff) - Mathf.Abs(pos);
             float diffDist = (diffTime*Note.fallSpeed);
             Debug.Log(diffDist);
             // push down the note a small about based on that difference in time
