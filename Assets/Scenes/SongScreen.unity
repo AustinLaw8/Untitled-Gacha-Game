@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 559361718}
   - component: {fileID: 559361717}
   - component: {fileID: 559361716}
+  - component: {fileID: 559361719}
   m_Layer: 5
   m_Name: Song Button (TEMP)
   m_TagString: Untagged
@@ -491,6 +492,18 @@ MonoBehaviour:
           m_StringArgument: GameScreen
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 559361719}
+        m_TargetAssemblyTypeName: SetBeatmap, Assembly-CSharp
+        m_MethodName: SetContainer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &559361717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +542,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 559361714}
   m_CullTransparentMesh: 1
+--- !u!114 &559361719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559361714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c1aeaed2e354e20aaa67884c47b1b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temp: {fileID: 11400000, guid: 492c838084bdc45c395e03257dc75b73, type: 2}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
 --- !u!1 &717593480
 GameObject:
   m_ObjectHideFlags: 0
