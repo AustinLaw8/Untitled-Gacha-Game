@@ -59,9 +59,9 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
     /**
      * Once the note is tapped, gives points and plays particles while it is being held 
      */
-    protected override void FixedUpdate()
+    protected override void Update()
     {
-        base.FixedUpdate();
+        base.Update();
         if (IsInteractable)
         {
             distanceTravelled += fallSpeed * Time.fixedDeltaTime;

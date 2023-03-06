@@ -10,7 +10,20 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public abstract class Note : MonoBehaviour
 {
-    [SerializeField] public static float fallSpeed = 2f;    
+    // Reference values
+    // Hard coding this here for reference but distance from spawn to line is 8.4
+    
+    private static float BUMP = .145f;    
+    private static float START_SCALE = .05f;
+    private static float END_SCALE = .7f;
+    private static float DISTANCE = 8.4f;
+
+    [SerializeField] public static float fallSpeed = 2f;
+    private static float fallTime;
+    private float scaleRate;
+
+    private float xSpeed;
+    private float ySpeed;
 
     // If the note is within the interactable zone
     private bool interactable;
@@ -19,18 +32,31 @@ public abstract class Note : MonoBehaviour
     // Collider of the lane (interactable zone) and the Note itself
     protected Collider2D lane;
     protected Collider2D col;
+    private int noteLane;
+
+    private float timer;
 
     protected virtual void Awake()
     {
         lane = GameObject.Find("Lane").GetComponent<Collider2D>();
         col = GetComponent<Collider2D>();
         interactable = false;
+        fallTime = DISTANCE / fallSpeed;
+        scaleRate = (END_SCALE - START_SCALE) / fallTime;
+        ySpeed = fallSpeed;
+        this.transform.localScale = new Vector3(START_SCALE, START_SCALE,START_SCALE);
     }
     
     // Drops note, and determines if it is interactable yet
-    protected virtual void FixedUpdate()
+    protected virtual void Update()
     {
-        this.transform.position -= new Vector3(0, fallSpeed * Time.fixedDeltaTime, 0);
+        timer += Time.deltaTime;
+        ySpeed = fallSpeed * (timer / (fallTime / 2));
+
+        xSpeed = ((noteLane - 3) * 1.55f) / (DISTANCE / ySpeed);
+        scaleRate = (END_SCALE - START_SCALE) / (DISTANCE / ySpeed);
+
+        Offset(Time.deltaTime);
         interactable = col.IsTouching(lane);
     }
 
@@ -42,6 +68,19 @@ public abstract class Note : MonoBehaviour
             StartCoroutine(DelayedDestroy());
             // TODO: Deal damage to player
         }
+    }
+
+    public virtual void SetLane(int lane)
+    {
+        this.noteLane = lane;
+        this.transform.position += new Vector3((noteLane - 3) * BUMP, 0, 0);
+        this.xSpeed = ((noteLane - 3) * 1.55f) / fallTime;
+    }
+
+    public void Offset(float time)
+    {
+        this.transform.position += new Vector3(xSpeed, -ySpeed, 0) * time;
+        this.transform.localScale += new Vector3(scaleRate, scaleRate, scaleRate) * time;
     }
 
     /* Helpers */

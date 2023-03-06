@@ -89,12 +89,12 @@ public class BeatManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(PlayMusicWithOffset());
-        foreach( var x in beatmap) {
-            Debug.Log($"time {x.Item1}, lane {x.Item2}");
-        }
+        // foreach( var x in beatmap) {
+        //     Debug.Log($"time {x.Item1}, lane {x.Item2}");
+        // }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         songPosition = ((float)AudioSettings.dspTime - startTime);
         songPositionInBeats = beatsPerSecond * songPosition;
@@ -121,12 +121,14 @@ public class BeatManager : MonoBehaviour
                 noteSpawned = GameObject.Instantiate(flickNote);
             }
             beatmap.Dequeue();
+            noteSpawned.transform.position = spawnLine.transform.position;
+            Note noteComp = noteSpawned.GetComponent<Note>();
+            noteComp.SetLane(lane);
             // calculate the difference in time when the note was supposed to spawn and the time now
             float diffTime = (songPosition + spawnDiff) - Mathf.Abs(pos);
-            float diffDist = (diffTime*Note.fallSpeed);
-            // push down the note a small about based on that difference in time
-            noteSpawned.transform.position -= new Vector3(0f, diffDist, 0f);
-            // noteSpawned.transform.position -= new Vector3(0f, <the amount to push>, 0f);
+            // move the note a small amount based on that difference in time
+            noteComp.Offset(diffTime);
+            // noteSpawned.transform.position -= new Vector3(0f, diffDist, 0f);
         }
 
         if (beatmap.Count == 0)
@@ -152,7 +154,6 @@ public class BeatManager : MonoBehaviour
             string[] times = lines[i].Split(',');
             foreach (string time in times)
             {
-                Debug.Log(time);
                 if (time != "")
                 {
                     float songTime = float.Parse(time);
