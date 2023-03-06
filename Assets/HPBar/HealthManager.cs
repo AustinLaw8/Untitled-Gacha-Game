@@ -15,9 +15,14 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private int lowHealth = 20;
     [SerializeField] private int medHealth = 40;
 
-    [SerializeField] private Color lowHealthColor;
-    [SerializeField] private Color medHealthColor;
-    [SerializeField] private Color highHealthColor;
+    [SerializeField] private Gradient gradient;
+    [SerializeField] private Image hpHeart;
+    [SerializeField] private Sprite highHealthHeart;
+    [SerializeField] private Sprite medHealthHeart;
+    [SerializeField] private Sprite lowHealthHeart;
+    // [SerializeField] private Color lowHealthColor;
+    // [SerializeField] private Color medHealthColor;
+    // [SerializeField] private Color highHealthColor;
     [SerializeField] private Color ded;
 
     [SerializeField] private Image hpBarBackground;
@@ -86,22 +91,36 @@ public class HealthManager : MonoBehaviour
         if(currentHealth <= 0)
         {
             hpBarBackground.color = ded;
-            health.color = lowHealthColor;
+            //
+            health.color = gradient.Evaluate(0);
+        }
+        else{
+            hpBarBackground.color = gradient.Evaluate((float)currentHealth/startingHP);
+            health.color = gradient.Evaluate(currentHealth/startingHP);
+        }       
+        if(currentHealth <= 0)
+        {
+            hpHeart.sprite = lowHealthHeart;
+            //hpBarBackground.color = ded;
+            //health.color = lowHealthColor;
         }
         else if(currentHealth <= lowHealth)
         {
-            hpBarBackground.color = lowHealthColor;
-            health.color = lowHealthColor;
+            hpHeart.sprite = lowHealthHeart;
+            // hpBarBackground.color = lowHealthColor;
+            // health.color = lowHealthColor;
         }
         else if (currentHealth <= medHealth)
         {
-            hpBarBackground.color = medHealthColor;
-            health.color = medHealthColor;
+            hpHeart.sprite = medHealthHeart;
+            // hpBarBackground.color = medHealthColor;
+            // health.color = medHealthColor;
         }
         else
         {
-            hpBarBackground.color = highHealthColor;
-            health.color = highHealthColor;
+            hpHeart.sprite = highHealthHeart;
+            // hpBarBackground.color = highHealthColor;
+            // health.color = highHealthColor;
         }
     }
 
