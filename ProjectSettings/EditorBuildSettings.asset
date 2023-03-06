@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/CreditScreen.unity
     guid: 66bdffe8a6d1ea648a7de8f7a2fb20d0
   - enabled: 1
-    path: Assets/Scenes/GatchaScreen.unity
+    path: Assets/Scenes/GachaScreen.unity
     guid: 5146535163119194aacba3b382d06594
   - enabled: 1
     path: Assets/Scenes/GameScreen.unity
