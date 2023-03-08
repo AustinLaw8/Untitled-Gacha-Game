@@ -12,22 +12,23 @@ public abstract class Note : MonoBehaviour
 {
     /* Reference Values */
     protected static float TOP_WIDTH = 1f;
-    protected static float BOTTOM_WIDTH = 11.9f;
+    protected static float BOTTOM_WIDTH = 11.7f;
     protected static int NUM_LANES = 7;
     private static float START_SCALE = .05f;
-    private static float END_SCALE = .7f;
-    private static float DISTANCE =  BeatManager.SPAWN_POINT - BeatManager.PLAY_POINT;
-    private static float TOP_DISTANCE_PER_LANE = TOP_WIDTH / NUM_LANES;
+    private static float END_SCALE = .75f;
+    protected static float DISTANCE =  BeatManager.SPAWN_POINT - BeatManager.PLAY_POINT;
+    protected static float TOP_DISTANCE_PER_LANE = TOP_WIDTH / NUM_LANES;
+    protected static float BOTTOM_DISTANCE_PER_LANE = BOTTOM_WIDTH / NUM_LANES;
     private static float TOP_TO_BOTTOM_DISTANCE_PER_LANE = (BOTTOM_WIDTH - TOP_WIDTH) / NUM_LANES;
 
     [SerializeField] public static float fallSpeed = 2f;
     protected static float FALL_TIME=DISTANCE/fallSpeed;
 
     protected int laneOffset;
-    private float scaleRate;
-    private float xSpeed;
-    private float ySpeed;
-    private float smoothing;
+    protected float scaleRate;
+    protected float xSpeed;
+    protected float ySpeed;
+    protected float smoothing;
 
 
     // If the note is within the interactable zone
@@ -35,14 +36,14 @@ public abstract class Note : MonoBehaviour
     public bool IsInteractable { get { return interactable; } } 
 
     // Collider of the lane (interactable zone) and the Note itself
-    protected Collider2D lane;
+    protected Collider2D playLine;
     protected Collider2D col;
 
-    private float timer;
+    protected float timer;
 
     protected virtual void Awake()
     {
-        lane = GameObject.Find("Lane").GetComponent<Collider2D>();
+        playLine = GameObject.Find("Lane").GetComponent<Collider2D>();
         col = GetComponent<Collider2D>();
         interactable = false;
         scaleRate = (END_SCALE - START_SCALE) / FALL_TIME;
@@ -65,15 +66,15 @@ public abstract class Note : MonoBehaviour
 
         // Modifies transforms based on x/y speed, and scaling rate
         Offset(Time.deltaTime);
-        
+
         // Checks if touching lane
-        interactable = col.IsTouching(lane);
+        interactable = col.IsTouching(playLine);
     }
 
     // If the note passes the interactable zone, destroy it
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other == lane)
+        if (other == playLine)
         {
             StartCoroutine(DelayedDestroy());
             // TODO: Deal damage to player

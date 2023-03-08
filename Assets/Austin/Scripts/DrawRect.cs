@@ -10,12 +10,12 @@ public class DrawRect : MonoBehaviour
     private MeshFilter meshFilter;
     private Mesh mesh;
 
-    private List<Vector2> points;
+    private List<(float time, int lane)> points;
     private List<Vector2> uv;
     private List<Vector3> vertices;
     private List<int> triangles;
 
-    private int pointCount;
+    private float timer;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,56 +23,80 @@ public class DrawRect : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         meshFilter = GetComponent<MeshFilter>();
         mesh = new Mesh();
-        points = new List<Vector2>();
+        points = new List<(float time, int lane)>();
+        timer = 0f;
     }
 
-    public void SetPoints(List<Vector2> newPoints)
+    void Update()
     {
-        pointCount = newPoints.Count;
-        this.points = newPoints;
+        timer += Time.deltaTime;
+
+        UpdateAll();
     }
 
     // Given a set of points, draws parallelograms connecting the points.
-    public void Draw()
+    public void Init(List<(float, int)> newPoints)
+    {
+        points = newPoints;
+        vertices = new List<Vector3>(points.Count * 2);
+        triangles = new List<int>(points.Count * 3);
+        uv = new List<Vector2>(points.Count * 2);
+        
+        UpdateAll();
+    }
+
+    private void UpdateAll()
     {
         CalculateVertices();
         CalculateTris();
         CalculateUV();
 
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-        mesh.normals = vertices.ConvertAll<Vector3>( x => -Vector3.forward ).ToArray();
-        mesh.uv = uv.ToArray();
+        if (vertices.Count >= 3)
+        {
+            mesh.vertices = vertices.ToArray();
+            mesh.triangles = triangles.ToArray();
+            mesh.normals = vertices.ConvertAll<Vector3>( x => -Vector3.forward ).ToArray();
+            mesh.uv = uv.ToArray();
 
-        meshFilter.mesh = mesh;
+            meshFilter.mesh = mesh;
+            
+            // SetCollider();
+        }
+    }
 
+    private void SetCollider()
+    {
         PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
-        shapes.AddPolygon(vertices.ConvertAll<Vector2>( x => x ));
+        shapes.AddPolygon(vertices.ConvertAll<Vector2>(x=>x));
         GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
     }
 
     private void CalculateVertices()
     {
-        vertices = new List<Vector3>(pointCount * 2);
-        for (int i = 0; i < pointCount; i++)
+        vertices.Clear();
+
+        foreach( (float time, int lane) x in points)
         {
-            vertices.Add(new Vector3(
-                points[i].x - X_OFFSET,
-                points[i].y,
-                0f
-            ));
-            vertices.Add(new Vector3(
-                points[i].x + X_OFFSET,
-                points[i].y,
-                0f
-            ));
+            if (timer - x.time >= 0)
+            {
+                float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
+                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
+                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
+            }
+            // else
+            // {
+            //     float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
+            //     vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
+            //     vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
+            //     break;
+            // }
         }
     }
 
     private void CalculateTris()
     {
-        triangles = new List<int>(pointCount * 3);
-        for (int i = 0; i < pointCount - 1; i++) {
+        triangles.Clear();
+        for (int i = 0; i < vertices.Count / 2 - 1; i++) {
             triangles.Add(i * 2);
             triangles.Add(i * 2 + 2);
             triangles.Add(i * 2 + 1);
@@ -84,8 +108,8 @@ public class DrawRect : MonoBehaviour
 
     private void CalculateUV()
     {
-        uv = new List<Vector2>(pointCount * 2);
-        for (int i = 0; i < pointCount; i++) {
+        uv.Clear();
+        for (int i = 0; i < vertices.Count / 2; i++) {
             if (i % 2 == 0)
             {
                 uv.Add(new Vector2(0, 0));

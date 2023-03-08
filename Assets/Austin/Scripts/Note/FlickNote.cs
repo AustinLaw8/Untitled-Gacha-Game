@@ -10,6 +10,10 @@ public class FlickNote : Note, IPointerDownHandler, IDragHandler
     private int pointerId;
     private Vector3 startPos;
 
+    [SerializeField] private Sprite leftLane;
+    [SerializeField] private Sprite middleLane;
+    [SerializeField] private Sprite rightLane;
+
     // On tap, records tap location
     public void OnPointerDown(PointerEventData e)
     {
@@ -24,6 +28,23 @@ public class FlickNote : Note, IPointerDownHandler, IDragHandler
             Vector3.Distance(startPos, e.pointerCurrentRaycast.worldPosition) > FLICK_THRESHOLD
         ) {
             OnNotePressed();
+        }
+    }
+
+    public override void SetLane(int lane)
+    {
+        base.SetLane(lane);
+        if (lane < 3)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = leftLane;
+        }
+        else if (lane == 3)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = middleLane;
+        }
+        else
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = rightLane;
         }
     }
 }

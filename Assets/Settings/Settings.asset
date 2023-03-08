@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa912ac87f8d9419ab3b220350b53edd, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
+  _masterVolume: 0
+  _musicVolume: 0
+  _sfxVolume: 0
+  _noteSpeed: 12
+  _noteOffset: 0
+  _transparency: 0
+  _brightness: 0
+  _showSkill: 0

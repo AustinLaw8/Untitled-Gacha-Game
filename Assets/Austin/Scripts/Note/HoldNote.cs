@@ -11,15 +11,21 @@ public class Line
 {
     private float slope;
     private float intercept;
+    private float x;
 
     public Line(Vector2 p1, Vector2 p2)
     {
         slope = (p2.y - p1.y) / (p2.x - p1.x);
+        x = p1.x;
         intercept = p1.y - slope * p1.x;
     }
 
     public float getX(float Y)
     {
+        if (!float.IsFinite(slope))
+        {
+            return x;
+        }
         return (Y - intercept) / slope;
     }
 
@@ -32,6 +38,8 @@ public class Line
 // Given the lines a hold note follows, handles the interactions of tapping, particle effects, and holding
 public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public static List<Line> LANE_LINES = new List<Line>();
+    public static List<Line> LANE_LINES_FOR_OFFSET = new List<Line>();
 
     private bool holding;
     private ParticleSystem particles;
@@ -45,15 +53,24 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
     // Current amount of distance note has travelled
     private float distanceTravelled;
 
+    private DrawRect drawer;
+
     protected override void Awake()
     {
         base.Awake();
+        if (LANE_LINES.Count == 0)
+        { 
+            SetLaneLines();
+        }
         currentLine = 0;
         holding = false;
         particles = null;
+        drawer = this.gameObject.GetComponent<DrawRect>();
+
         distanceTravelled = -.5f;
         midLines = new List<Line>();
         distances = new List<float>();
+        this.transform.localScale = Vector3.one;
     }
     
     /**
@@ -61,7 +78,6 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
      */
     protected override void Update()
     {
-        base.Update();
         if (IsInteractable)
         {
             distanceTravelled += fallSpeed * Time.fixedDeltaTime;
@@ -69,21 +85,27 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
             {
                 GiveHoldPoints();
                 if(!particles.isPlaying) particles.Play();
-                Vector3 newPos = BoundsAtCurrentY();
-                if (newPos != Vector3.zero)
-                {
-                    particles.transform.position = newPos;
-                }
-                else
-                {
-                    particles.Stop();
-                }
+                // Vector3 newPos = BoundsAtCurrentY();
+                // if (newPos != Vector3.zero)
+                // {
+                //     particles.transform.position = newPos;
+                // }
+                // else
+                // {
+                //     particles.Stop();
+                // }
             }
             else
             {
                 if (particles) particles.Stop();
             }
         }
+    }
+
+    private void GiveHoldPoints()
+    {
+        Accuracy accuracy = GetAccuracy();
+        ScoreManager.scoreManager.IncreaseScore(accuracy);
     }
 
     /**
@@ -94,7 +116,7 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
     {
         if (IsInteractable)
         {
-            if (lane.OverlapPoint(col.bounds.max))
+            if (playLine.OverlapPoint(col.bounds.max))
             {
                 Accuracy accuracy = GetAccuracy();
                 ScoreManager.scoreManager.IncreaseScore(accuracy);
@@ -118,7 +140,7 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
             {
                 particles = ParticleManager.particleManager.AttachParticlesForHold(this.transform);
             }
-            if (lane.OverlapPoint(col.bounds.min))
+            if (playLine.OverlapPoint(col.bounds.min))
             {
                 Accuracy accuracy = GetAccuracy();
                 ScoreManager.scoreManager.IncreaseScore(accuracy);
@@ -149,54 +171,89 @@ public class HoldNote : Note, IPointerUpHandler, IPointerDownHandler, IPointerEn
         holding = false;
     }
 
-    /** 
-     * Interface to set the points the hold note will connect when initialized
-     *  Calculates distances between points, lines, and calls the drawer to draw the mesh
-     */
-    public void SetPoints(List<Vector2> newPoints)
-    {
-        DrawRect drawer = GetComponent<DrawRect>();
-        drawer.SetPoints(newPoints);
-        drawer.Draw();
-        distances.Add(0);
-        for(int i = 0; i < newPoints.Count - 1; i++)
-        {
-            midLines.Add(new Line(newPoints[i], newPoints[i+1]));
-            distances.Add(newPoints[i + 1].y - newPoints[i].y + distances[i]);
-        }
-        distances.RemoveAt(0);
-    }
-
-    // Acquires the (midpoint) x position of the mesh at the given y position
-    private Vector3 BoundsAtCurrentY()
-    {
-        while (currentLine < distances.Count && distanceTravelled > distances[currentLine])
-        {
-            currentLine++;
-        }
-        if(currentLine == distances.Count)
-        {
-            return Vector3.zero;
-        }
-        else
-        {
-            return new Vector3(
-                midLines[currentLine].getX(distanceTravelled),
-                lane.transform.position.y,
-                0f
-            );
-        }
-    }
-
-    private void GiveHoldPoints()
-    {
-        Accuracy accuracy = GetAccuracy();
-        ScoreManager.scoreManager.IncreaseScore(accuracy);
-    }
-
     // Returns the particles back to the particle manager if they were acquired
     void OnDestroy()
     {
         if (particles) ParticleManager.particleManager.DetachParticlesForHold(particles);
+    }
+
+    /** 
+     * Interface to set the points the hold note will connect when initialized
+     *  Calculates distances between points, lines, and calls the drawer to draw the mesh
+     */
+    public void SetPoints(List<(float, int)> points)
+    {
+        float offset = points[0].Item1;
+        points = points.ConvertAll<(float, int)>( delegate ((float timeX, int laneX) x) {
+            return (x.timeX - offset, x.laneX);
+        });
+
+        drawer.Init(points);
+        // DrawRect drawer = GetComponent<DrawRect>();
+        // List<Vector2> newPoints = new List<Vector2>();
+
+        // newPoints.Add(new Vector2(LANE_LINES[points[0].lane].getX(5f), 5f));
+        // for (int i = 1; i < points.Count; i++)
+        // {
+        //     float timeFromLast = points[i].time - points[i-1].time;
+        //     Vector2 temp = new Vector2(LANE_LINES[points[i].lane].getX(5f), 5f + timeFromLast * Note.fallSpeed);
+        //     newPoints.Add(temp);
+        // }
+
+        // drawer.SetPoints(newPoints);
+        // drawer.Draw();
+        // distances.Add(0);
+        // for(int i = 0; i < newPoints.Count - 1; i++)
+        // {
+        //     midLines.Add(new Line(newPoints[i], newPoints[i+1]));
+        //     distances.Add(newPoints[i + 1].y - newPoints[i].y + distances[i]);
+        // }
+        // distances.RemoveAt(0);
+    }
+
+    // private void UpdatePoints()
+    // {
+    //     drawer.UpdateVertices(points.ConvertAll<Vector3>( delegate ((float time, int lane) x) {
+    //             float timeOffset = timer-x.time;
+    //             float y = BeatManager.SPAWN_POINT-timeOffset*fallSpeed;
+    //             return new Vector3(LANE_LINES_FOR_OFFSET[x.lane].getX(y), y , 0f);
+    //         }).ToArray());
+    // }
+
+    // Acquires the (midpoint) x position of the mesh at the given y position
+    // private Vector3 BoundsAtCurrentY()
+    // {
+    //     while (currentLine < distances.Count && distanceTravelled > distances[currentLine])
+    //     {
+    //         currentLine++;
+    //     }
+    //     if(currentLine == distances.Count)
+    //     {
+    //         return Vector3.zero;
+    //     }
+    //     else
+    //     {
+    //         return new Vector3(
+    //             midLines[currentLine].getX(distanceTravelled),
+    //             lane.transform.position.y,
+    //             0f
+    //         );
+    //     }
+    // }
+
+    private void SetLaneLines()
+    {
+        for (int i = 0; i < Note.NUM_LANES; i++)
+        {
+            LANE_LINES.Add(new Line(
+                new Vector2((i - Note.NUM_LANES / 2) * Note.TOP_DISTANCE_PER_LANE, BeatManager.SPAWN_POINT),
+                new Vector2((i - Note.NUM_LANES / 2) * Note.BOTTOM_DISTANCE_PER_LANE, BeatManager.PLAY_POINT)));
+            LANE_LINES_FOR_OFFSET.Add(new Line(
+                new Vector2((i - Note.NUM_LANES * 1f / 2) * Note.TOP_DISTANCE_PER_LANE, BeatManager.SPAWN_POINT),
+                new Vector2((i - Note.NUM_LANES * 1f / 2) * Note.BOTTOM_DISTANCE_PER_LANE, BeatManager.PLAY_POINT)));
+        }
+        LANE_LINES_FOR_OFFSET.Add(new Line(
+            new Vector2((8 - Note.NUM_LANES * 1f / 2) * Note.TOP_DISTANCE_PER_LANE, BeatManager.SPAWN_POINT),
+            new Vector2((8 - Note.NUM_LANES * 1f / 2) * Note.BOTTOM_DISTANCE_PER_LANE, BeatManager.PLAY_POINT)));
     }
 }

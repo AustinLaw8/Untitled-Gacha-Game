@@ -9,9 +9,10 @@ public class DebugClocker : MonoBehaviour
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject flickNote;
     [SerializeField] private GameObject holdNote;
+    [SerializeField] private Transform spawnLine;
 
     private float timer;
-    private uint counter;
+    private int counter;
 
     // Start is called before the first frame update
     void Start()
@@ -22,33 +23,40 @@ public class DebugClocker : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    {   
         timer += Time.fixedDeltaTime;
         if (timer > ONE_SECOND)
         {
             timer = 0f;
-            if (counter < 4)
+            GameObject clone;
+            if (counter < 8)
             {
-                if (counter % 4 == 0)
+                if (counter % 8 == 7)
                 {
-                    GameObject.Instantiate(flickNote);
+                    for(int i = 0; i < 7; i+=3)
+                    {
+                        clone = GameObject.Instantiate(flickNote);
+                        clone.transform.position = spawnLine.transform.position;
+                        clone.GetComponent<Note>().SetLane(i);
+                    }
                 }
                 else
                 {
-                    GameObject.Instantiate(note);
-                    GameObject note2 =  GameObject.Instantiate(note);
-                    note2.transform.position -= new Vector3(4f, 0, 0);
+                    clone = GameObject.Instantiate(note);
+                    clone.transform.position = spawnLine.transform.position;
+                    clone.GetComponent<Note>().SetLane(counter);
                 }
             }
-            else if (counter == 4)
+            else if (counter == 8)
             {
-                HoldNote note = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
-                note.SetPoints(new List<Vector2>(){
-                    new Vector2(0,0),
-                    new Vector2(4,4),
-                    new Vector2(0,8),
+                HoldNote hn = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
+                hn.SetPoints(new List<(float, int)>(){
+                    (0, 3),
+                    (3, 4),
+                    (5, 2),
                 });
             }
+            
             counter = (counter + 1) % 10;
         }
     }
