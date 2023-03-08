@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class ChangeVolume : MonoBehaviour
 {
-    [SerializeField] Slider masterSlider, musicSlider, fxSlider;
-    [SerializeField] TMPro.TMP_InputField masterInput, musicInput, fxInput;
-    public AudioMixer _MasterMixer;
-
+    [SerializeField] private SettingsSO settings;
+    [SerializeField] private Slider masterSlider, musicSlider, sfxSlider;
+    [SerializeField] private TMPro.TMP_InputField masterInput, musicInput, sfxInput;
+    [SerializeField] private AudioMixer _MasterMixer;
 
     // Start is called before the first frame update
     void Start ()
@@ -22,19 +22,19 @@ public class ChangeVolume : MonoBehaviour
         if(!PlayerPrefs.HasKey("musicVolume")) 
             PlayerPrefs.SetFloat("musicVolume", 1);
 
-        if(!PlayerPrefs.HasKey("fxVolume")) 
-            PlayerPrefs.SetFloat("fxVolume", 1);
+        if(!PlayerPrefs.HasKey("sfxVolume")) 
+            PlayerPrefs.SetFloat("sfxVolume", 1);
+        
+        settings.masterVolume = PlayerPrefs.GetFloat("masterVolume");
+        settings.musicVolume = PlayerPrefs.GetFloat("musicVolume");
+        settings.sfxVolume = PlayerPrefs.GetFloat("sfxVolume");
         
         Load();
     }
-
-
-    // Master Volume Functions
+    ///////////////////////////* Master Volume Functions *///////////////////////////
     public void masterSliderChange () 
     {
-        masterInput.text = Mathf.Round(masterSlider.value * 100.0f).ToString(); 
-        
-        Save();
+        settings.masterVolume = masterSlider.value;
         Load();
     }
 
@@ -45,21 +45,17 @@ public class ChangeVolume : MonoBehaviour
         {
             if (value > 100)
                 value = 100;
-            masterSlider.value = ((float) value) / 100;
-            
-            Save();
-            Load();
+            settings.masterVolume = value / 100f;
         }
+        Load();
     }
+    ////////////////////////////////////////////////////////////////////////////////
 
 
-
-    // Music Volume Functions
+    ///////////////////////////* Music Volume Functions */100f//////////////////////////
     public void musicSliderChange () 
     {
-        musicInput.text = Mathf.Round(musicSlider.value * 100.0f).ToString(); 
-        
-        Save();
+        settings.musicVolume = musicSlider.value;
         Load();
     }
 
@@ -70,75 +66,72 @@ public class ChangeVolume : MonoBehaviour
         {
             if (value > 100)
                 value = 100;
-            musicSlider.value = ((float) value) / 100;
-            
-            Save();
-            Load();
+            settings.musicVolume = value / 100f;
         }
+        Load();
     }
+    ////////////////////////////////////////////////////////////////////////////////
 
-
-    // Fx Volume Functions
-    public void fxSliderChange () 
-    {
-        fxInput.text = Mathf.Round(fxSlider.value * 100.0f).ToString(); 
-        
-        Save();
+    ///////////////////////////* SFX Volume Functions *///////////////////////////
+    public void sfxSliderChange () 
+    {   
+        settings.sfxVolume = sfxSlider.value;
         Load();
     }
     
-    public void fxInputChange () 
+    public void sfxInputChange () 
     {
         int value;
-        if (int.TryParse(fxInput.text, out value)) 
+        if (int.TryParse(sfxInput.text, out value)) 
         {
             if (value > 100)
                 value = 100;
-            fxSlider.value = ((float) value) / 100;
-
-            Save();
-            Load();
+            settings.sfxVolume = value / 100f;
         }
+        Load();
     }
+    ////////////////////////////////////////////////////////////////////////////////
 
 
-    // Functions for Saving 
+    // Reloads sliders and text
     private void Load ()
     {
         // Master load
-        masterSlider.value = PlayerPrefs.GetFloat("masterVolume");
-        masterInput.text = Mathf.Round(masterSlider.value * 100.0f).ToString();
+        masterSlider.value = settings.masterVolume;
+        masterInput.text = Mathf.Round(settings.masterVolume * 100.0f).ToString();
 
-        if (masterSlider.value == 0)
+        if (settings.masterVolume == 0)
             _MasterMixer.SetFloat ("master", -80f);
         else
-            _MasterMixer.SetFloat ("master", Mathf.Log10(masterSlider.value) * 20f);
+            _MasterMixer.SetFloat ("master", Mathf.Log10(settings.masterVolume) * 20f);
 
 
         // Music Load
-        musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
-        musicInput.text = Mathf.Round(musicSlider.value * 100.0f).ToString();
+        musicSlider.value = settings.musicVolume;
+        musicInput.text = Mathf.Round(settings.musicVolume * 100.0f).ToString();
 
-        if (musicSlider.value == 0)
+        if (settings.musicVolume == 0)
             _MasterMixer.SetFloat ("music", -80f);
         else
-            _MasterMixer.SetFloat ("music", Mathf.Log10(musicSlider.value) * 20f);
+            _MasterMixer.SetFloat ("music", Mathf.Log10(settings.musicVolume) * 20f);
 
 
-        // FX Load
-        fxSlider.value = PlayerPrefs.GetFloat("fxVolume");
-        fxInput.text = Mathf.Round(fxSlider.value * 100.0f).ToString();
+        // SFX Load
+        sfxSlider.value = settings.sfxVolume;
+        sfxInput.text = Mathf.Round(settings.sfxVolume * 100.0f).ToString();
 
-        if (fxSlider.value == 0)
-            _MasterMixer.SetFloat ("fx", -80f);
+        if (settings.sfxVolume == 0)
+            _MasterMixer.SetFloat ("sfx", -80f);
         else
-            _MasterMixer.SetFloat ("fx", Mathf.Log10(fxSlider.value) * 20f);
+            _MasterMixer.SetFloat ("sfx", Mathf.Log10(settings.sfxVolume) * 20f);
+
+        Save();
     }
 
     private void Save ()
     {
-        PlayerPrefs.SetFloat("masterVolume", masterSlider.value);
-        PlayerPrefs.SetFloat("musicVolume", musicSlider.value);
-        PlayerPrefs.SetFloat("fxVolume", fxSlider.value);
+        PlayerPrefs.SetFloat("masterVolume", settings.masterVolume);
+        PlayerPrefs.SetFloat("musicVolume", settings.musicVolume);
+        PlayerPrefs.SetFloat("sfxVolume", settings.sfxVolume);
     }
 }

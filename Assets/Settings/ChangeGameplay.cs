@@ -6,17 +6,18 @@ using UnityEngine.UI;
 
 public class ChangeGameplay : MonoBehaviour
 {
-    [SerializeField] TMPro.TMP_InputField speedInput, offsetInput, transparentInput, brightInput;
-    [SerializeField] Toggle showSkills;
+    [SerializeField] private SettingsSO settings;
+    [SerializeField] private TMPro.TMP_InputField speedInput, offsetInput, transparentInput, brightInput;
+    [SerializeField] private Toggle showSkills;
 
     // Start is called before the first frame update
     void Start()
     {
         if(!PlayerPrefs.HasKey("noteSpeed")) 
-            PlayerPrefs.SetInt("noteSpeed", 5);
+            PlayerPrefs.SetFloat("noteSpeed", 5f);
 
         if(!PlayerPrefs.HasKey("noteOffset")) 
-            PlayerPrefs.SetInt("noteOffset", 5);
+            PlayerPrefs.SetFloat("noteOffset", 5f);
 
         if(!PlayerPrefs.HasKey("transparency")) 
             PlayerPrefs.SetFloat("transparency", 1f);
@@ -25,83 +26,86 @@ public class ChangeGameplay : MonoBehaviour
             PlayerPrefs.SetFloat("brightness", 1f);
 
         if(!PlayerPrefs.HasKey("showSkill")) 
-            PlayerPrefs.SetString("showSkill", "true");
+            PlayerPrefs.SetInt("showSkill", 1);
+
+        settings.noteSpeed = PlayerPrefs.GetFloat("noteSpeed");
+        settings.noteOffset = PlayerPrefs.GetFloat("noteOffset");
+        settings.transparency = PlayerPrefs.GetFloat("transparency");
+        settings.brightness = PlayerPrefs.GetFloat("brightness");
+        settings.showSkill = PlayerPrefs.GetInt("showSkill") == 1;
 
         Load();
     }
 
     public void speedChange()
     {
-        int value;
-        if (int.TryParse(speedInput.text, out value)) 
+        float value;
+        if (float.TryParse(speedInput.text, out value)) 
         {
-            PlayerPrefs.SetInt("noteSpeed", value);
-            Load();
+            settings.noteSpeed = value;
         }
+        Load();
     }
 
     public void offsetChange()
     {
-        int value;
-        if (int.TryParse(offsetInput.text, out value)) 
+        float value;
+        if (float.TryParse(offsetInput.text, out value)) 
         {
-            PlayerPrefs.SetInt("noteOffset", value);
-            Load();
+            settings.noteOffset = value;
         }
+        Load();
     }
     
-    //probably should add slider
     public void transparentChange()
     {
-        int result;
-        if (int.TryParse(transparentInput.text, out result)) 
+        float value;
+        if (float.TryParse(transparentInput.text, out value)) 
         {
-            if (result > 100)
-                result = 100;
-            float value = ((float) result) / 100;
-
-            PlayerPrefs.SetFloat("transparency", value);
-            Load();
+            if (value > 100)
+                value = 100;
+            settings.transparency = value / 100f;
         }
+        Load();
     }
     
     public void brightnessChange()
     {
-        int result;
-        if (int.TryParse(brightInput.text, out result)) 
+        float value;
+        if (float.TryParse(brightInput.text, out value)) 
         {
-            if (result > 100)
-                result = 100;
-            float value = ((float) result) / 100;
-
-            PlayerPrefs.SetFloat("brightness", value);
-            Load();
+            if (value > 100)
+                value = 100;
+            settings.brightness = value / 100f;
         }
+        Load();
     }
 
     public void showSkill() 
     {
-        if(showSkills.isOn)
-            PlayerPrefs.SetString("showSkill", "true");
-        else 
-            PlayerPrefs.SetString("showSkill", "false");
-
+        settings.showSkill = showSkills.isOn;
         Load();
     }
 
     private void Load()
     {
-        speedInput.text = PlayerPrefs.GetInt("noteSpeed").ToString();
-        offsetInput.text = PlayerPrefs.GetInt("noteOffset").ToString();
+        speedInput.text = settings.noteSpeed.ToString("0.0");
+        offsetInput.text = settings.noteOffset.ToString("0.0");
         
-        transparentInput.text = Mathf.Round(PlayerPrefs.GetFloat("transparency") * 100f).ToString();
-        brightInput.text = Mathf.Round(PlayerPrefs.GetFloat("brightness") * 100f).ToString();
-        
-        bool prefOn = true;
-        if (PlayerPrefs.GetString("showSkill") == "false")
-            prefOn = false; 
+        transparentInput.text = Mathf.Round(settings.transparency * 100f).ToString();
+        brightInput.text = Mathf.Round(settings.brightness * 100f).ToString();
 
-        if (prefOn != showSkills.isOn)
-            showSkills.isOn = prefOn;
+        showSkills.isOn = settings.showSkill;
+
+        Save();
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetFloat("noteSpeed", settings.noteSpeed);
+        PlayerPrefs.SetFloat("noteOffset", settings.noteOffset);
+        PlayerPrefs.SetFloat("transparency", settings.transparency);
+        PlayerPrefs.SetFloat("brightness", settings.brightness);
+        PlayerPrefs.SetInt("showSkill", settings.showSkill ? 1 : 0);
     }
 }
