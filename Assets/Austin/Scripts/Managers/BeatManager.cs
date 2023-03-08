@@ -15,15 +15,17 @@ public class BeatManager : MonoBehaviour
 {
     public readonly static float SPAWN_POINT = 5f;
     public readonly static float PLAY_POINT = -3.4f;
+
+    private static float WAIT_TIME = 5f;
     
     /* Predetermined, based on the song and the created beatmap */
     [Header("Song Information")]
 
-    [Tooltip("The offset, in beats, until song starts")]
-    [SerializeField] private float songStartOffset;
-    
     [Tooltip("Container BeatmapSO so BeatManager knows what song to play and load")]
     [SerializeField] private BeatmapSO container;
+    
+    [Tooltip("Container SettingsSO")]
+    [SerializeField] private SettingsSO settings;
 
     [Header("Environment Objects")]
     [SerializeField] private GameObject note;
@@ -33,76 +35,42 @@ public class BeatManager : MonoBehaviour
     [SerializeField] private Transform spawnLine;
     [SerializeField] private Transform playLine;
 
-    /* Calculated once when game Controller loads */
-    [Header("Debug Fields, Do Not Manually Edit")]
-    [Tooltip("The song BPM")]
-    [SerializeField] private float bpm;
-    [Tooltip("Time to when the song will start, including offset")]
-    [SerializeField] private float startTime;
-    [Tooltip("Time to end of song, in seconds, not including any offset")]
-    [SerializeField] private float endTime;
-    [Tooltip("BPM / 60")]
-    [SerializeField] private float beatsPerSecond;
-    [Tooltip("1 / BPS (or equivalently, 60 / BPM")]
-    [SerializeField] private float secondsPerBeat;
-    [Tooltip("Offset in seconds until song starts (simply converted from songStartOffset")]
-    [SerializeField] private float songStartOffsetInSeconds;
-
     /* Calculated every Update() */
     [Tooltip("Song position in seconds")]
     [SerializeField] private float songPosition;
-    [Tooltip("Song position in beats")]
-    [SerializeField] private float songPositionInBeats;
 
-    // A beatmap is a queue of times notes are meant to exist (i.e. there should be a note to press at 2.2 seconds)
-    // static (float, int)[] exampleNotes = {(1f,0), (2f,0), (3f,0), (4f,0), (5f,0), (6f,0), (7f,0), (8f,0), (9f,0), (10f,0)};
+    private float startTime;
 
+    // A beatmap is represented a queue of (time, lane) notes are meant to exist
+    // i.e. (2.2, 3) means that there should be a note to press at 2.2 seconds in lane 3
     private Queue<(float, int)> beatmap = new Queue<(float, int)>();
+
+    // Hold notes are represented in a similar way, as a queue of List<(time, lane)> notes 
+    // The List reflects the pivot points of the hold note
+    // i.e. (2.2, 3), (3.3, 5) means that there should be a note to press at 2.2 seconds and held until 3.3 seconds in lane 5
     private Queue<List<(float, int)>> holdNotes = new Queue<List<(float, int)>>();
 
     private float spawnDiff;
     void Awake()
     {
-        /** TODO:
-         *
-         * Create a BeatmapController that loads beatmap from memory and loads it into controller
-         * It will probably set the bpm too 
-         */
+        LoadSong();
 
-
-        bpm = container.bpm;
-        if (bpm == 0)
-        {
-            Debug.LogError("Give BPM a value or else you will infinite loop");
-            Destroy(this.gameObject);
-        }
-
-        beatsPerSecond = bpm / 60;
-        secondsPerBeat = 1 / beatsPerSecond;
-        songStartOffsetInSeconds = songStartOffset * secondsPerBeat;
-
-        startTime = (float)AudioSettings.dspTime + songStartOffsetInSeconds;
-        endTime += songStartOffset * secondsPerBeat;
+        Note.fallSpeed = settings.noteSpeed;
+        
+        startTime = (float)AudioSettings.dspTime + WAIT_TIME;
 
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
-        songPosition = 0;
-        LoadSong();
     }
 
     void Start()
     {
         StartCoroutine(PlayMusicWithOffset());
-        // foreach( var x in beatmap) {
-        //     Debug.Log($"time {x.Item1}, lane {x.Item2}");
-        // }
     }
 
     void Update()
     {
         songPosition = ((float)AudioSettings.dspTime - startTime);
-        songPositionInBeats = beatsPerSecond * songPosition;
 
-        // songPosition += Time.fixedDeltaTime;
         float pos;
         int lane;
         GameObject noteSpawned;
@@ -144,12 +112,14 @@ public class BeatManager : MonoBehaviour
     // Adds the offset to the song (to wait for the beat map to start)
     IEnumerator PlayMusicWithOffset()
     {
-        yield return new WaitForSeconds(songStartOffsetInSeconds);
-        // start playing song
+        yield return new WaitForSeconds(WAIT_TIME);
+        // FIXME: start playing song
     }
     
+    // Helper to load whatever song is in the BeatmapSO container
     void LoadSong()
     {
+        // Parses the first seven lines of the beatmap, which contains information for the lanes
         List<(float, int)> temp = new List<(float, int)>();
         string[] lines = container.mapData.text.Split('\n');
         for (int i = 0; i < 7; i++)
@@ -164,15 +134,19 @@ public class BeatManager : MonoBehaviour
                 }
             }
         }
+        // Sorts the beatmap by so that the Queue assumption is valid
         temp.Sort( delegate ( (float, int) x, (float, int) y )
         {
             if (x.Item1 < y.Item1) return -1;
             else return 1;
         });
+        // Sets beatmap
         foreach (var x in temp)
         {
             beatmap.Enqueue(x);
         }
+
+        // Parses the rest of the beatmap to retrieve holdNotes
         for (int i = 7; i < lines.Length; i++)
         {
             temp = new List<(float, int)>();
