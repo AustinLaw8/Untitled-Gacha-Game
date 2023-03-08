@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScreen.unity
     guid: a45e8c708979e4841b39a99078861b56
   - enabled: 1
-    path: Assets/Scenes/SettingsScreen.unity
+    path: Assets/Settings/SettingsScreen.unity
     guid: 74ffc6d2b066de5489bc9a4730216215
   - enabled: 1
     path: Assets/Scenes/SongScreen.unity
