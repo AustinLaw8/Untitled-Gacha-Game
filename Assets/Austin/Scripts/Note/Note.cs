@@ -10,20 +10,25 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public abstract class Note : MonoBehaviour
 {
-    // Reference values
-    // Hard coding this here for reference but distance from spawn to line is 8.4
-    
-    private static float BUMP = .145f;    
+    /* Reference Values */
+    protected static float TOP_WIDTH = 1f;
+    protected static float BOTTOM_WIDTH = 11.9f;
+    protected static int NUM_LANES = 7;
     private static float START_SCALE = .05f;
     private static float END_SCALE = .7f;
-    private static float DISTANCE = 8.4f;
+    private static float DISTANCE =  BeatManager.SPAWN_POINT - BeatManager.PLAY_POINT;
+    private static float TOP_DISTANCE_PER_LANE = TOP_WIDTH / NUM_LANES;
+    private static float TOP_TO_BOTTOM_DISTANCE_PER_LANE = (BOTTOM_WIDTH - TOP_WIDTH) / NUM_LANES;
 
     [SerializeField] public static float fallSpeed = 2f;
-    private static float fallTime;
-    private float scaleRate;
+    protected static float FALL_TIME=DISTANCE/fallSpeed;
 
+    protected int laneOffset;
+    private float scaleRate;
     private float xSpeed;
     private float ySpeed;
+    private float smoothing;
+
 
     // If the note is within the interactable zone
     private bool interactable;
@@ -32,7 +37,6 @@ public abstract class Note : MonoBehaviour
     // Collider of the lane (interactable zone) and the Note itself
     protected Collider2D lane;
     protected Collider2D col;
-    private int noteLane;
 
     private float timer;
 
@@ -41,8 +45,7 @@ public abstract class Note : MonoBehaviour
         lane = GameObject.Find("Lane").GetComponent<Collider2D>();
         col = GetComponent<Collider2D>();
         interactable = false;
-        fallTime = DISTANCE / fallSpeed;
-        scaleRate = (END_SCALE - START_SCALE) / fallTime;
+        scaleRate = (END_SCALE - START_SCALE) / FALL_TIME;
         ySpeed = fallSpeed;
         this.transform.localScale = new Vector3(START_SCALE, START_SCALE,START_SCALE);
     }
@@ -51,12 +54,19 @@ public abstract class Note : MonoBehaviour
     protected virtual void Update()
     {
         timer += Time.deltaTime;
-        ySpeed = fallSpeed * (timer / (fallTime / 2));
 
-        xSpeed = ((noteLane - 3) * 1.55f) / (DISTANCE / ySpeed);
-        scaleRate = (END_SCALE - START_SCALE) / (DISTANCE / ySpeed);
+        // Calculates smoothing based on time spent falling
+        smoothing = DISTANCE * FALL_TIME / (fallSpeed * 2 * timer);
 
+        // Calculates ySpeed, xSpeed, and scalingRate based on smoothing
+        ySpeed = DISTANCE / smoothing;
+        xSpeed = (laneOffset * TOP_TO_BOTTOM_DISTANCE_PER_LANE) / smoothing;
+        scaleRate = (END_SCALE - START_SCALE) / smoothing;
+
+        // Modifies transforms based on x/y speed, and scaling rate
         Offset(Time.deltaTime);
+        
+        // Checks if touching lane
         interactable = col.IsTouching(lane);
     }
 
@@ -72,9 +82,9 @@ public abstract class Note : MonoBehaviour
 
     public virtual void SetLane(int lane)
     {
-        this.noteLane = lane;
-        this.transform.position += new Vector3((noteLane - 3) * BUMP, 0, 0);
-        this.xSpeed = ((noteLane - 3) * 1.55f) / fallTime;
+        laneOffset = (lane - NUM_LANES / 2);
+        this.transform.position += new Vector3(laneOffset * TOP_DISTANCE_PER_LANE, 0, 0);
+        xSpeed = (laneOffset * TOP_TO_BOTTOM_DISTANCE_PER_LANE) / FALL_TIME;
     }
 
     public void Offset(float time)

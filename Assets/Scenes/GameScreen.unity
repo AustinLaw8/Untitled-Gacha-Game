@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187793652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: -3.4, z: 0.08411511}
+  m_LocalPosition: {x: 5.95, y: -3.418, z: 0.08411511}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -323,6 +323,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
     - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: spawnLine
       value: 
       objectReference: {fileID: 388919031}
@@ -330,6 +334,14 @@ PrefabInstance:
       propertyPath: songStartOffset
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1536787873281861811, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1536787873281861811, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: spawnLine
+      value: 
+      objectReference: {fileID: 388919031}
     - target: {fileID: 1536787873329030460, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: scoreText
       value: 

@@ -13,6 +13,9 @@ public class NotePressedEvent : UnityEvent
 
 public class BeatManager : MonoBehaviour
 {
+    public readonly static float SPAWN_POINT = 5f;
+    public readonly static float PLAY_POINT = -3.4f;
+    
     /* Predetermined, based on the song and the created beatmap */
     [Header("Song Information")]
 
