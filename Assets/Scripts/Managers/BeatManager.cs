@@ -54,9 +54,11 @@ public class BeatManager : MonoBehaviour
     {
         LoadSong();
 
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
+        
         Note.fallSpeed = settings.noteSpeed;
         settings.SetVolume();
-        
+
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
 
     }
@@ -145,7 +147,7 @@ public class BeatManager : MonoBehaviour
         // Sorts the beatmap by so that the Queue assumption is valid
         temp.Sort( delegate ( (float, int) x, (float, int) y )
         {
-            if (x.Item1 < y.Item1) return -1;
+            if (Mathf.Abs(x.Item1) < Mathf.Abs(y.Item1)) return -1;
             else return 1;
         });
         // Sets beatmap
