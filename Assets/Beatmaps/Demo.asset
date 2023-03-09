@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   songName: 
   mapData: {fileID: 4900000, guid: 245de34df3f694113aefd730b8409333, type: 3}
-  song: {fileID: 8300000, guid: 6a3a570fc2be34bdd96cb3749efedf62, type: 3}
-  bpm: 145
+  clip: {fileID: 8300000, guid: 6a3a570fc2be34bdd96cb3749efedf62, type: 3}
   artist: Austin Burkett

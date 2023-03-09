@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public enum Accuracy
@@ -19,10 +20,25 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager scoreManager { get; private set;  }
 
+    private static float BREAKPOINT_C=10f;
+    private static float BREAKPOINT_B=200f;
+    private static float BREAKPOINT_A=400f;
+    private static float BREAKPOINT_S=9000f;
+
     private float score;
     private int combo;
     private int mapBaseScore=1;
-    [SerializeField] private TMP_Text scoreText;
+    
+    [SerializeField] private Slider slider;
+    [SerializeField] private Image fill;
+    [SerializeField] private Gradient gradient;
+    [SerializeField] private Image letter;
+
+    [SerializeField] private Sprite S;
+    [SerializeField] private Sprite A;
+    [SerializeField] private Sprite B;
+    [SerializeField] private Sprite C;
+    [SerializeField] private Sprite D;
 
     void Awake()
     {
@@ -42,11 +58,6 @@ public class ScoreManager : MonoBehaviour
         combo = 0;
     }
 
-    void Update()
-    {
-        scoreText.text = $"Score: {score}";
-    }
-
     public void IncreaseScore(Accuracy accuracy)
     {
         float accuracyMultiplier = GetAccuracyMultiplierAndUpdateCombo(accuracy);
@@ -60,9 +71,35 @@ public class ScoreManager : MonoBehaviour
         // TODO: conduct full score calcs
         int deltaScore = (int)Mathf.Ceil(baseScore * comboMultiplier * accuracyMultiplier);
 
-        score += deltaScore;
+        UpdateScore(deltaScore);
     }
 
+    private void UpdateScore(float deltaScore)
+    {
+        score += deltaScore;
+        if (score <= BREAKPOINT_C)
+        {
+            letter.sprite = D;
+        }
+        else if (score <= BREAKPOINT_B)
+        {
+            letter.sprite = C;
+        }
+        else if (score <= BREAKPOINT_A)
+        {
+            letter.sprite = B;
+        }
+        else if (score <= BREAKPOINT_S)
+        {
+            letter.sprite = A;
+        }
+        else
+        {
+            letter.sprite = S;
+        }
+        slider.value = score/BREAKPOINT_S;
+        fill.color = gradient.Evaluate(1-slider.value);
+    }
     // Updates combo based on accuracy
     // Returns the score multiplier for a given accuracy
     private float GetAccuracyMultiplierAndUpdateCombo(Accuracy accuracy)

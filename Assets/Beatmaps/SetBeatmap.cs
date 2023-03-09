@@ -11,8 +11,7 @@ public class SetBeatmap : MonoBehaviour
     {
         container.songName = temp.songName;
         container.mapData = temp.mapData;
-        container.song = temp.song;
-        container.bpm = temp.bpm;
+        container.clip = temp.clip;
         container.artist = temp.artist;
     }
 }

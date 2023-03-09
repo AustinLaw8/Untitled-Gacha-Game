@@ -18,16 +18,15 @@ public class BeatManager : MonoBehaviour
 
     private static float WAIT_TIME = 5f;
     
-    /* Predetermined, based on the song and the created beatmap */
-    [Header("Song Information")]
-
+    [Header("Game Information")]
     [Tooltip("Container BeatmapSO so BeatManager knows what song to play and load")]
     [SerializeField] private BeatmapSO container;
-    
     [Tooltip("Container SettingsSO")]
     [SerializeField] private SettingsSO settings;
 
     [Header("Environment Objects")]
+    [SerializeField] private AudioSource musicSource;
+
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject flickNote;
     [SerializeField] private GameObject holdNote;
@@ -56,7 +55,8 @@ public class BeatManager : MonoBehaviour
         LoadSong();
 
         Note.fallSpeed = settings.noteSpeed;
-        
+        settings.SetVolume();
+
         startTime = (float)AudioSettings.dspTime + WAIT_TIME;
 
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
@@ -64,6 +64,7 @@ public class BeatManager : MonoBehaviour
 
     void Start()
     {
+        musicSource.clip = container.clip;
         StartCoroutine(PlayMusicWithOffset());
     }
 
@@ -113,7 +114,8 @@ public class BeatManager : MonoBehaviour
     IEnumerator PlayMusicWithOffset()
     {
         yield return new WaitForSeconds(WAIT_TIME);
-        // FIXME: start playing song
+        Debug.Log("playing");
+        musicSource.Play();
     }
     
     // Helper to load whatever song is in the BeatmapSO container
