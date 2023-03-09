@@ -21,6 +21,13 @@ public abstract class Note : MonoBehaviour
     protected static float BOTTOM_DISTANCE_PER_LANE = BOTTOM_WIDTH / NUM_LANES;
     private static float TOP_TO_BOTTOM_DISTANCE_PER_LANE = (BOTTOM_WIDTH - TOP_WIDTH) / NUM_LANES;
 
+    // TODO: Figure out these values
+    private static List<float> ACCURACY_BREAK_POINTS = new List<float>(){
+        .25f, // Perfect
+        .5f, // Great
+        .7f, // Good
+    };
+
     [SerializeField] public static float fallSpeed = 2f;
 
     protected float fallTime;
@@ -40,6 +47,8 @@ public abstract class Note : MonoBehaviour
     protected Collider2D col;
 
     protected float timer;
+
+    private bool clicked;
 
     protected virtual void Awake()
     {
@@ -75,10 +84,10 @@ public abstract class Note : MonoBehaviour
     // If the note passes the interactable zone, destroy it
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other == playLine)
+        if (other == playLine && !clicked)
         {
             StartCoroutine(DelayedDestroy());
-            // TODO: Deal damage to player
+            HealthManager.healthManager.DecreaseHealth(HealthManager.MISS_NOTE_AMOUNT);
         }
     }
 
@@ -107,6 +116,7 @@ public abstract class Note : MonoBehaviour
     {
         if (interactable)
         {
+            clicked = true;
             ParticleManager.particleManager.EmitParticlesOnPress(this.transform.position);
             Accuracy accuracy = GetAccuracy();
             ScoreManager.scoreManager.IncreaseScore(accuracy);
@@ -114,10 +124,25 @@ public abstract class Note : MonoBehaviour
         }
     }
 
-    // TODO: Calculate accuracy based on distance from fall line/time difference between press and intended
     protected Accuracy GetAccuracy()
     {
-        return Accuracy.Great;
+        float timeFromLine = Mathf.Abs(this.transform.position.y - BeatManager.PLAY_POINT) / fallSpeed;
+        int acc = ACCURACY_BREAK_POINTS.BinarySearch(timeFromLine);
+        if (acc < 0)
+            acc = ~acc;
+        switch(acc)
+        {
+            case 0:
+                return Accuracy.Perfect;
+            case 1:
+                return Accuracy.Great;
+            case 2:
+                return Accuracy.Good;
+            case 3:
+            default:
+                HealthManager.healthManager.DecreaseHealth(HealthManager.BAD_NOTE_AMOUNT);
+                return Accuracy.Bad;
+        }
     }
 
     private IEnumerator DelayedDestroy()
