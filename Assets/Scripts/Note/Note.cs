@@ -22,8 +22,8 @@ public abstract class Note : MonoBehaviour
     private static float TOP_TO_BOTTOM_DISTANCE_PER_LANE = (BOTTOM_WIDTH - TOP_WIDTH) / NUM_LANES;
 
     [SerializeField] public static float fallSpeed = 2f;
-    protected static float FALL_TIME=DISTANCE/fallSpeed;
 
+    protected float fallTime;
     protected int laneOffset;
     protected float scaleRate;
     protected float xSpeed;
@@ -46,7 +46,8 @@ public abstract class Note : MonoBehaviour
         playLine = GameObject.Find("Lane").GetComponent<Collider2D>();
         col = GetComponent<Collider2D>();
         interactable = false;
-        scaleRate = (END_SCALE - START_SCALE) / FALL_TIME;
+        fallTime = DISTANCE / fallSpeed;
+        scaleRate = (END_SCALE - START_SCALE) / fallTime;
         ySpeed = fallSpeed;
         this.transform.localScale = new Vector3(START_SCALE, START_SCALE,START_SCALE);
     }
@@ -57,7 +58,7 @@ public abstract class Note : MonoBehaviour
         timer += Time.deltaTime;
 
         // Calculates smoothing based on time spent falling
-        smoothing = DISTANCE * FALL_TIME / (fallSpeed * 2 * timer);
+        smoothing = DISTANCE * fallTime / (fallSpeed * 2 * timer);
 
         // Calculates ySpeed, xSpeed, and scalingRate based on smoothing
         ySpeed = DISTANCE / smoothing;
@@ -85,7 +86,7 @@ public abstract class Note : MonoBehaviour
     {
         laneOffset = (lane - NUM_LANES / 2);
         this.transform.position += new Vector3(laneOffset * TOP_DISTANCE_PER_LANE, 0, 0);
-        xSpeed = (laneOffset * TOP_TO_BOTTOM_DISTANCE_PER_LANE) / FALL_TIME;
+        xSpeed = (laneOffset * TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime;
     }
 
     public void Offset(float time)

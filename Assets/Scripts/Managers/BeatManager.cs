@@ -56,14 +56,15 @@ public class BeatManager : MonoBehaviour
 
         Note.fallSpeed = settings.noteSpeed;
         settings.SetVolume();
-
-        startTime = (float)AudioSettings.dspTime + WAIT_TIME;
-
+        
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
+
     }
 
     void Start()
     {
+        startTime = (float)AudioSettings.dspTime + WAIT_TIME;
+
         musicSource.clip = container.clip;
         StartCoroutine(PlayMusicWithOffset());
     }
@@ -103,7 +104,7 @@ public class BeatManager : MonoBehaviour
             // noteSpawned.transform.position -= new Vector3(0f, diffDist, 0f);
         }
 
-        if (beatmap.Count == 0)
+        if (beatmap.Count == 0 && !musicSource.isPlaying)
         {
             StartCoroutine(EndGameWithOffset());
         }
@@ -113,7 +114,6 @@ public class BeatManager : MonoBehaviour
     IEnumerator PlayMusicWithOffset()
     {
         yield return new WaitForSeconds(WAIT_TIME);
-        Debug.Log("playing");
         musicSource.Play();
     }
 

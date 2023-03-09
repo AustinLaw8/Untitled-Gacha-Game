@@ -127,6 +127,6 @@ public class HealthManager : MonoBehaviour
     private void EndGame()
     {
         // TODO: do something about dying
-        Debug.Log("u died");
+        // Debug.Log("u died");
     }
 }

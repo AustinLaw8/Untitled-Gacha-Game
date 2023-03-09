@@ -83,13 +83,13 @@ public class DrawRect : MonoBehaviour
                 vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
                 vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
             }
-            // else
-            // {
-            //     float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
-            //     vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
-            //     vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
-            //     break;
-            // }
+            else
+            {
+                float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
+                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(5f), y, -1f) );
+                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f), y, -1f) );
+                break;
+            }
         }
     }
 

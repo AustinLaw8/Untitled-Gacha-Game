@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4009924112487508808}
   - component: {fileID: 6680711622552916906}
-  - component: {fileID: 5894421683890897480}
+  - component: {fileID: 8164480099733290853}
   - component: {fileID: 6503741706893999705}
   m_Layer: 0
   m_Name: Flick Note
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72af0358aec874c199a084b011200420, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &5894421683890897480
-CircleCollider2D:
+--- !u!70 &8164480099733290853
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -99,9 +99,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Offset: {x: -0.025647402, y: 0.2704034}
+  m_Size: {x: 2.4196978, y: 2.8817296}
+  m_Direction: 0
 --- !u!114 &6503741706893999705
 MonoBehaviour:
   m_ObjectHideFlags: 0
