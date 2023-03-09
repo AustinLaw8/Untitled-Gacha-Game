@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
     private static float BREAKPOINT_C=10f;
     private static float BREAKPOINT_B=200f;
     private static float BREAKPOINT_A=400f;
-    private static float BREAKPOINT_S=9000f;
+    private static float BREAKPOINT_S=1000f;
 
     private float score;
     private int combo;

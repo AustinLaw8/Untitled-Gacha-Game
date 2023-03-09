@@ -105,8 +105,7 @@ public class BeatManager : MonoBehaviour
 
         if (beatmap.Count == 0)
         {
-            // Debug.Log("end game");
-            // SceneManager.LoadScene("GachaScene", LoadSceneMode.Single);
+            StartCoroutine(EndGameWithOffset());
         }
     }
 
@@ -117,6 +116,13 @@ public class BeatManager : MonoBehaviour
         Debug.Log("playing");
         musicSource.Play();
     }
+
+    IEnumerator EndGameWithOffset()
+    {
+        yield return new WaitForSeconds(WAIT_TIME);
+        SceneManager.LoadScene("HomeScreen", LoadSceneMode.Single);
+    }
+
     
     // Helper to load whatever song is in the BeatmapSO container
     void LoadSong()
