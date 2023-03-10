@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DrawRect : MonoBehaviour
 {
-    private static float X_OFFSET=.5f;
-
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
     private Mesh mesh;
@@ -80,14 +78,14 @@ public class DrawRect : MonoBehaviour
             if (timer - x.time >= 0)
             {
                 float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
-                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
-                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
+                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
+                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
             }
             else
             {
                 float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
-                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane].getX(5f), y, -1f) );
-                vertices.Add( new Vector3(HoldNote.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f), y, -1f) );
+                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(5f), y, -1f) );
+                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f), y, -1f) );
                 break;
             }
         }
