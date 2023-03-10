@@ -4,6 +4,38 @@ using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.EventSystems;
 
+/**
+ * Stores the slope intercept form of a line
+ * Exists to calculate the midpoint X value of a given note at any Y point
+ */
+public class Line
+{
+    private float slope;
+    private float intercept;
+    private float x;
+
+    public Line(Vector2 p1, Vector2 p2)
+    {
+        slope = (p2.y - p1.y) / (p2.x - p1.x);
+        x = p1.x;
+        intercept = p1.y - slope * p1.x;
+    }
+
+    public float getX(float Y)
+    {
+        if (!float.IsFinite(slope))
+        {
+            return x;
+        }
+        return (Y - intercept) / slope;
+    }
+
+    public override string ToString()
+    {
+        return $"slope: {slope}, intercept: {intercept}";
+    }
+}
+
 [RequireComponent(typeof(Collider2D))]
 public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
@@ -32,6 +64,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     void Start()
     {
+        Vibration.Init();
         // Physics2D.queriesHitTriggers = true;
         // EnhancedTouchSupport.Enable();
         if (LANE_LOCATIONS.Count == 0)
@@ -49,10 +82,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     void OnTriggerEnter2D(Collider2D other)
     {
         Note note = other.gameObject.GetComponent<Note>();
-        if (note.isFlick)
-        {
-            Debug.Log(note.lane);
-        }
         notes[note.lane].Enqueue(note);
     }
     
@@ -64,46 +93,39 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
          *  1) Player pressed it. In this case, then, the note should be destroyed, and OnTriggerExit should not be called since the object never left the trigger (cant leave the trigger if its destroyed)
          *  2) Player missed it. Then, `notes` never got dequeued since the original enqueue so `notes` cannot be empty
          */
-
         if (!(other == null || other.gameObject == null))
         {
-            Note temp;
-            if (other.gameObject.GetComponent<Note>() == notes[other.gameObject.GetComponent<Note>().lane].TryPeek(out temp))
+            if (!(other.gameObject.GetComponent<Note>().hit))
             {
-                notes[other.gameObject.GetComponent<Note>().lane].Dequeue();
                 HealthManager.healthManager.DecreaseHealth(HealthManager.MISS_NOTE_AMOUNT);
                 StartCoroutine(DelayedDestroy(other.gameObject));
             }
+            notes[other.gameObject.GetComponent<Note>().lane].Dequeue();
         }
     }
 
-    /**
-     * Leverages the Unity builtin OnPointerDown event to handle tap notes
-     * Since tap notes only require a single tap, we can use OnPointerDown  to track that happening.
-     */
+    // Leverages the Unity builtin OnPointerDown event to handle tap notes
     public void OnPointerDown(PointerEventData e)
     {
         int lane = GetLane(e);
         Note note;
-        if (notes[lane].TryPeek(out note))
+        if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
         {  
             if (!note.isFlick)
             {
-                notes[lane].Dequeue();
                 OnNotePressed(note);
             }
         }
     }
 
+    // Leverages the Unity builtin OnDrag event to handle flick notes
+    //  and also tap notes, but that should never happen
     public void OnDrag(PointerEventData e)
     {
         int lane = GetLane(e.pointerPressRaycast.worldPosition.x);
         Note note;
-        Debug.Log($"drag at {lane}");
-        if (notes[lane].TryPeek(out note))
+        if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
         {  
-            Debug.Log("dragging bruh");
-            notes[lane].Dequeue();
             OnNotePressed(note);
         }
     }
@@ -122,11 +144,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
         return (~LANE_LOCATIONS.BinarySearch(x)) - 1;
     }
 
-    /*
-     * Although detection for each note type has to be unique, once we know a note has been pressed,
-     * the score, health, and combo calcs should be the same irrespective of the note type
-     * ... although that isn't necessarily set in stone.
-     */
     // Gets accuracy, tells ScoreManager to increase the score, and destroys the pressed Note.
     public void OnNotePressed(Note note)
     {
@@ -135,6 +152,8 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
         );
         Accuracy accuracy = GetAccuracy(note);
         ScoreManager.scoreManager.IncreaseScore(accuracy);
+        Vibration.VibratePeek();
+        note.hit = true;
         Destroy(note.gameObject);
     }
 

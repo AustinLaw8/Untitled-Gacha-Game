@@ -29,13 +29,16 @@ public class Note : MonoBehaviour
     private float smoothing;
 
     public bool isFlick { get=>flick; }
+    public bool hit;
     public int lane { get=> laneOffset + Lane.NUM_LANES / 2; }
 
     protected float timer;
 
     void Awake()
     {
+        hit = false;
         fallTime = Lane.DISTANCE / fallSpeed;
+        timer = 0f;
         this.transform.localScale = new Vector3(START_SCALE, START_SCALE,START_SCALE);
     }
     
@@ -45,22 +48,23 @@ public class Note : MonoBehaviour
         timer += Time.deltaTime;
 
         // Calculates smoothing based on time spent falling
-        smoothing = Lane.DISTANCE * fallTime / (fallSpeed * 2 * timer);
+        smoothing = Mathf.Lerp(0,2,timer/fallTime);
 
         // Calculates ySpeed, xSpeed, and scalingRate based on smoothing
-        ySpeed = Lane.DISTANCE / smoothing;
-        xSpeed = (laneOffset * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / smoothing;
-        scaleRate = (END_SCALE - START_SCALE) / smoothing;
+        ySpeed = Lane.DISTANCE / fallTime * smoothing;
+        xSpeed = (laneOffset * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime * smoothing;
+        scaleRate = (END_SCALE - START_SCALE) / fallTime * smoothing;
 
-        // Modifies transforms based on x/y speed, and scaling rate
-        Offset(Time.deltaTime);
+        // Move and scale
+        this.transform.position += new Vector3(xSpeed, -ySpeed, 0) * Time.deltaTime;
+        this.transform.localScale += new Vector3(scaleRate, scaleRate, scaleRate) * Time.deltaTime;
     }
 
+    // Sets laneOffset, position, and sprite based on lane
     public void SetLane(int lane)
     {
         laneOffset = (lane - Lane.NUM_LANES / 2);
         this.transform.position += new Vector3(laneOffset * Lane.TOP_DISTANCE_PER_LANE, 0, 0);
-        xSpeed = (laneOffset * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime;
 
         if (lane < 3)
         {
@@ -76,9 +80,17 @@ public class Note : MonoBehaviour
         }
     }
 
-    public void Offset(float time)
+    // Bumps note based on deltaTime
+    // Used to account for slight time difference between intended spawn time and update
+    public void Bump(float deltaTime)
     {
-        this.transform.position += new Vector3(xSpeed, -ySpeed, 0) * time;
-        this.transform.localScale += new Vector3(scaleRate, scaleRate, scaleRate) * time;
+        timer += deltaTime;
+        float temp = Mathf.Pow(deltaTime/fallTime, 2);
+        this.transform.position += 
+            new Vector3(
+                temp * Lane.TOP_DISTANCE_PER_LANE,
+                temp * Lane.DISTANCE,
+                0f
+            );
     }
 }

@@ -75,19 +75,10 @@ public class DrawRect : MonoBehaviour
 
         foreach( (float time, int lane) x in points)
         {
-            if (timer - x.time >= 0)
-            {
-                float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
-                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(y), y, -1f) );
-                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y), y, -1f) );
-            }
-            else
-            {
-                float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
-                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(5f), y, -1f) );
-                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f), y, -1f) );
-                break;
-            }
+            float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
+            Debug.Log(y);
+            vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(Mathf.Min(5f, y)), Mathf.Min(5f, y), -1f) );
+            vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(Mathf.Min(5f, y)), Mathf.Min(5f, y), -1f) );
         }
     }
 

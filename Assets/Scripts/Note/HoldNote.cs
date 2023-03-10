@@ -3,42 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-/**
- * Stores the slope intercept form of a line
- * Exists to calculate the midpoint X value of a given note at any Y point
- */
-public class Line
-{
-    private float slope;
-    private float intercept;
-    private float x;
-
-    public Line(Vector2 p1, Vector2 p2)
-    {
-        slope = (p2.y - p1.y) / (p2.x - p1.x);
-        x = p1.x;
-        intercept = p1.y - slope * p1.x;
-    }
-
-    public float getX(float Y)
-    {
-        if (!float.IsFinite(slope))
-        {
-            return x;
-        }
-        return (Y - intercept) / slope;
-    }
-
-    public override string ToString()
-    {
-        return $"slope: {slope}, intercept: {intercept}";
-    }
-}
-
 // Given the lines a hold note follows, handles the interactions of tapping, particle effects, and holding
-public class HoldNote : Note
+[RequireComponent(typeof(DrawRect))]
+public class HoldNote : MonoBehaviour
 // , IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    private Note startNote;
+    private Note endNote;
+    
+    private DrawRect drawer;
+    
+    void Awake()
+    {
+        drawer = this.gameObject.GetComponent<DrawRect>();
+    }
+
+    /** 
+     * Interface to set the points the hold note will connect when initialized
+     *  Calculates distances between points, lines, and calls the drawer to draw the mesh
+     */
+    public void SetPoints(List<(float, int)> points)
+    {
+        float offset = points[0].Item1;
+        points = points.ConvertAll<(float, int)>( delegate ((float timeX, int laneX) x) {
+            return (x.timeX - offset, x.laneX);
+        });
+
+        drawer.Init(points);
+    }
 
     // private bool holding;
     // private ParticleSystem particles;
@@ -52,7 +44,6 @@ public class HoldNote : Note
     // // Current amount of distance note has travelled
     // private float distanceTravelled;
 
-    // private DrawRect drawer;
 
     // protected override void Awake()
     // {
@@ -176,39 +167,7 @@ public class HoldNote : Note
     //     if (particles) ParticleManager.particleManager.DetachParticlesForHold(particles);
     // }
 
-    // /** 
-    //  * Interface to set the points the hold note will connect when initialized
-    //  *  Calculates distances between points, lines, and calls the drawer to draw the mesh
-    //  */
-    // public void SetPoints(List<(float, int)> points)
-    // {
-    //     float offset = points[0].Item1;
-    //     points = points.ConvertAll<(float, int)>( delegate ((float timeX, int laneX) x) {
-    //         return (x.timeX - offset, x.laneX);
-    //     });
 
-    //     drawer.Init(points);
-    //     // DrawRect drawer = GetComponent<DrawRect>();
-    //     // List<Vector2> newPoints = new List<Vector2>();
-
-    //     // newPoints.Add(new Vector2(LANE_LINES[points[0].lane].getX(5f), 5f));
-    //     // for (int i = 1; i < points.Count; i++)
-    //     // {
-    //     //     float timeFromLast = points[i].time - points[i-1].time;
-    //     //     Vector2 temp = new Vector2(LANE_LINES[points[i].lane].getX(5f), 5f + timeFromLast * Note.fallSpeed);
-    //     //     newPoints.Add(temp);
-    //     // }
-
-    //     // drawer.SetPoints(newPoints);
-    //     // drawer.Draw();
-    //     // distances.Add(0);
-    //     // for(int i = 0; i < newPoints.Count - 1; i++)
-    //     // {
-    //     //     midLines.Add(new Line(newPoints[i], newPoints[i+1]));
-    //     //     distances.Add(newPoints[i + 1].y - newPoints[i].y + distances[i]);
-    //     // }
-    //     // distances.RemoveAt(0);
-    // }
 
     // // private void UpdatePoints()
     // // {

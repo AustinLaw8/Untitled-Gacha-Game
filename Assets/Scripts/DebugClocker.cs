@@ -49,6 +49,7 @@ public class DebugClocker : MonoBehaviour
             }
             else if (counter == 8)
             {
+
                 // HoldNote hn = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
                 // hn.SetPoints(new List<(float, int)>(){
                 //     (0, 3),

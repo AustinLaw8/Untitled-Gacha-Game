@@ -95,15 +95,16 @@ public class BeatManager : MonoBehaviour
             {
                 noteSpawned = GameObject.Instantiate(flickNote);
             }
-            beatmap.Dequeue();
             noteSpawned.transform.position = spawnLine.transform.position;
-            Note noteComp = noteSpawned.GetComponent<Note>();
-            noteComp.SetLane(lane);
+
             // calculate the difference in time when the note was supposed to spawn and the time now
-            float diffTime = (songPosition + spawnDiff) - Mathf.Abs(pos);
             // move the note a small amount based on that difference in time
-            noteComp.Offset(diffTime);
-            // noteSpawned.transform.position -= new Vector3(0f, diffDist, 0f);
+            float diffTime = (songPosition + spawnDiff) - Mathf.Abs(pos);
+            Note n = noteSpawned.GetComponent<Note>();
+            n.SetLane(lane);
+            n.Bump(diffTime);
+
+            beatmap.Dequeue();
         }
 
         if (beatmap.Count == 0 && !musicSource.isPlaying)
