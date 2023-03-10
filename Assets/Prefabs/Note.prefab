@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2575545971778024945}
   - component: {fileID: 2575545971778024944}
   - component: {fileID: 1268815505494011912}
-  - component: {fileID: 4672930347990094993}
-  m_Layer: 0
+  - component: {fileID: -496718207688959323}
+  m_Layer: 2
   m_Name: Note
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 87abd45f2bc054f38b3977a99724962b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 190f047f4ed644262b18e68179b04710, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +102,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.059128642, y: 0.39024997}
   m_Size: {x: 2.9185903, y: 3.4697118}
   m_Direction: 0
---- !u!114 &4672930347990094993
+--- !u!114 &-496718207688959323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,9 +111,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2575545971778024959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af8f570082f3d459eb37ff4db48f7f46, type: 3}
+  m_Script: {fileID: 11500000, guid: 68ccf826554b148668ab739d1d0e5cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flick: 0
   leftLane: {fileID: 21300000, guid: b3ae4aee620e943c183df1c5da82cece, type: 3}
   middleLane: {fileID: 21300000, guid: 190f047f4ed644262b18e68179b04710, type: 3}
   rightLane: {fileID: 21300000, guid: 87abd45f2bc054f38b3977a99724962b, type: 3}

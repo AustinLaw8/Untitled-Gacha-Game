@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4009924112487508808}
   - component: {fileID: 6680711622552916906}
   - component: {fileID: 8164480099733290853}
-  - component: {fileID: 6503741706893999705}
+  - component: {fileID: 7212406673851127377}
   m_Layer: 0
   m_Name: Flick Note
   m_TagString: Untagged
@@ -99,10 +99,10 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 2.28, y: 2.5}
+  m_Offset: {x: 0, y: 0.39370465}
+  m_Size: {x: 2.28, y: 3.2874093}
   m_Direction: 0
---- !u!114 &6503741706893999705
+--- !u!114 &7212406673851127377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,9 +111,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2421845432899483416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 431fb30e306064a4295b593f7db67ecc, type: 3}
+  m_Script: {fileID: 11500000, guid: 68ccf826554b148668ab739d1d0e5cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flick: 1
   leftLane: {fileID: 21300000, guid: 72af0358aec874c199a084b011200420, type: 3}
   middleLane: {fileID: 21300000, guid: af224fc1ef9d94171816edbb55f5219c, type: 3}
   rightLane: {fileID: 21300000, guid: d3396f21084384023ab568fac153548b, type: 3}

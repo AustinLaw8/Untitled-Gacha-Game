@@ -49,12 +49,12 @@ public class DebugClocker : MonoBehaviour
             }
             else if (counter == 8)
             {
-                HoldNote hn = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
-                hn.SetPoints(new List<(float, int)>(){
-                    (0, 3),
-                    (3, 4),
-                    (5, 2),
-                });
+                // HoldNote hn = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
+                // hn.SetPoints(new List<(float, int)>(){
+                //     (0, 3),
+                //     (3, 4),
+                //     (5, 2),
+                // });
             }
             
             counter = (counter + 1) % 10;
