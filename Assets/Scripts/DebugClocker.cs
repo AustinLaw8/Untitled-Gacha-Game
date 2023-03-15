@@ -6,6 +6,7 @@ public class DebugClocker : MonoBehaviour
 {
     private float ONE_SECOND = 1f;
 
+    [SerializeField] private bool SPAWN_HOLD=true;
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject flickNote;
     [SerializeField] private GameObject holdNote;
@@ -28,37 +29,45 @@ public class DebugClocker : MonoBehaviour
         if (timer > ONE_SECOND)
         {
             timer = 0f;
-            GameObject clone;
-            if (counter < 8)
+            if (SPAWN_HOLD)
+            {   
+                if (counter == 0)
+                    TrySpawnHold();
+            }
+            else
             {
-                if (counter % 8 == 7)
+                GameObject clone;
+                if (counter < 8)
                 {
-                    for(int i = 0; i < 7; i+=3)
+                    if (counter % 8 == 7)
                     {
-                        clone = GameObject.Instantiate(flickNote);
+                        for(int i = 0; i < 7; i+=3)
+                        {
+                            clone = GameObject.Instantiate(flickNote);
+                            clone.transform.position = spawnLine.transform.position;
+                            clone.GetComponent<Note>().SetLane(i);
+                        }
+                    }
+                    else
+                    {
+                        clone = GameObject.Instantiate(note);
                         clone.transform.position = spawnLine.transform.position;
-                        clone.GetComponent<Note>().SetLane(i);
+                        clone.GetComponent<Note>().SetLane(counter);
                     }
                 }
-                else
-                {
-                    clone = GameObject.Instantiate(note);
-                    clone.transform.position = spawnLine.transform.position;
-                    clone.GetComponent<Note>().SetLane(counter);
-                }
             }
-            else if (counter == 8)
-            {
-
-                // HoldNote hn = GameObject.Instantiate(holdNote).GetComponent<HoldNote>();
-                // hn.SetPoints(new List<(float, int)>(){
-                //     (0, 3),
-                //     (3, 4),
-                //     (5, 2),
-                // });
-            }
-            
-            counter = (counter + 1) % 10;
+            counter = (counter + 1) % 8;
         }
+    }
+
+    void TrySpawnHold()
+    {
+        GameObject clone = GameObject.Instantiate(holdNote);
+        HoldNote hn = clone.GetComponent<HoldNote>();
+        hn.SetPoints(new List<(float, int)>(){
+            (0, 3),
+            (3, 4),
+            (5, 2),
+        });
     }
 }

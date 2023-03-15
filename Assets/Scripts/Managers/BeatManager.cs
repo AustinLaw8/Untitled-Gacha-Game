@@ -33,6 +33,7 @@ public class BeatManager : MonoBehaviour
 
     [SerializeField] private Transform spawnLine;
     [SerializeField] private Transform playLine;
+    [SerializeField] private SpriteRenderer background;
 
     /* Calculated every Update() */
     [Tooltip("Song position in seconds")]
@@ -69,6 +70,7 @@ public class BeatManager : MonoBehaviour
 
         musicSource.clip = container.clip;
         StartCoroutine(PlayMusicWithOffset());
+        background.color = new Color(255,255,255,255 * settings.transparency);
     }
 
     void Update()

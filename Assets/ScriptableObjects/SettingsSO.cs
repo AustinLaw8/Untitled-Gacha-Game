@@ -72,7 +72,7 @@ public class SettingsSO : ScriptableObject
     public float noteSpeed
     {
         get => _noteSpeed;
-        set => _noteSpeed = value;
+        set => _noteSpeed = Mathf.Clamp(value, 1f, 12f);
     }
 
     public float noteOffset

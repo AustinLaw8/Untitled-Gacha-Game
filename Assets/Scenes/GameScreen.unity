@@ -187,7 +187,7 @@ PrefabInstance:
       objectReference: {fileID: 553821802395600489, guid: e6e227bcf04bd4435a91568dc40871d1, type: 3}
     - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: spawnLine
@@ -198,8 +198,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1278447609}
     - target: {fileID: 1536787873281861811, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: flickNote
+      value: 
+      objectReference: {fileID: 553821802395600489, guid: e6e227bcf04bd4435a91568dc40871d1, type: 3}
+    - target: {fileID: 1536787873281861811, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1536787873281861811, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: spawnLine
@@ -762,7 +766,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 20911960, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -107.3
+      value: -107.299805
       objectReference: {fileID: 0}
     - target: {fileID: 964838823, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_Value
