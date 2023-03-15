@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DrawRect : MonoBehaviour
 {
+    private float INNER_BUMP = .01f;
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
     private Mesh mesh;
@@ -14,6 +15,7 @@ public class DrawRect : MonoBehaviour
     private List<int> triangles;
 
     private float timer;
+    private float fallTime;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,6 +25,7 @@ public class DrawRect : MonoBehaviour
         mesh = new Mesh();
         points = new List<(float time, int lane)>();
         timer = 0f;
+        fallTime = Lane.DISTANCE / Note.fallSpeed;
     }
 
     void Update()
@@ -58,26 +61,51 @@ public class DrawRect : MonoBehaviour
 
             meshFilter.mesh = mesh;
             
-            // SetCollider();
+            SetCollider();
         }
     }
 
     private void SetCollider()
     {
-        PhysicsShapeGroup2D shapes = new PhysicsShapeGroup2D();
-        shapes.AddPolygon(vertices.ConvertAll<Vector2>(x=>x));
-        GetComponent<CustomCollider2D>().SetCustomShapes(shapes);
+        List<Vector2> shapeVertices = new List<Vector2>();
+        shapeVertices.Add(vertices[0]);
+        shapeVertices.Add(vertices[1]);
+        for(int i = 3; i < vertices.Count; i += 2)
+            shapeVertices.Add(vertices[i]);
+        for(int i = vertices.Count - 2; i > 1; i -= 2)
+            shapeVertices.Add(vertices[i]);
+        GetComponent<PolygonCollider2D>().SetPath(0,shapeVertices.ToArray());
     }
 
     private void CalculateVertices()
     {
         vertices.Clear();
-
+        bool first = true;
         foreach( (float time, int lane) x in points)
         {
-            float y = BeatManager.SPAWN_POINT - (timer - x.time) * Note.fallSpeed;
-            vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(Mathf.Min(5f, y)), Mathf.Min(5f, y), -1f) );
-            vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(Mathf.Min(5f, y)), Mathf.Min(5f, y), -1f) );
+            float y;
+            float temp = Mathf.Pow((timer - x.time)/fallTime, 2);
+            if (x.time > timer)
+            {
+                y = BeatManager.SPAWN_POINT + temp  * Lane.DISTANCE;
+                if (first)
+                {
+                    vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(5f) + INNER_BUMP, 5f, -1f) );
+                    vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f) - INNER_BUMP, 5f, -1f) );
+                    first = false;
+                }
+                else
+                {
+                    vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(5f) + INNER_BUMP, y, -1f) );
+                    vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f) - INNER_BUMP, y, -1f) );
+                }
+            }
+            else
+            {
+                y = BeatManager.SPAWN_POINT - temp * Lane.DISTANCE;
+                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(y) + INNER_BUMP, y, -1f) );
+                vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y) - INNER_BUMP, y, -1f) );
+            }
         }
     }
 

@@ -20,40 +20,36 @@ public class DebugClocker : MonoBehaviour
     {
         timer = 0f;
         counter = 0;
+        
+        if (SPAWN_HOLD)
+            TrySpawnHold();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {   
-        timer += Time.fixedDeltaTime;
+        if (!SPAWN_HOLD)
+            timer += Time.fixedDeltaTime;
         if (timer > ONE_SECOND)
         {
             timer = 0f;
-            if (SPAWN_HOLD)
-            {   
-                if (counter == 0)
-                    TrySpawnHold();
-            }
-            else
+            GameObject clone;
+            if (counter < 8)
             {
-                GameObject clone;
-                if (counter < 8)
+                if (counter % 8 == 7)
                 {
-                    if (counter % 8 == 7)
+                    for(int i = 0; i < 7; i+=3)
                     {
-                        for(int i = 0; i < 7; i+=3)
-                        {
-                            clone = GameObject.Instantiate(flickNote);
-                            clone.transform.position = spawnLine.transform.position;
-                            clone.GetComponent<Note>().SetLane(i);
-                        }
-                    }
-                    else
-                    {
-                        clone = GameObject.Instantiate(note);
+                        clone = GameObject.Instantiate(flickNote);
                         clone.transform.position = spawnLine.transform.position;
-                        clone.GetComponent<Note>().SetLane(counter);
+                        clone.GetComponent<Note>().SetLane(i);
                     }
+                }
+                else
+                {
+                    clone = GameObject.Instantiate(note);
+                    clone.transform.position = spawnLine.transform.position;
+                    clone.GetComponent<Note>().SetLane(counter);
                 }
             }
             counter = (counter + 1) % 8;

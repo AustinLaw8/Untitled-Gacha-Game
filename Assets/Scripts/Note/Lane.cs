@@ -62,7 +62,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
     // Queue containing the notes that are in the "hittable" range
     private List<Queue<Note>> notes;
 
-    void Start()
+    void Awake()
     {
         Vibration.Init();
         // Physics2D.queriesHitTriggers = true;

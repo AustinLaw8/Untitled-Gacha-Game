@@ -170,6 +170,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4947746568248999375, guid: 751bc2da8678544f1a1c3aa15c830639, type: 3}
   m_PrefabInstance: {fileID: 1814806623}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &514428277 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2100828277, guid: 751bc2da8678544f1a1c3aa15c830639, type: 3}
+  m_PrefabInstance: {fileID: 1814806623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &744484029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,6 +198,10 @@ PrefabInstance:
       propertyPath: spawnLine
       value: 
       objectReference: {fileID: 388919031}
+    - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: background
+      value: 
+      objectReference: {fileID: 514428277}
     - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: musicSource
       value: 
