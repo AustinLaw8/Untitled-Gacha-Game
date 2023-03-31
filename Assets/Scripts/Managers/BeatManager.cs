@@ -53,19 +53,17 @@ public class BeatManager : MonoBehaviour
     private float spawnDiff;
     void Awake()
     {
-        LoadSong();
-
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
         
         Note.fallSpeed = settings.noteSpeed;
         settings.SetVolume();
 
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
-
     }
 
     void Start()
     {
+        LoadSong();
         startTime = (float)AudioSettings.dspTime + WAIT_TIME;
 
         musicSource.clip = container.clip;

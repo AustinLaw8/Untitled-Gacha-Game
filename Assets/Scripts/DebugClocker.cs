@@ -20,21 +20,24 @@ public class DebugClocker : MonoBehaviour
     {
         timer = 0f;
         counter = 0;
-        
-        if (SPAWN_HOLD)
-            TrySpawnHold();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {   
-        if (!SPAWN_HOLD)
-            timer += Time.fixedDeltaTime;
+        timer += Time.fixedDeltaTime;
+
         if (timer > ONE_SECOND)
         {
             timer = 0f;
             GameObject clone;
-            if (counter < 8)
+
+            if (counter == 0)
+            {
+                TrySpawnHold();
+                timer = -6f;
+            }
+            else if (counter < 8)
             {
                 if (counter % 8 == 7)
                 {
@@ -60,10 +63,19 @@ public class DebugClocker : MonoBehaviour
     {
         GameObject clone = GameObject.Instantiate(holdNote);
         HoldNote hn = clone.GetComponent<HoldNote>();
-        hn.SetPoints(new List<(float, int)>(){
-            (0, 3),
-            (3, 4),
-            (5, 2),
+        hn.SetPoints(0, new List<(float, int)>(){
+            (0, 5),
+            (2, 6),
+            (4, 4),
+        });
+
+        clone = GameObject.Instantiate(holdNote);
+        hn = clone.GetComponent<HoldNote>();
+        hn.SetPoints(0, new List<(float, int)>(){
+            (0, 1),
+            (1, 0),
+            (2, 2),
+            (3, 1),
         });
     }
 }

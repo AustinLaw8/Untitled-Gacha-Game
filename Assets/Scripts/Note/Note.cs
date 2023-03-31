@@ -10,6 +10,8 @@ using UnityEngine;
 // [RequireComponent(typeof(Collider2D))]
 public class Note : MonoBehaviour
 {
+    [SerializeField] private HoldNote hold;
+    [SerializeField] private bool end;
     [SerializeField] private bool flick;
     [SerializeField] private Sprite leftLane;
     [SerializeField] private Sprite middleLane;
@@ -29,6 +31,8 @@ public class Note : MonoBehaviour
     private float smoothing;
 
     public bool isFlick { get=>flick; }
+    public bool isEnd { get=>end; set=>end=value; }
+    public HoldNote isHold { get=>hold; set=>hold=value; }
     public bool hit;
     public int lane { get=> laneOffset + Lane.NUM_LANES / 2; }
 

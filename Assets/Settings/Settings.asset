@@ -18,6 +18,6 @@ MonoBehaviour:
   _sfxVolume: 1
   _noteSpeed: 2
   _noteOffset: 0
-  _transparency: 0.75
-  _brightness: 1
+  _transparency: 0.01
+  _brightness: 0.01
   _showSkill: 1

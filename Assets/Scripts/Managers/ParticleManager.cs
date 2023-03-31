@@ -12,7 +12,7 @@ public class ParticleManager : MonoBehaviour
 
     [SerializeField] public GameObject targetParticleSystem;
 
-    private GameObject[] particles;
+    private List<GameObject> particles;
     private bool[] bound = {false, false};
     protected Transform lane;
 
@@ -31,10 +31,10 @@ public class ParticleManager : MonoBehaviour
     void Start()
     {
         lane = GameObject.Find("Lane").transform;
-        particles = new GameObject[POOL_SIZE];
+        particles = new List<GameObject>(POOL_SIZE);
         for(int i = 0; i < POOL_SIZE; i++)
         {
-            particles[i] = GameObject.Instantiate(targetParticleSystem,this.transform);
+            particles.Add(GameObject.Instantiate(targetParticleSystem,this.transform));
         }
     }
     
@@ -48,7 +48,7 @@ public class ParticleManager : MonoBehaviour
         currentParticles.transform.position = new Vector3(
             location.x,
             lane.position.y,
-            0f
+            -3f
         );
         currentParticles.Play();
         StartCoroutine(PauseParticles(currentParticles, TAP_EMISSION_TIME));
@@ -78,7 +78,7 @@ public class ParticleManager : MonoBehaviour
         particles.gameObject.SetActive(false);
     }
 
-    // Gets the first available particle system
+    // Gets the first available particle system, and creates a new one if not available
     private ParticleSystem GetAvailableParticles()
     {
         foreach(GameObject obj in particles)
@@ -89,16 +89,17 @@ public class ParticleManager : MonoBehaviour
                 return obj.GetComponent<ParticleSystem>();
             }
         }
-        return null;
-        // Debug.LogWarning("No free particle system");
+        GameObject newParticles = GameObject.Instantiate(targetParticleSystem,this.transform);
+        particles.Add(newParticles);
+        newParticles.SetActive(true);
+        return newParticles.GetComponent<ParticleSystem>();
     }
 
+    // Turns off a particle system after a specified time
     private IEnumerator PauseParticles(ParticleSystem particles, float time=.2f)
     {
         yield return new WaitForSeconds(time);
         particles.gameObject.SetActive(false);
         particles.Stop();
     }
-
-    // public void 
 }

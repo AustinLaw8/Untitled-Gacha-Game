@@ -74,6 +74,12 @@ public class ScoreManager : MonoBehaviour
         UpdateScore(deltaScore);
     }
 
+    public void GiveHoldPoints()
+    {
+        float deltaScore = 0;
+        UpdateScore(deltaScore);
+    }
+
     private void UpdateScore(float deltaScore)
     {
         score += deltaScore;

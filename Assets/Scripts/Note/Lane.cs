@@ -7,37 +7,44 @@ using UnityEngine.EventSystems;
 /**
  * Stores the slope intercept form of a line
  * Exists to calculate the midpoint X value of a given note at any Y point
+ * I'm pretty sure this should get refactored to be a wrapper around Vector2.Lerp
  */
 public class Line
 {
-    private float slope;
-    private float intercept;
-    private float x;
-
+    // private float slope;
+    // private float intercept;
+    // private float x;
+    private Vector2 p1;
+    private Vector2 p2;
+    private float y;
     public Line(Vector2 p1, Vector2 p2)
     {
-        slope = (p2.y - p1.y) / (p2.x - p1.x);
-        x = p1.x;
-        intercept = p1.y - slope * p1.x;
+        this.p1 = p1;
+        this.p2 = p2;
+        this.y = p1.y - p2.y;
+        // slope = (p2.y - p1.y) / (p2.x - p1.x);
+        // x = p1.x;
+        // intercept = p1.y - slope * p1.x;
     }
 
     public float getX(float Y)
     {
-        if (!float.IsFinite(slope))
-        {
-            return x;
-        }
-        return (Y - intercept) / slope;
+        // if (Y>5f) Y = 5f;
+        return Vector2.LerpUnclamped(p1, p2, (p1.y - Y)/y).x;
     }
-
-    public override string ToString()
+    
+    public float Lerp(float t)
     {
-        return $"slope: {slope}, intercept: {intercept}";
+        return Vector2.Lerp(p1, p2, t).x;
     }
+    // public override string ToString()
+    // {
+    //     return $"slope: {slope}, intercept: {intercept}";
+    // }
 }
 
 [RequireComponent(typeof(Collider2D))]
-public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler
 {
 
     public static List<Line> LANE_LINES = new List<Line>();
@@ -59,8 +66,11 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
             .5f, // Great
             .7f, // Good
         };
+
     // Queue containing the notes that are in the "hittable" range
     private List<Queue<Note>> notes;
+    private List<HoldNote> holdNotes;
+    private HashSet<PointerEventData> holds;
 
     void Awake()
     {
@@ -68,21 +78,48 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
         // Physics2D.queriesHitTriggers = true;
         // EnhancedTouchSupport.Enable();
         if (LANE_LOCATIONS.Count == 0)
-        {
             SetLaneLocations();
-        }
 
         col = GetComponent<Collider2D>();
         notes = new List<Queue<Note>>();
-        for(int i = 0; i < LANE_LOCATIONS.Count; i++) {
+        for(int i = 0; i < LANE_LOCATIONS.Count; i++)
             notes.Add(new Queue<Note>());
-        }
+        holdNotes = new List<HoldNote>();
+        holds = new HashSet<PointerEventData>();
     }
     
+    void Update()
+    {
+        holdNotes.RemoveAll(x=>x==null);
+        foreach (HoldNote holdNote in holdNotes)
+        {
+            holdNote.holding = false;
+            foreach (PointerEventData touch in holds)
+            {
+                Vector2 loc = new Vector2(touch.pointerCurrentRaycast.worldPosition.x, BeatManager.PLAY_POINT);
+                if (holdNote.GetComponent<Collider2D>().OverlapPoint(loc))
+                {
+                    holdNote.holding = true;
+                    break;
+                }
+            }
+            // if (holdNote.holding)
+            // {
+            //     StartCoroutine(Delay(holdNote));
+            // }
+        }
+    }
+
+    IEnumerator Delay(HoldNote note) { yield return new WaitForSeconds(1f); note.holding = false; }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         Note note = other.gameObject.GetComponent<Note>();
-        notes[note.lane].Enqueue(note);
+        if (note)
+            notes[note.lane].Enqueue(note);
+        else
+            holdNotes.Add(other.gameObject.GetComponent<HoldNote>());
+
     }
     
     void OnTriggerExit2D(Collider2D other)
@@ -95,30 +132,72 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
          */
         if (!(other == null || other.gameObject == null))
         {
-            if (!(other.gameObject.GetComponent<Note>().hit))
+            Note note = other.gameObject.GetComponent<Note>();
+            if (!note) 
             {
-                HealthManager.healthManager.DecreaseHealth(HealthManager.MISS_NOTE_AMOUNT);
                 StartCoroutine(DelayedDestroy(other.gameObject));
             }
-            notes[other.gameObject.GetComponent<Note>().lane].Dequeue();
+            else 
+            {
+                if (!note.hit)
+                {
+                    HealthManager.healthManager.DecreaseHealth(HealthManager.MISS_NOTE_AMOUNT);
+                    StartCoroutine(DelayedDestroy(other.gameObject));
+                }
+                notes[note.lane].Dequeue();
+            }
         }
     }
 
-    // Leverages the Unity builtin OnPointerDown event to handle tap notes
     public void OnPointerDown(PointerEventData e)
     {
         int lane = GetLane(e);
         Note note;
         if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
         {  
+            if (note.isHold != null && !note.isEnd)
+            {
+                note.isHold.holding = true;
+                OnNotePressed(note);
+            }
             if (!note.isFlick)
             {
                 OnNotePressed(note);
             }
         }
+        holds.Add(e);
+    }
+
+    public void OnPointerEnter(PointerEventData e)
+    {
+        if(e.rawPointerPress != null)
+        {
+            holds.Add(e);
+        }
+    }
+    
+    public void OnPointerUp(PointerEventData e)
+    {
+        int lane = GetLane(e);
+        Note note;
+        if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
+        {  
+            if (note.isHold != null && note.isEnd)
+            {
+                Destroy(note.isHold.gameObject);
+                OnNotePressed(note);
+            }
+        }
+        holds.Remove(e);
+    }
+
+    public void OnPointerExit(PointerEventData e)
+    {
+        holds.Remove(e);
     }
 
     // Leverages the Unity builtin OnDrag event to handle flick notes
+    //  and flick notes at the end of a hold
     //  and also tap notes, but that should never happen
     public void OnDrag(PointerEventData e)
     {
@@ -126,7 +205,10 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IDragHandler
         Note note;
         if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
         {  
-            OnNotePressed(note);
+            if (note.isHold == null)
+            {
+                OnNotePressed(note);
+            }
         }
     }
 

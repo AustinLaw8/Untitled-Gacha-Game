@@ -23,6 +23,22 @@ PrefabInstance:
       propertyPath: middleLane
       value: 
       objectReference: {fileID: 21300000, guid: af224fc1ef9d94171816edbb55f5219c, type: 3}
+    - target: {fileID: 1268815505494011912, guid: 45714e0fe0908448591b0eff8eb9eb7f, type: 3}
+      propertyPath: m_Size.x
+      value: 2.613595
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268815505494011912, guid: 45714e0fe0908448591b0eff8eb9eb7f, type: 3}
+      propertyPath: m_Size.y
+      value: 2.613595
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268815505494011912, guid: 45714e0fe0908448591b0eff8eb9eb7f, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.00000004131094
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268815505494011912, guid: 45714e0fe0908448591b0eff8eb9eb7f, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.34654132
+      objectReference: {fileID: 0}
     - target: {fileID: 2575545971778024944, guid: 45714e0fe0908448591b0eff8eb9eb7f, type: 3}
       propertyPath: m_Sprite
       value: 
