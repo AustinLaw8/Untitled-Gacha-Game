@@ -10,11 +10,29 @@ public class CardInventory : MonoBehaviour
     public float xSpaceBetweenItem;
     public int numColumns;
     public float ySpaceBetweenItem;
+    public int spaceBetween;
 
     [SerializeField] public GameObject cardSlotPrefab;
     [SerializeField] public GameObject cardScreen;
+    [SerializeField] public GameObject scrollyBoxContents;
+    
+    // 0 - 3 Stars
+    // 1 - 4 Stars
+    // 2 - 5 Stars
+    // 3 - 6 Stars
+    // 4 - 1 copy
+    // 5 - 2 copies
+    // 6 - 3 copies
+    // 7 - 4 copies
+    // 8 - 5 copies
+    // 9 - Rabbit
+    // 10 - Dragon
+    // 11 - Tiger
+    // 12 - Horse
+    [SerializeField] public bool[] filters;
 
     public List<CardSO> ownedCards = new List<CardSO>();
+    //private List<CardSO> allCards = new List<CardSO>();
 
     [SerializeField] CardManager cardManager;
 
@@ -32,9 +50,10 @@ public class CardInventory : MonoBehaviour
 
         xSpaceBetweenItem = - ((v[1].x - v[2].x) / 22) * 3;
         ySpaceBetweenItem = xSpaceBetweenItem;
+        spaceBetween = (int) xSpaceBetweenItem / 3;
 
-        firstX = v[1].x + (xSpaceBetweenItem * 2 / 3);
-        firstY = (v[1].y) - (xSpaceBetweenItem * 2/ 3);
+        //firstX = v[1].x + (xSpaceBetweenItem * 2 / 3);
+        //firstY = (v[1].y) - (xSpaceBetweenItem * 2/ 3);
 
         //firstY = cardScreen.GetComponent<RectTransform>().offsetMin.y;
         for(int i = 0; i < cardManager.cardDB.Length; i++)
@@ -42,8 +61,17 @@ public class CardInventory : MonoBehaviour
             if (cardManager.cardDB[i].numCopies > 0)
             {
                 ownedCards.Add(cardManager.cardDB[i]);
+                //allCards.Add(cardManager.cardDB[i]);
             }
         }
+
+        scrollyBoxContents.GetComponent<GridLayoutGroup>().cellSize = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
+        scrollyBoxContents.GetComponent<GridLayoutGroup>().spacing = new Vector2(spaceBetween, spaceBetween);
+        scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
+        scrollyBoxContents.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (spaceBetween * (((ownedCards.Count + 6)/7) * 3 + 1)));
+        Debug.Log(ownedCards.Count);
+        Debug.Log(((ownedCards.Count + 6)/7));
+        
         DisplayCards();
         
     }
@@ -52,9 +80,10 @@ public class CardInventory : MonoBehaviour
     {        
         for (int i = 0; i < ownedCards.Count; i++)
         {
-            var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, cardScreen.transform);
-            obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
-            obj.GetComponent<RectTransform>().sizeDelta = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
+            var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
+            //obj.transform.SetParent(scrollyBoxContents.transform, true);
+            // obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
+            //obj.GetComponent<RectTransform>().sizeDelta = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
             obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
             
         }
@@ -86,13 +115,34 @@ public class CardInventory : MonoBehaviour
         }
 
         //******* replace with UpdateDisplay(); after testing done ********
-        foreach(Transform child in cardScreen.transform)
+        foreach(Transform child in scrollyBoxContents.transform)
         {
             Destroy(child.gameObject);
         }
         DisplayCards();
         //*****************************************************************
-    } 
+    }
+
+    public void FilterBy()
+    {
+        ownedCards.Clear();
+        
+        // 0 - 3 Stars
+        // 1 - 4 Stars
+        // 2 - 5 Stars
+        // 3 - 6 Stars
+        // 4 - 1 copy
+        // 5 - 2 copies
+        // 6 - 3 copies
+        // 7 - 4 copies
+        // 8 - 5 copies
+        // 9 - Rabbit
+        // 10 - Dragon
+        // 11 - Tiger
+        // 12 - Horse
+        
+        
+    }
 
     public int SortByRarity(CardSO card1, CardSO card2)
     {
@@ -205,7 +255,6 @@ public class CardInventory : MonoBehaviour
 
     public void UpdateDisplay()
     {
-
         foreach(Transform child in cardScreen.transform)
         {
             Destroy(child.gameObject);
