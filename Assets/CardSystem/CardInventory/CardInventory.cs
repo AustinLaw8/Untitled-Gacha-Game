@@ -11,10 +11,12 @@ public class CardInventory : MonoBehaviour
     public int numColumns;
     public float ySpaceBetweenItem;
     public int spaceBetween;
+    public int sortCategory;
 
     [SerializeField] public GameObject cardSlotPrefab;
     [SerializeField] public GameObject cardScreen;
     [SerializeField] public GameObject scrollyBoxContents;
+    [SerializeField] public GameObject filterPanel;
     
     // 0 - 3 Stars
     // 1 - 4 Stars
@@ -29,7 +31,35 @@ public class CardInventory : MonoBehaviour
     // 10 - Dragon
     // 11 - Tiger
     // 12 - Horse
-    [SerializeField] public bool[] filters;
+    private bool threeStarsState = true;
+    private bool fourStarsState = true;
+    private bool fiveStarsState = true;
+    private bool sixStarsState = true;
+    private bool oneCopyState = true;
+    private bool twoCopiesState = true;
+    private bool threeCopiesState = true;
+    private bool fourCopiesState = true;
+    private bool fiveCopiesState = true;
+    private bool rabbitState = true;
+    private bool dragonState = true;
+    private bool tigerState = true;
+    private bool horseState = true;
+    [SerializeField] public Toggle threeStars;
+    [SerializeField] public Toggle fourStars;
+    [SerializeField] public Toggle fiveStars;
+    [SerializeField] public Toggle sixStars;
+    [SerializeField] public Toggle oneCopy;
+    [SerializeField] public Toggle twoCopies;
+    [SerializeField] public Toggle threeCopies;
+    [SerializeField] public Toggle fourCopies;
+    [SerializeField] public Toggle fiveCopies;
+    [SerializeField] public Toggle rabbit;
+    [SerializeField] public Toggle dragon;
+    [SerializeField] public Toggle tiger;
+    [SerializeField] public Toggle horse;
+
+
+    //[SerializeField] public bool[] filters;
 
     public List<CardSO> ownedCards = new List<CardSO>();
     //private List<CardSO> allCards = new List<CardSO>();
@@ -97,6 +127,7 @@ public class CardInventory : MonoBehaviour
         // 1 - Number of Copies
         // 2 - Card Number
         // 3 - Zodiac
+        sortCategory = categoryID;
         if (categoryID == 0)
         {
             ownedCards.Sort(SortByRarity);
@@ -123,25 +154,241 @@ public class CardInventory : MonoBehaviour
         //*****************************************************************
     }
 
-    public void FilterBy()
+    public void FilterOpener()
+    {
+        threeStarsState = threeStars.isOn;
+        fourStarsState = fourStars.isOn;
+        fiveStarsState = fiveStars.isOn;
+        sixStarsState = sixStars.isOn;
+        oneCopyState = oneCopy.isOn;
+        twoCopiesState = twoCopies.isOn;
+        threeCopiesState = threeCopies.isOn;
+        fourCopiesState = fourCopies.isOn;
+        fiveCopiesState = fiveCopies.isOn;
+        rabbitState = rabbit.isOn;
+        dragonState = dragon.isOn;
+        tigerState = tiger.isOn;
+        horseState = horse.isOn;
+        
+        if (filterPanel != null)
+        {
+            //bool isActive = filterPanel.activeSelf;
+            filterPanel.SetActive(true);
+        }
+    }
+
+    public void FilterCloser()
+    {
+        threeStars.isOn = threeStarsState;
+        fourStars.isOn = fourStarsState;
+        fiveStars.isOn = fiveStarsState;
+        sixStars.isOn = sixStarsState;
+        oneCopy.isOn = oneCopyState;
+        twoCopies.isOn = twoCopiesState;
+        threeCopies.isOn = threeCopiesState;
+        fourCopies.isOn = fourCopiesState;
+        fiveCopies.isOn = fiveCopiesState;
+        rabbit.isOn = rabbitState;
+        dragon.isOn = dragonState;
+        tiger.isOn = tigerState;
+        horse.isOn = horseState;
+        if (filterPanel != null)
+        {
+            //bool isActive = filterPanel.activeSelf;
+            filterPanel.SetActive(false);
+        }
+    }
+
+
+
+    // 0 - 3 Stars
+    // 1 - 4 Stars
+    // 2 - 5 Stars
+    // 3 - 6 Stars
+    // 4 - 1 copy
+    // 5 - 2 copies
+    // 6 - 3 copies
+    // 7 - 4 copies
+    // 8 - 5 copies
+    // 9 - Rabbit
+    // 10 - Dragon
+    // 11 - Tiger
+    // 12 - Horse
+    //Confirm filter
+    public void ConfirmFilter()
     {
         ownedCards.Clear();
         
-        // 0 - 3 Stars
-        // 1 - 4 Stars
-        // 2 - 5 Stars
-        // 3 - 6 Stars
-        // 4 - 1 copy
-        // 5 - 2 copies
-        // 6 - 3 copies
-        // 7 - 4 copies
-        // 8 - 5 copies
-        // 9 - Rabbit
-        // 10 - Dragon
-        // 11 - Tiger
-        // 12 - Horse
+        CardSO cardCheck;
+        //bool cardAdded = false;
+        bool zodiacCorrect = false;
+        bool rarityCorrect = false;
+        bool numCopiesCorrect = false;
         
+        for (int i = 0; i < cardManager.cardDB.Length; i++)
+        {
+            cardCheck = cardManager.cardDB[i];
+            
+            switch (cardCheck.rarity)
+            {
+                case Rarity.Three:
+                    {
+                        if (threeStars.isOn)
+                        {
+                            rarityCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case Rarity.Four:
+                    {
+                        if (fourStars.isOn)
+                        {
+                            rarityCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case Rarity.Five:
+                    {
+                        if (fiveStars.isOn)
+                        {
+                            rarityCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case Rarity.Six:
+                    {
+                        if (sixStars.isOn)
+                        {
+                            rarityCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+            }
+            // if (!cardAdded)
+            // {
+            switch (cardCheck.numCopies)
+            {
+                case 1:
+                    {
+                        if (oneCopy.isOn)
+                        {
+                            numCopiesCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        if (twoCopies.isOn)
+                        {
+                            numCopiesCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        if (threeCopies.isOn)
+                        {
+                            numCopiesCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        if (fourCopies.isOn)
+                        {
+                            numCopiesCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case 5:
+                    {
+                        if (fiveCopies.isOn)
+                        {
+                            numCopiesCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+            }
+            // }
+            // if (!cardAdded)
+            // {
+            switch (cardCheck.zodiac)
+            {
+                case Zodiac.Rabbit:
+                    {
+                        if (rabbit.isOn)
+                        {
+                            zodiacCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case Zodiac.Dragon:
+                    {
+                        if (dragon.isOn)
+                        {
+                            zodiacCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case Zodiac.Tiger:
+                    {
+                        if (tiger.isOn)
+                        {
+                            zodiacCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                case Zodiac.Horse:
+                    {
+                        if (horse.isOn)
+                        {
+                            zodiacCorrect = true;
+                            //ownedCards.Add(cardCheck);
+                        }
+                        break;
+                    }
+                // }
+            }
+
+            if (zodiacCorrect && rarityCorrect && numCopiesCorrect)
+            {
+                ownedCards.Add(cardCheck);
+            }
+            zodiacCorrect = false;
+            rarityCorrect = false;
+            numCopiesCorrect = false;
+
+        }
+
+        SortBy(sortCategory);
+
+        threeStarsState = threeStars.isOn;
+        fourStarsState = fourStars.isOn;
+        fiveStarsState = fiveStars.isOn;
+        sixStarsState = sixStars.isOn;
+        oneCopyState = oneCopy.isOn;
+        twoCopiesState = twoCopies.isOn;
+        threeCopiesState = threeCopies.isOn;
+        fourCopiesState = fourCopies.isOn;
+        fiveCopiesState = fiveCopies.isOn;
+        rabbitState = rabbit.isOn;
+        dragonState = dragon.isOn;
+        tigerState = tiger.isOn;
+        horseState = horse.isOn;
         
+        FilterCloser();
     }
 
     public int SortByRarity(CardSO card1, CardSO card2)
