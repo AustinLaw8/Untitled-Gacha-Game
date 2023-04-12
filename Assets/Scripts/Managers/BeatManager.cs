@@ -107,6 +107,26 @@ public class BeatManager : MonoBehaviour
             beatmap.Dequeue();
         }
 
+        // GameObject clone;
+        // while (holdNotes.Count > 0)
+        // {
+        //     // trying to instantiate holdnotes 
+        //     List<(float, int)> holdList = holdNotes.Peek();
+        //     (float time, int lane) firsth = holdList[0];
+
+        //       if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
+        //     {
+        //         break;
+        //     }
+
+        //     clone = GameObject.Instantiate(holdNote);
+        //     float diffTime = (songPosition + spawnDiff) - Mathf.Abs(firsth.time);
+        //     HoldNote hn = clone.GetComponent<HoldNote>();
+        //     hn.SetPoints(diffTime, holdList);
+
+        //     holdNotes.Dequeue();
+        // }
+
         if (beatmap.Count == 0 && !musicSource.isPlaying)
         {
             StartCoroutine(EndGameWithOffset());
