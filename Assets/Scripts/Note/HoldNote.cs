@@ -154,8 +154,8 @@ public class HoldNote : MonoBehaviour
         CalculateTris();
         CalculateUV();
 
-        if (vertices.Count >= 3)
-        {
+        // if (vertices.Count >= 3)
+        // {
             mesh.Clear();
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
@@ -165,7 +165,7 @@ public class HoldNote : MonoBehaviour
             meshFilter.mesh = mesh;
             
             SetCollider();
-        }
+        // }
     }
 
     /**

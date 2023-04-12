@@ -107,25 +107,25 @@ public class BeatManager : MonoBehaviour
             beatmap.Dequeue();
         }
 
-        // GameObject clone;
-        // while (holdNotes.Count > 0)
-        // {
-        //     // trying to instantiate holdnotes 
-        //     List<(float, int)> holdList = holdNotes.Peek();
-        //     (float time, int lane) firsth = holdList[0];
+        GameObject clone;
+        while (holdNotes.Count > 0)
+        {
+            // trying to instantiate holdnotes 
+            List<(float, int)> holdList = holdNotes.Peek();
+            (float time, int lane) firsth = holdList[0];
 
-        //       if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
-        //     {
-        //         break;
-        //     }
+              if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
+            {
+                break;
+            }
 
-        //     clone = GameObject.Instantiate(holdNote);
-        //     float diffTime = (songPosition + spawnDiff) - Mathf.Abs(firsth.time);
-        //     HoldNote hn = clone.GetComponent<HoldNote>();
-        //     hn.SetPoints(diffTime, holdList);
+            clone = GameObject.Instantiate(holdNote);
+            float diffTime = (songPosition + spawnDiff) - Mathf.Abs(firsth.time);
+            HoldNote hn = clone.GetComponent<HoldNote>();
+            hn.SetPoints(diffTime, holdList);
 
-        //     holdNotes.Dequeue();
-        // }
+            holdNotes.Dequeue();
+        }
 
         if (beatmap.Count == 0 && !musicSource.isPlaying)
         {
@@ -184,20 +184,9 @@ public class BeatManager : MonoBehaviour
             string[] times = lines[i].Split(',');
             int lane=-1;
             float songTime=0f;
-            for(int j = 0; j < times.Length; j++)
+            for(int j = 0; j < times.Length; j+=2)
             {
-                if ( j % 2 == 0 )
-                {
-                    if (songTime != 0f)
-                    {
-                        temp.Add( (songTime, lane) );
-                    }
-                    lane = int.Parse(times[j]);
-                }
-                else
-                {
-                    songTime = float.Parse(times[j]);
-                }
+                temp.Add( (float.Parse(times[j+1]), int.Parse(times[j])) );
             }
             holdNotes.Enqueue(temp);
         }
