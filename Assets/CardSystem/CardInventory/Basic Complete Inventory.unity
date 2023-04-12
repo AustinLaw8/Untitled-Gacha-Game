@@ -3300,10 +3300,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 581392919}
-    - target: {fileID: 7317386412818608724, guid: 59469b5cd61574b31b42ef9d895dd6a2, type: 3}
-      propertyPath: m_ChildControlHeight
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7317386412818608726, guid: 59469b5cd61574b31b42ef9d895dd6a2, type: 3}
       propertyPath: m_Name
       value: Filter By Panel

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CardInventory : MonoBehaviour
 {
+    //used to determine spacing
     public float firstX;
     public float firstY;
     public float xSpaceBetweenItem;
@@ -13,24 +15,14 @@ public class CardInventory : MonoBehaviour
     public int spaceBetween;
     public int sortCategory;
 
+    //game objects accessed in code
     [SerializeField] public GameObject cardSlotPrefab;
     [SerializeField] public GameObject cardScreen;
     [SerializeField] public GameObject scrollyBoxContents;
     [SerializeField] public GameObject filterPanel;
+    [SerializeField] public TextMeshProUGUI ascButton;
     
-    // 0 - 3 Stars
-    // 1 - 4 Stars
-    // 2 - 5 Stars
-    // 3 - 6 Stars
-    // 4 - 1 copy
-    // 5 - 2 copies
-    // 6 - 3 copies
-    // 7 - 4 copies
-    // 8 - 5 copies
-    // 9 - Rabbit
-    // 10 - Dragon
-    // 11 - Tiger
-    // 12 - Horse
+    //Used for filter toggles
     private bool threeStarsState = true;
     private bool fourStarsState = true;
     private bool fiveStarsState = true;
@@ -58,12 +50,12 @@ public class CardInventory : MonoBehaviour
     [SerializeField] public Toggle tiger;
     [SerializeField] public Toggle horse;
 
+    private bool ascState = true;
 
-    //[SerializeField] public bool[] filters;
-
+    //List of cards to display
     public List<CardSO> ownedCards = new List<CardSO>();
-    //private List<CardSO> allCards = new List<CardSO>();
 
+    //card manager for access to all cards the player has/ possibly can have
     [SerializeField] CardManager cardManager;
 
     public enum SortCategories
@@ -74,7 +66,7 @@ public class CardInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       
         Vector3[] v = new Vector3[4];
         cardScreen.GetComponent<RectTransform>().GetLocalCorners(v);
 
@@ -82,18 +74,14 @@ public class CardInventory : MonoBehaviour
         ySpaceBetweenItem = xSpaceBetweenItem;
         spaceBetween = (int) xSpaceBetweenItem / 3;
 
-        //firstX = v[1].x + (xSpaceBetweenItem * 2 / 3);
-        //firstY = (v[1].y) - (xSpaceBetweenItem * 2/ 3);
-
-        //firstY = cardScreen.GetComponent<RectTransform>().offsetMin.y;
         for(int i = 0; i < cardManager.cardDB.Length; i++)
         {
             if (cardManager.cardDB[i].numCopies > 0)
             {
                 ownedCards.Add(cardManager.cardDB[i]);
-                //allCards.Add(cardManager.cardDB[i]);
             }
         }
+
 
         scrollyBoxContents.GetComponent<GridLayoutGroup>().cellSize = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
         scrollyBoxContents.GetComponent<GridLayoutGroup>().spacing = new Vector2(spaceBetween, spaceBetween);
@@ -106,19 +94,24 @@ public class CardInventory : MonoBehaviour
         
     }
 
-    public void DisplayCards()
-    {        
-        for (int i = 0; i < ownedCards.Count; i++)
+    public void ToggleAscDesc()
+    {
+        ascState = !ascState;
+        if(ascState)
         {
-            var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
-            //obj.transform.SetParent(scrollyBoxContents.transform, true);
-            // obj.GetComponent<RectTransform>().localPosition = GetPosition(i);
-            //obj.GetComponent<RectTransform>().sizeDelta = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
-            obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
-            
+            ascButton.text = "Ascending";
         }
+        else
+        {
+            ascButton.text = "Descending";
+        }
+        
+        UpdateDisplay();
     }
 
+
+
+    //
     public void SortBy(int categoryID)
     {
         Debug.Log(categoryID);
@@ -145,13 +138,7 @@ public class CardInventory : MonoBehaviour
             ownedCards.Sort(SortByZodiac);
         }
 
-        //******* replace with UpdateDisplay(); after testing done ********
-        foreach(Transform child in scrollyBoxContents.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        DisplayCards();
-        //*****************************************************************
+        UpdateDisplay();
     }
 
     public void FilterOpener()
@@ -199,22 +186,7 @@ public class CardInventory : MonoBehaviour
         }
     }
 
-
-
-    // 0 - 3 Stars
-    // 1 - 4 Stars
-    // 2 - 5 Stars
-    // 3 - 6 Stars
-    // 4 - 1 copy
-    // 5 - 2 copies
-    // 6 - 3 copies
-    // 7 - 4 copies
-    // 8 - 5 copies
-    // 9 - Rabbit
-    // 10 - Dragon
-    // 11 - Tiger
-    // 12 - Horse
-    //Confirm filter
+    //Confirm filter button
     public void ConfirmFilter()
     {
         ownedCards.Clear();
@@ -499,19 +471,39 @@ public class CardInventory : MonoBehaviour
         return card1.ID.CompareTo(card2.ID);
     }
 
+    //adds card icons into inventory
+    public void DisplayCards()
+    {   
+        if (ascState)
+        {
+            for (int i = 0; i < ownedCards.Count; i++)
+            {
+                var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
+                obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
+                
+            }
+        }
+        else{
+            for (int i = ownedCards.Count - 1; i >= 0; i--)
+            {
+                var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
+                obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
+                
+            }
+        }       
+    }
 
     public void UpdateDisplay()
     {
-        foreach(Transform child in cardScreen.transform)
+        foreach(Transform child in scrollyBoxContents.transform)
         {
             Destroy(child.gameObject);
         }
-        //Debug.Log(transform.childCount);
-        //remove UpdateCards line after testing
-        UpdateCards();
+        
         DisplayCards();
     }
 
+    //used for testing, ignore me
     public void UpdateCards()
     {
         ownedCards.Clear();
