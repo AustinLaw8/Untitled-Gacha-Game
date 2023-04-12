@@ -154,8 +154,8 @@ public class HoldNote : MonoBehaviour
         CalculateTris();
         CalculateUV();
 
-        if (vertices.Count >= 3)
-        {
+        // if (vertices.Count >= 3)
+        // {
             mesh.Clear();
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
@@ -165,7 +165,7 @@ public class HoldNote : MonoBehaviour
             meshFilter.mesh = mesh;
             
             SetCollider();
-        }
+        // }
     }
 
     /**
@@ -247,9 +247,9 @@ public class HoldNote : MonoBehaviour
 
                     above.transform.position = new Vector2(xAbove, yAbove);
                     below.transform.position = new Vector2(xBelow, yBelow);
-                        Debug.Log(
-                        1 - ((BeatManager.PLAY_POINT - yBelow) / (yAbove - yBelow))
-                    );
+                    //     Debug.Log(
+                    //     1 - ((BeatManager.PLAY_POINT - yBelow) / (yAbove - yBelow))
+                    // );
                     // lastHoldTime = (timer - fallTime - lastBelow.time) / (firstAbove.time - lastBelow.time);
 
                     vertices.Add(new Vector3(bottom.x - Lane.BOTTOM_DISTANCE_PER_LANE / 2 + INNER_BUMP, BeatManager.PLAY_POINT, -1f));
@@ -301,7 +301,7 @@ public class HoldNote : MonoBehaviour
 
                 above.transform.position = new Vector2(xAbove, yAbove);
                 below.transform.position = new Vector2(xBelow, yBelow);
-                Debug.Log($"{lastHoldTime} {bottom} {(bottom.y - yBelow) / (yAbove - yBelow)}");
+                // Debug.Log($"{lastHoldTime} {bottom} {(bottom.y - yBelow) / (yAbove - yBelow)}");
                 //  {(yAbove - bottom.y) / (yAbove - yBelow)}");
                 // bottom.x += (2.5f * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime * 2 * Time.deltaTime;
 
