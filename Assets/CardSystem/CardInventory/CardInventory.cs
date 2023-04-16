@@ -480,7 +480,7 @@ public class CardInventory : MonoBehaviour
             {
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
-                
+
             }
         }
         else{
@@ -488,7 +488,6 @@ public class CardInventory : MonoBehaviour
             {
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
-                
             }
         }       
     }
