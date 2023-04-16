@@ -7,17 +7,19 @@ using TMPro;
 public class CardInventory : MonoBehaviour
 {
     //used to determine spacing
-    public float firstX;
-    public float firstY;
-    public float xSpaceBetweenItem;
-    public int numColumns;
-    public float ySpaceBetweenItem;
-    public int spaceBetween;
-    public int sortCategory;
+    private float firstX;
+    private float firstY;
+    private float xSpaceBetweenItem;
+    private int numColumns;
+    private float ySpaceBetweenItem;
+    private int spaceBetween;
+    private int sortCategory; 
 
     //game objects accessed in code
+    [SerializeField] public bool forTeamFormation = false;
     [SerializeField] public GameObject cardSlotPrefab;
     [SerializeField] public GameObject cardScreen;
+    [SerializeField] public GameObject scrollView;
     [SerializeField] public GameObject scrollyBoxContents;
     [SerializeField] public GameObject filterPanel;
     [SerializeField] public TextMeshProUGUI ascButton;
@@ -68,7 +70,12 @@ public class CardInventory : MonoBehaviour
     {
        
         Vector3[] v = new Vector3[4];
+
         cardScreen.GetComponent<RectTransform>().GetLocalCorners(v);
+
+
+        float screenWidth = Screen.width;
+
 
         xSpaceBetweenItem = - ((v[1].x - v[2].x) / 22) * 3;
         ySpaceBetweenItem = xSpaceBetweenItem;
@@ -87,6 +94,20 @@ public class CardInventory : MonoBehaviour
         scrollyBoxContents.GetComponent<GridLayoutGroup>().spacing = new Vector2(spaceBetween, spaceBetween);
         scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
         scrollyBoxContents.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (spaceBetween * (((ownedCards.Count + 6)/7) * 3 + 1)));
+        
+        if (forTeamFormation)
+        {
+            //screenView.GetComponent<RectTransform>().sizeDelta = new Vector((Screen.width/2 - 50), 25);
+            xSpaceBetweenItem = - ((v[1].x - v[2].x) / 16) * 3;
+            ySpaceBetweenItem = xSpaceBetweenItem;
+            spaceBetween = (int) xSpaceBetweenItem / 3;
+            scrollyBoxContents.GetComponent<GridLayoutGroup>().cellSize = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
+            scrollyBoxContents.GetComponent<GridLayoutGroup>().spacing = new Vector2(spaceBetween, spaceBetween);
+            scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
+        }
+       
+
+
         Debug.Log(ownedCards.Count);
         Debug.Log(((ownedCards.Count + 6)/7));
         
