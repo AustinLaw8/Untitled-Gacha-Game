@@ -1055,15 +1055,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f30259726af4e5cb48f35ef3731ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstX: 0
-  firstY: 0
-  xSpaceBetweenItem: 0
-  numColumns: 0
-  ySpaceBetweenItem: 0
-  spaceBetween: 0
-  sortCategory: 0
+  forTeamFormation: 0
   cardSlotPrefab: {fileID: 8410323372262238198, guid: 447c5b0095b3845adab712e0146d57d2, type: 3}
   cardScreen: {fileID: 1498831449}
+  scrollView: {fileID: 1268537378}
   scrollyBoxContents: {fileID: 1826299321}
   filterPanel: {fileID: 833509956}
   ascButton: {fileID: 266800167}

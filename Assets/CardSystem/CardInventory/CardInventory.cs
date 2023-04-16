@@ -94,7 +94,7 @@ public class CardInventory : MonoBehaviour
         scrollyBoxContents.GetComponent<GridLayoutGroup>().spacing = new Vector2(spaceBetween, spaceBetween);
         scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
         scrollyBoxContents.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (spaceBetween * (((ownedCards.Count + 6)/7) * 3 + 1)));
-        
+
         if (forTeamFormation)
         {
             //screenView.GetComponent<RectTransform>().sizeDelta = new Vector((Screen.width/2 - 50), 25);
@@ -501,7 +501,7 @@ public class CardInventory : MonoBehaviour
             {
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
-
+                obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
             }
         }
         else{
@@ -509,6 +509,8 @@ public class CardInventory : MonoBehaviour
             {
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
+                obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
+                
             }
         }       
     }
