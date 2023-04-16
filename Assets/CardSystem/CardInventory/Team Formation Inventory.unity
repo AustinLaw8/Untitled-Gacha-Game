@@ -854,8 +854,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6019137591530124584, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: cardDB.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6019137591530124584, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
+      propertyPath: cardDB.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ce5f69c35b824122ac76f996b92aa4b, type: 2}
     - target: {fileID: 6019137591530124584, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: cardDB.Array.data[5]
       value: 
@@ -1055,15 +1059,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f30259726af4e5cb48f35ef3731ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstX: 0
-  firstY: 0
-  xSpaceBetweenItem: 0
-  numColumns: 0
-  ySpaceBetweenItem: 0
-  spaceBetween: 0
-  sortCategory: 0
+  forTeamFormation: 1
   cardSlotPrefab: {fileID: 8410323372262238198, guid: 447c5b0095b3845adab712e0146d57d2, type: 3}
   cardScreen: {fileID: 1498831449}
+  scrollView: {fileID: 0}
   scrollyBoxContents: {fileID: 1826299321}
   filterPanel: {fileID: 833509956}
   ascButton: {fileID: 266800167}
@@ -1697,8 +1696,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25}
-  m_SizeDelta: {x: -50, y: -100}
+  m_AnchoredPosition: {x: 324.61768, y: -25}
+  m_SizeDelta: {x: -699.2352, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1268537380
 MonoBehaviour:
