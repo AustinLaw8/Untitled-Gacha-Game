@@ -27,7 +27,7 @@ public class ScoreManager : MonoBehaviour
 
     private float score;
     private int combo;
-    private int mapBaseScore=1;
+    private int mapBaseScore = 1;
 
     /* [SerializeField] private ScoreToGachaSO container; */
 
@@ -148,7 +148,12 @@ public class ScoreManager : MonoBehaviour
             default:
                 break;
         }
-        return 1;
+        return 1.0f + GetComboSkillMultiplier(0, 0, 0);
+    }
+
+    private float GetComboSkillMultiplier(int numOneStarTigers, int numTwoStarTigers, int numThreeStarTigers)
+    {
+        return numOneStarTigers * 0.03f + numTwoStarTigers * 0.05f + numThreeStarTigers * 0.10f;
     }
 
     /* Various getters/setters */
