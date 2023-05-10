@@ -28,7 +28,9 @@ public class ScoreManager : MonoBehaviour
     private float score;
     private int combo;
     private int mapBaseScore=1;
-    
+
+    /* [SerializeField] private ScoreToGachaSO container; */
+
     [SerializeField] private Slider slider;
     [SerializeField] private Image fill;
     [SerializeField] private Gradient gradient;

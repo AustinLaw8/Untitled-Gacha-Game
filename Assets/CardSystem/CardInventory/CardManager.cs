@@ -10,8 +10,10 @@ public class CardManager : MonoBehaviour
 
     public void Awake()
     {
+        //SaveCards();
         //LoadCards();
         //Load cards in here
+
     }
 
     public void addCard (int cardId)
@@ -84,6 +86,7 @@ public class CardManager : MonoBehaviour
 
 
     string filepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerCards.json" ;} }
+    
     public void SaveCards()
     {
         int[] cardAmounts = new int[cardDB.Length];
@@ -99,6 +102,32 @@ public class CardManager : MonoBehaviour
         Debug.Log(cardData);
     }
 
+
+    public int calculatePower(int numCopies, Rarity rarity)
+    {
+        if (numCopies == 0)
+        {
+            return 0;
+        }
+        if (rarity == Rarity.Three)
+        {
+            return ((3 * 1000 + 3 * 500 * (numCopies - 1)));
+        }
+        else if (rarity == Rarity.Four)
+        {
+            return ((4 * 1000 + 4 * 500 * (numCopies - 1)));
+        }
+        else if (rarity == Rarity.Five)
+        {
+            return ((5 * 1000 + 5 * 500 * (numCopies - 1)));
+        }
+        else if (rarity == Rarity.Six)
+        {
+            return ((5 * 1000 + 5 * 500 * (numCopies - 1)));
+        }
+        return 0;
+    }
+
     public void LoadCards()
     {
         int[] cardAmounts = new int[cardDB.Length];
@@ -109,52 +138,53 @@ public class CardManager : MonoBehaviour
         {
             //update number of copies
             cardDB[i].numCopies = cardAmounts[i];
+            cardDB[i].power = calculatePower(cardDB[i].numCopies, cardDB[i].rarity);
             //adjust card power accordingly
-            if (cardDB[i].rarity == Rarity.Three)
-            {
-                if(cardAmounts[i] > 0)
-                {
-                    cardDB[i].power = (3 * 1000) + (3 * 500 * (cardAmounts[i]-1));
-                }
-                else
-                {
-                    cardDB[i].power = 0;
-                }
+            // if (cardDB[i].rarity == Rarity.Three)
+            // {
+            //     if(cardAmounts[i] > 0)
+            //     {
+            //         cardDB[i].power = (3 * 1000) + (3 * 500 * (cardAmounts[i]-1));
+            //     }
+            //     else
+            //     {
+            //         cardDB[i].power = 0;
+            //     }
                 
-            }
-            else if (cardDB[i].rarity == Rarity.Four)
-            {
-                if(cardAmounts[i] > 0)
-                {
-                    cardDB[i].power = (4 * 1000) + (4 * 500 * (cardAmounts[i]-1));
-                }
-                else
-                {
-                    cardDB[i].power = 0;
-                }
-            }
-            else if (cardDB[i].rarity == Rarity.Five)
-            {
-                if(cardAmounts[i] > 0)
-                {
-                    cardDB[i].power = (5 * 1000) + (5 * 500 * (cardAmounts[i]-1));
-                }
-                else
-                {
-                    cardDB[i].power = 0;
-                }
-            }
-            else
-            {
-                if(cardAmounts[i] > 0)
-                {
-                    cardDB[i].power = (6 * 1000) + (6 * 500 * (cardAmounts[i]-1));
-                }
-                else
-                {
-                    cardDB[i].power = 0;
-                }
-            }
+            // }
+            // else if (cardDB[i].rarity == Rarity.Four)
+            // {
+            //     if(cardAmounts[i] > 0)
+            //     {
+            //         cardDB[i].power = (4 * 1000) + (4 * 500 * (cardAmounts[i]-1));
+            //     }
+            //     else
+            //     {
+            //         cardDB[i].power = 0;
+            //     }
+            // }
+            // else if (cardDB[i].rarity == Rarity.Five)
+            // {
+            //     if(cardAmounts[i] > 0)
+            //     {
+            //         cardDB[i].power = (5 * 1000) + (5 * 500 * (cardAmounts[i]-1));
+            //     }
+            //     else
+            //     {
+            //         cardDB[i].power = 0;
+            //     }
+            // }
+            // else
+            // {
+            //     if(cardAmounts[i] > 0)
+            //     {
+            //         cardDB[i].power = (6 * 1000) + (6 * 500 * (cardAmounts[i]-1));
+            //     }
+            //     else
+            //     {
+            //         cardDB[i].power = 0;
+            //     }
+            // }
             i++;
         }
     }

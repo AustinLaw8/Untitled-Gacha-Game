@@ -114,7 +114,7 @@ public class BeatManager : MonoBehaviour
             List<(float, int)> holdList = holdNotes.Peek();
             (float time, int lane) firsth = holdList[0];
 
-              if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
+            if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
             {
                 break;
             }
