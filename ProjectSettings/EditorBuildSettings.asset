@@ -36,7 +36,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SongScreen.unity
     guid: 840b3368c82085944a873df2ed427b39
   - enabled: 1
-    path: Assets/Scenes/Team.unity
+    path: Assets/Team Formation/Team.unity
     guid: c29f2d400a3d0674cbcf2e33c944880f
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 0580bda10815841ce90f076297198ab9, type: 2}
