@@ -95,7 +95,11 @@ public class TeamManager : MonoBehaviour
         for (int i = 0; i < cardManager.cardDB.Length; i++)
         {
             teamInvIDs.Add((int)cardManager.cardDB[i].ID);
-            Debug.Log("in inv: " + (int)cardManager.cardDB[i].ID);
+        }
+
+        for (int i = 0; i<teamInvIDs.Count; i++)
+        {
+            Debug.Log("in inv: " + teamInvIDs[i] + " " + i);
         }
 
         script.UpdateCards();

@@ -84,20 +84,7 @@ public class CardInventory : MonoBehaviour
 
         if (forTeamFormation)
         {
-            for (int i = 0; i < teamManager.teamInvIDs.Count; i++)
-            {
-                int ID = teamManager.teamInvIDs[i];
-                CardSO card = cardManager.cardDB[0];
-                for (int j = 0; j < cardManager.cardDB.Length; j++)
-                {
-                    if (ID == cardManager.cardDB[j].ID)
-                        card = cardManager.cardDB[j];
-                }
-                if (card.numCopies > 0)
-                {
-                    ownedCards.Add(card);
-                }
-            }
+            UpdateCards();
         }
         else 
         { 
@@ -132,7 +119,7 @@ public class CardInventory : MonoBehaviour
         Debug.Log(ownedCards.Count);
         Debug.Log(((ownedCards.Count + 6)/7));
         
-        DisplayCards();
+        UpdateDisplay();
         
     }
 
@@ -560,20 +547,20 @@ public class CardInventory : MonoBehaviour
             }
         }*/
 
-            for (int i = 0; i < teamManager.teamInvIDs.Count; i++)
+        for (int i = 0; i < teamManager.teamInvIDs.Count; i++)
+        {
+            int ID = teamManager.teamInvIDs[i];
+            CardSO card = null;
+            for (int j = 0; j < cardManager.cardDB.Length; j++)
             {
-                int ID = teamManager.teamInvIDs[i];
-                CardSO card = null;
-                for (int j = 0; j < cardManager.cardDB.Length; j++)
-                {
-                    if (ID == cardManager.cardDB[j].ID)
-                        card = cardManager.cardDB[j];
-                }
-                if (card && card.numCopies > 0)
-                {
-                    ownedCards.Add(card);
-                }
+                if (ID == cardManager.cardDB[j].ID)
+                    card = cardManager.cardDB[j];
             }
+            if (card && card.numCopies > 0)
+            {
+                ownedCards.Add(card);
+            }
+        }
 
         UpdateDisplay();
     }

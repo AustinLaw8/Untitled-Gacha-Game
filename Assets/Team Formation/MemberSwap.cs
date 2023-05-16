@@ -8,8 +8,8 @@ public class MemberSwap : MonoBehaviour
     // TODO - swap selected member with current team member
     [SerializeField] TeamManager teamManager;
     //[SerializeField] CardManager cardManager;
-    private static int invID;
-    private static int teamID;
+    private static int invID = 3900;
+    private static int teamID = 3900;
     private static int teamPos;
     [SerializeField] CardInventory script;
     [SerializeField] TeamInventorySelected scriptInv;
@@ -66,6 +66,8 @@ public class MemberSwap : MonoBehaviour
                 }
             }
         }
+        invID = 3900;
+        teamID = 3900;
         //script = FindObjectOfType<CardInventory>();
         script.UpdateCards();
         scriptInv.ClearImage();
