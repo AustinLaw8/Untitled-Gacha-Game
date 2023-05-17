@@ -142,6 +142,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
                 if (!note.hit)
                 {
                     HealthManager.healthManager.DecreaseHealth(HealthManager.MISS_NOTE_AMOUNT);
+                    ScoreManager.scoreManager.IncreaseScore(Accuracy.Miss);
                     StartCoroutine(DelayedDestroy(other.gameObject));
                 }
                 notes[note.lane].Dequeue();
@@ -229,14 +230,17 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     // Gets accuracy, tells ScoreManager to increase the score, and destroys the pressed Note.
     public void OnNotePressed(Note note)
     {
-        ParticleManager.particleManager.EmitParticlesOnPress(
-            new Vector3((note.lane - Lane.NUM_LANES / 2) * BOTTOM_DISTANCE_PER_LANE, 0, 0)
-        );
-        Accuracy accuracy = GetAccuracy(note);
-        ScoreManager.scoreManager.IncreaseScore(accuracy);
-        Vibration.VibratePeek();
-        note.hit = true;
-        Destroy(note.gameObject);
+        if (BeatManager.beatManager.IsPlaying)
+        {
+            ParticleManager.particleManager.EmitParticlesOnPress(
+                new Vector3((note.lane - Lane.NUM_LANES / 2) * BOTTOM_DISTANCE_PER_LANE, 0, 0)
+            );
+            Accuracy accuracy = GetAccuracy(note);
+            ScoreManager.scoreManager.IncreaseScore(accuracy);
+            Vibration.VibratePeek();
+            note.hit = true;
+            Destroy(note.gameObject);
+        }
     }
 
     protected Accuracy GetAccuracy(Note note)

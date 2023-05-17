@@ -27,7 +27,10 @@ public class ScoreManager : MonoBehaviour
 
     private float score;
     private int combo;
+    private int maxCombo;
     private int mapBaseScore = 1;
+
+    [SerializeField] private BeatManager beatManager; 
 
     [SerializeField] private ScoreToGacha container; 
 
@@ -59,7 +62,6 @@ public class ScoreManager : MonoBehaviour
         score = 0;
         combo = 0;
         maxCombo = 0;
-
     }
 
     public void IncreaseScore(Accuracy accuracy)
@@ -80,7 +82,8 @@ public class ScoreManager : MonoBehaviour
 
     public void GiveHoldPoints()
     {
-        float deltaScore = 0;
+        float deltaScore = mapBaseScore / 10f;
+        combo+=1;
         UpdateScore(deltaScore);
     }
 
@@ -169,26 +172,25 @@ public class ScoreManager : MonoBehaviour
     public void OnEndGame()
     {
         container.score = score;
-        // float percentCombo = 1f * maxCombo / BeatManager.beatManager.GetNotes();
-        if (maxCombo < (BeatManager.beatManager.GetNotes() * 0.25f))
+        if (maxCombo < (beatManager.NumNotes * 0.25f))
         {
-            container.combo = _0;
+            container.combo = Combo._0;
         }
-        else if (maxCombo < (BeatManager.beatManager.GetNotes() * 0.5f))
+        else if (maxCombo < (beatManager.NumNotes * 0.5f))
         {
-            container.combo = _25;
+            container.combo = Combo._25;
         }
-        else if (maxCombo < (BeatManager.beatManager.GetNotes() * 0.75f))
+        else if (maxCombo < (beatManager.NumNotes * 0.75f))
         {
-            container.combo = _50;
+            container.combo = Combo._50;
         }
-        else if (maxCombo < (BeatManager.beatManager.GetNotes() * 1.00f))
+        else if (maxCombo < (beatManager.NumNotes * 1.00f))
         {
-            container.combo = _75;
+            container.combo = Combo._75;
         }
         else
         {
-            container.combo = _100;
+            container.combo = Combo._100;
         }
     }
 
