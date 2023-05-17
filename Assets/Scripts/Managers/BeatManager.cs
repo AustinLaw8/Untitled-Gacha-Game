@@ -16,8 +16,6 @@ public class BeatManager : MonoBehaviour
     public readonly static float SPAWN_POINT = 5f;
     public readonly static float PLAY_POINT = -3.4f;
 
-    public static BeatManager beatManager { get; private set;  }
-
     private static float WAIT_TIME = 5f;
     
     [Header("Game Information")]
@@ -43,13 +41,6 @@ public class BeatManager : MonoBehaviour
 
     private float startTime;
 
-    [SerializeField] private GameObject pauseCanvas;
-    public bool playing;
-    public bool IsPlaying { get {return playing; } }
-
-    private float pauseTime;
-    private float offset;
-
     // A beatmap is represented a queue of (time, lane) notes are meant to exist
     // i.e. (2.2, 3) means that there should be a note to press at 2.2 seconds in lane 3
     private Queue<(float, int)> beatmap = new Queue<(float, int)>();
@@ -62,107 +53,90 @@ public class BeatManager : MonoBehaviour
     private float spawnDiff;
     void Awake()
     {
-        if (beatManager != null && beatManager != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            beatManager = this;
-        }
-
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
         
         Note.fallSpeed = settings.noteSpeed;
         settings.SetVolume();
 
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
-        offset = 0;
-        
     }
 
     void Start()
     {
         LoadSong();
-        playing = true;
         startTime = (float)AudioSettings.dspTime + WAIT_TIME;
-        pauseTime = startTime;
 
         musicSource.clip = container.clip;
-        StartCoroutine("PlayMusicWithOffset", WAIT_TIME);
+        StartCoroutine(PlayMusicWithOffset());
         background.color = new Color(255,255,255,255 * settings.transparency);
     }
 
     void Update()
-    {   
-        if (playing)
+    {
+        songPosition = ((float)AudioSettings.dspTime - startTime);
+
+        float pos;
+        int lane;
+        GameObject noteSpawned;
+        while (beatmap.Count > 0)
         {
-            songPosition = ((float)AudioSettings.dspTime - startTime - offset);
-
-            float pos;
-            int lane;
-            GameObject noteSpawned;
-            while (beatmap.Count > 0)
+            (pos, lane) = beatmap.Peek();
+            
+            if (Mathf.Abs(pos) > songPosition + spawnDiff)
             {
-                (pos, lane) = beatmap.Peek();
-                
-                if (Mathf.Abs(pos) > songPosition + spawnDiff)
-                {
-                    break;
-                }
-
-                if (pos > 0)
-                {
-                    noteSpawned = GameObject.Instantiate(note);
-                }
-                else
-                {
-                    noteSpawned = GameObject.Instantiate(flickNote);
-                }
-                noteSpawned.transform.position = spawnLine.transform.position;
-
-                // calculate the difference in time when the note was supposed to spawn and the time now
-                // move the note a small amount based on that difference in time
-                float diffTime = (songPosition + spawnDiff) - Mathf.Abs(pos);
-                Note n = noteSpawned.GetComponent<Note>();
-                n.SetLane(lane);
-                n.Bump(diffTime);
-
-                beatmap.Dequeue();
-                // Debug.Log($"spawn for time {pos} lane {lane}");
+                break;
             }
 
-            GameObject clone;
-            while (holdNotes.Count > 0)
+            if (pos > 0)
             {
-                // trying to instantiate holdnotes 
-                List<(float, int)> holdList = holdNotes.Peek();
-                (float time, int lane) firsth = holdList[0];
+                noteSpawned = GameObject.Instantiate(note);
+            }
+            else
+            {
+                noteSpawned = GameObject.Instantiate(flickNote);
+            }
+            noteSpawned.transform.position = spawnLine.transform.position;
 
-                if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
-                {
-                    break;
-                }
+            // calculate the difference in time when the note was supposed to spawn and the time now
+            // move the note a small amount based on that difference in time
+            float diffTime = (songPosition + spawnDiff) - Mathf.Abs(pos);
+            Note n = noteSpawned.GetComponent<Note>();
+            n.SetLane(lane);
+            n.Bump(diffTime);
 
-                clone = GameObject.Instantiate(holdNote);
-                float diffTime = (songPosition + spawnDiff) - Mathf.Abs(firsth.time);
-                HoldNote hn = clone.GetComponent<HoldNote>();
-                hn.SetPoints(diffTime, holdList);
+            beatmap.Dequeue();
+        }
 
-                holdNotes.Dequeue();
+        GameObject clone;
+        while (holdNotes.Count > 0)
+        {
+            // trying to instantiate holdnotes 
+            List<(float, int)> holdList = holdNotes.Peek();
+            (float time, int lane) firsth = holdList[0];
+
+            if (Mathf.Abs(firsth.time) > songPosition + spawnDiff)
+            {
+                break;
             }
 
-            if (beatmap.Count == 0 && !musicSource.isPlaying)
-            {
-                StartCoroutine(EndGameWithOffset());
-            }
+            clone = GameObject.Instantiate(holdNote);
+            float diffTime = (songPosition + spawnDiff) - Mathf.Abs(firsth.time);
+            HoldNote hn = clone.GetComponent<HoldNote>();
+            hn.SetPoints(diffTime, holdList);
+
+            holdNotes.Dequeue();
+        }
+
+        if (beatmap.Count == 0 && !musicSource.isPlaying)
+        {
+            StartCoroutine(EndGameWithOffset());
         }
     }
 
     // Adds the offset to the song (to wait for the beat map to start)
-    IEnumerator PlayMusicWithOffset(float time)
+    IEnumerator PlayMusicWithOffset()
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(WAIT_TIME);
         musicSource.Play();
     }
 
@@ -172,32 +146,7 @@ public class BeatManager : MonoBehaviour
         SceneManager.LoadScene("HomeScreen", LoadSceneMode.Single);
     }
 
-    public void OnPause()
-    {
-        if (playing)
-        {
-            pauseTime = (float)AudioSettings.dspTime;
-            if (pauseTime - startTime < WAIT_TIME) { pauseCanvas.SetActive(false); return; }
-            musicSource.Pause();
-            Debug.Log($"pauseTime {pauseTime}");
-            pauseCanvas.SetActive(true);
-            playing = false;
-        }
-    }
-
-    public void OnPlay()
-    {
-        if (!playing)
-        {
-            offset += (float)AudioSettings.dspTime - pauseTime;
-            musicSource.Play();
-            Debug.Log($"total offset {offset}");
-            pauseCanvas.SetActive(false);
-            playing = true;
-        }
-    }
-
-
+    
     // Helper to load whatever song is in the BeatmapSO container
     void LoadSong()
     {
@@ -233,6 +182,8 @@ public class BeatManager : MonoBehaviour
         {
             temp = new List<(float, int)>();
             string[] times = lines[i].Split(',');
+            int lane=-1;
+            float songTime=0f;
             for(int j = 0; j < times.Length; j+=2)
             {
                 temp.Add( (float.Parse(times[j+1]), int.Parse(times[j])) );

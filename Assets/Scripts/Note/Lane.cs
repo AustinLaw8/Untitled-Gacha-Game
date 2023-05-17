@@ -46,6 +46,7 @@ public class Line
 [RequireComponent(typeof(Collider2D))]
 public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler
 {
+
     public static List<Line> LANE_LINES = new List<Line>();
     public static List<Line> LANE_LINES_FOR_OFFSET = new List<Line>();
     public static List<float> LANE_LOCATIONS = new List<float>();
@@ -228,17 +229,14 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     // Gets accuracy, tells ScoreManager to increase the score, and destroys the pressed Note.
     public void OnNotePressed(Note note)
     {
-        if (BeatManager.beatManager.IsPlaying)
-        {
-            ParticleManager.particleManager.EmitParticlesOnPress(
-                new Vector3((note.lane - Lane.NUM_LANES / 2) * BOTTOM_DISTANCE_PER_LANE, 0, 0)
-            );
-            Accuracy accuracy = GetAccuracy(note);
-            ScoreManager.scoreManager.IncreaseScore(accuracy);
-            Vibration.VibratePeek();
-            note.hit = true;
-            Destroy(note.gameObject);
-        }
+        ParticleManager.particleManager.EmitParticlesOnPress(
+            new Vector3((note.lane - Lane.NUM_LANES / 2) * BOTTOM_DISTANCE_PER_LANE, 0, 0)
+        );
+        Accuracy accuracy = GetAccuracy(note);
+        ScoreManager.scoreManager.IncreaseScore(accuracy);
+        Vibration.VibratePeek();
+        note.hit = true;
+        Destroy(note.gameObject);
     }
 
     protected Accuracy GetAccuracy(Note note)
