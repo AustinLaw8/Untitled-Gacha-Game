@@ -19,6 +19,8 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     private bool summonsDone;
     private int numRolls = 10;
 
+    [SerializeField] private ScoreToGacha container; 
+
     // roll rates
     // private float threeStarChance=.05f;
     private float twoStarChance = .35f;
@@ -77,6 +79,12 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     public void Roll(int numberOfRolls)
     {
         Roll(numberOfRolls, Combo._0);
+    }
+
+    // :)
+    public void PostGameRoll()
+    {
+        Roll(numberOfRolls, container.combo);
     }
 
     // Either retrieves and animates summon for next roll, or skips the summon animation and displays the current roll
