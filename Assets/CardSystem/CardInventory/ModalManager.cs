@@ -5,6 +5,8 @@ public class ModalManager : MonoBehaviour
 {
     public GameObject modalWindow;
     public TextMeshProUGUI header;
+
+    public GameObject imageWindow;
     //public GameObject body;
 
     public static ModalManager instance;
@@ -32,5 +34,15 @@ public class ModalManager : MonoBehaviour
     public void HideModal()
     {
         modalWindow.SetActive(false);
+    }
+
+    public void ShowImage()
+    {
+        imageWindow.SetActive(true);
+    }
+
+    public void HideImage()
+    {
+        imageWindow.SetActive(false);
     }
 }
