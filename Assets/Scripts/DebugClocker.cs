@@ -6,7 +6,7 @@ public class DebugClocker : MonoBehaviour
 {
     private float ONE_SECOND = 1f;
 
-    [SerializeField] private bool SPAWN_HOLD=true;
+    // [SerializeField] private bool SPAWN_HOLD=true;
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject flickNote;
     [SerializeField] private GameObject holdNote;
