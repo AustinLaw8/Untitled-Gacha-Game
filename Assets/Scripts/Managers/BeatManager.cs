@@ -156,7 +156,8 @@ public class BeatManager : MonoBehaviour
 
             if (beatmap.Count == 0 && !musicSource.isPlaying)
             {
-                StartCoroutine(EndGameWithOffset());
+                ScoreManager.scoreManager.OnEndGame();
+                StartCoroutine(EndGameWithOffset(WAIT_TIME));
             }
         }
     }
@@ -168,10 +169,10 @@ public class BeatManager : MonoBehaviour
         musicSource.Play();
     }
 
-    IEnumerator EndGameWithOffset()
+    IEnumerator EndGameWithOffset(float time)
     {
-        yield return new WaitForSeconds(WAIT_TIME);
-        SceneManager.LoadScene("HomeScreen", LoadSceneMode.Single);
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene("GachaScreen", LoadSceneMode.Single);
     }
 
     public void OnPause()
@@ -233,8 +234,6 @@ public class BeatManager : MonoBehaviour
         {
             temp = new List<(float, int)>();
             string[] times = lines[i].Split(',');
-            int lane=-1;
-            float songTime=0f;
             for(int j = 0; j < times.Length; j+=2)
             {
                 temp.Add( (float.Parse(times[j+1]), int.Parse(times[j])) );
