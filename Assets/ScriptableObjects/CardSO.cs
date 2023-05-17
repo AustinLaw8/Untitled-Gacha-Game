@@ -26,6 +26,5 @@ public class CardSO : ScriptableObject
     public Zodiac zodiac;
     public int power;
     public int numCopies;
-    // A card's "pivot" is the location about which its icon and character slice will be framed
-    public Vector2 pivot;
+    public string title;
 }

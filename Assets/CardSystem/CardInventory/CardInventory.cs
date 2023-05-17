@@ -518,17 +518,6 @@ public class CardInventory : MonoBehaviour
         }       
     }
 
-    /*
-    public void OpenProfile()
-    {
-        if (profilePanel != null)
-        {
-            //bool isActive = profilePanel.activeSelf;
-            profilePanel.SetActive(isActive);
-        }
-    }
-    */
-
     public void UpdateDisplay()
     {
         foreach(Transform child in scrollyBoxContents.transform)
@@ -537,7 +526,6 @@ public class CardInventory : MonoBehaviour
         }
         
         DisplayCards();
-        //profilePanel = GameObject.Find("ModalPanel");
     }
 
     //used for testing, ignore me

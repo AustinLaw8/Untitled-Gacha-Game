@@ -6,6 +6,6 @@ public class TestPanel : MonoBehaviour
 {
     public void OpenProfile()
     {
-        ModalManager.instance.ShowModal("Modal Header");
+        ModalManager.instance.ShowModal(GetComponent<CardIDIdentifier>().cardID);
     }
 }

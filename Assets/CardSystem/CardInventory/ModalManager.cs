@@ -1,12 +1,18 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ModalManager : MonoBehaviour
 {
     public GameObject modalWindow;
-    public TextMeshProUGUI header;
-
+    //public TextMeshProUGUI header;
+ 
     public GameObject imageWindow;
+    [SerializeField] CardManager cardManager;
+    [SerializeField] RawImage cardImg;
+    [SerializeField] RawImage enlargeImage;
+    private CardSO card;
+
     //public GameObject body;
 
     public static ModalManager instance;
@@ -23,11 +29,11 @@ public class ModalManager : MonoBehaviour
         }
     }
 
-    public void ShowModal(string header)
+    public void ShowModal(int cardID)
     {
-        this.header.text = header;
+        card = cardManager.cardDB[cardID];
+        cardImg.texture = card.cardArt;
 
-        //body.SetActive(true);
         modalWindow.SetActive(true);
     }
 
@@ -36,8 +42,10 @@ public class ModalManager : MonoBehaviour
         modalWindow.SetActive(false);
     }
 
-    public void ShowImage()
+    public void ShowImage(int cardID)
     {
+        enlargeImage.texture = card.cardArt;
+
         imageWindow.SetActive(true);
     }
 
