@@ -29,7 +29,7 @@ public class ScoreManager : MonoBehaviour
     private int combo;
     private int mapBaseScore=1;
 
-    /* [SerializeField] private ScoreToGachaSO container; */
+    [SerializeField] private ScoreToGacha container; 
 
     [SerializeField] private Slider slider;
     [SerializeField] private Image fill;
@@ -58,6 +58,8 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         combo = 0;
+        maxCombo = 0;
+
     }
 
     public void IncreaseScore(Accuracy accuracy)
@@ -112,7 +114,7 @@ public class ScoreManager : MonoBehaviour
     // Returns the score multiplier for a given accuracy
     private float GetAccuracyMultiplierAndUpdateCombo(Accuracy accuracy)
     {
-        // TODO: Set all these values to their actual values, and determine what reset combos.
+        // TODO: Set all these values to their actual values.
         switch (accuracy)
         { 
             case Accuracy.Perfect:
@@ -122,19 +124,27 @@ public class ScoreManager : MonoBehaviour
                 combo += 1;
                 return 4;
             case Accuracy.Good:
-                combo = 0;
+                combo += 1;
                 return 3;
             case Accuracy.Bad:
+                if (combo > maxCombo)
+                {
+                    maxCombo = combo;
+                }
                 combo = 0;
                 return 2;
             case Accuracy.Miss:
+                if (combo > maxCombo)
+                {
+                    maxCombo = combo;
+                }
                 combo = 0;
                 return 0;
             default:
                 return 0;
         }
     }
-
+    
     // Returns the score muliplier for a given accuracy
     // TODO: determine actual values and formula
     private float GetComboMultiplier(int curCombo)
@@ -151,9 +161,36 @@ public class ScoreManager : MonoBehaviour
         return 1;
     }
 
-    /* Various getters/setters */
+    public void OnEndGame()
+    {
+        container.score = score;
+        // float percentCombo = 1f * maxCombo / BeatManager.beatManager.GetNotes();
+        if (maxCombo < (BeatManager.beatManager.GetNotes() * 0.25f))
+        {
+            container.combo = _0;
+        }
+        else if (maxCombo < (BeatManager.beatManager.GetNotes() * 0.5f))
+        {
+            container.combo = _25;
+        }
+        else if (maxCombo < (BeatManager.beatManager.GetNotes() * 0.75f))
+        {
+            container.combo = _50;
+        }
+        else if (maxCombo < (BeatManager.beatManager.GetNotes() * 1.00f))
+        {
+            container.combo = _75;
+        }
+        else
+        {
+            container.combo = _100;
+        }
+    }
+
+    // Various getters/setters 
     public float GetScore() { return score; }
     public float GetCombo() { return combo; }
     public void ResetScore() { score = 0; }
     public void ResetCombo() { combo = 0; }
+    public void ResetMaxCombo() { maxCombo = 0; }
 }

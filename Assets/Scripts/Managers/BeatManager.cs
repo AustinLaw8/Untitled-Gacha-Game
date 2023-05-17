@@ -240,4 +240,9 @@ public class BeatManager : MonoBehaviour
             holdNotes.Enqueue(temp);
         }
     }
+
+    int GetNotes()
+    {
+        return 0;
+    }
 }
