@@ -20,6 +20,8 @@ public class BeatManager : MonoBehaviour
 
     private static float WAIT_TIME = 5f;
     
+    public static BeatManager beatManager { get; private set;  }
+    
     [Header("Game Information")]
     [Tooltip("Container BeatmapSO so BeatManager knows what song to play and load")]
     [SerializeField] private BeatmapSO container;
@@ -59,7 +61,11 @@ public class BeatManager : MonoBehaviour
     // i.e. (2.2, 3), (3.3, 5) means that there should be a note to press at 2.2 seconds and held until 3.3 seconds in lane 5
     private Queue<List<(float, int)>> holdNotes = new Queue<List<(float, int)>>();
 
+    private float numNotes;
+    public float NumNotes { get { return numNotes; } }
+
     private float spawnDiff;
+    
     void Awake()
     {
         if (beatManager != null && beatManager != this)
@@ -78,7 +84,6 @@ public class BeatManager : MonoBehaviour
 
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
         offset = 0;
-        
     }
 
     void Start()
@@ -94,7 +99,7 @@ public class BeatManager : MonoBehaviour
     }
 
     void Update()
-    {   
+    {
         if (playing)
         {
             songPosition = ((float)AudioSettings.dspTime - startTime - offset);
@@ -129,7 +134,6 @@ public class BeatManager : MonoBehaviour
                 n.Bump(diffTime);
 
                 beatmap.Dequeue();
-                // Debug.Log($"spawn for time {pos} lane {lane}");
             }
 
             GameObject clone;
@@ -179,7 +183,6 @@ public class BeatManager : MonoBehaviour
             pauseTime = (float)AudioSettings.dspTime;
             if (pauseTime - startTime < WAIT_TIME) { pauseCanvas.SetActive(false); return; }
             musicSource.Pause();
-            Debug.Log($"pauseTime {pauseTime}");
             pauseCanvas.SetActive(true);
             playing = false;
         }
@@ -191,12 +194,10 @@ public class BeatManager : MonoBehaviour
         {
             offset += (float)AudioSettings.dspTime - pauseTime;
             musicSource.Play();
-            Debug.Log($"total offset {offset}");
             pauseCanvas.SetActive(false);
             playing = true;
         }
     }
-
 
     // Helper to load whatever song is in the BeatmapSO container
     void LoadSong()
@@ -213,6 +214,7 @@ public class BeatManager : MonoBehaviour
                 {
                     float songTime = float.Parse(time);
                     temp.Add( (songTime, i) );
+                    numNotes++;
                 }
             }
         }
@@ -238,11 +240,7 @@ public class BeatManager : MonoBehaviour
                 temp.Add( (float.Parse(times[j+1]), int.Parse(times[j])) );
             }
             holdNotes.Enqueue(temp);
+            numNotes += Mathf.RoundToInt(temp[temp.Count - 1].Item1 - temp[0].Item2) / 10f + 2;
         }
-    }
-
-    int GetNotes()
-    {
-        return 0;
     }
 }

@@ -84,7 +84,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
     // :)
     public void PostGameRoll()
     {
-        Roll(numberOfRolls, container.combo);
+        Roll(10, container.combo);
     }
 
     // Either retrieves and animates summon for next roll, or skips the summon animation and displays the current roll

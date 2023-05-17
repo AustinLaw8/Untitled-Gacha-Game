@@ -34,6 +34,7 @@ public class HoldNote : MonoBehaviour
     private List<int> triangles;
 
     public float timer;
+    private float pointsTimer;
     private float fallTime;
     private float lastHoldTime;
 
@@ -60,6 +61,7 @@ public class HoldNote : MonoBehaviour
         vertices = new List<Vector3>();
 
         timer = 0f;
+        pointsTimer = 0f;
         fallTime = Lane.DISTANCE / Note.fallSpeed;
         start = 0;
         end = 0;
@@ -78,7 +80,12 @@ public class HoldNote : MonoBehaviour
             // While holding, play particles and give points
             if (holding)
             {
-                ScoreManager.scoreManager.GiveHoldPoints();
+                pointsTimer += Time.deltaTime;
+                if (pointsTimer > .1f)
+                {
+                    pointsTimer = 0f;
+                    ScoreManager.scoreManager.GiveHoldPoints();
+                }
                 if (bottom != Vector2.zero)
                 {
                     PlayParticles();
@@ -87,6 +94,7 @@ public class HoldNote : MonoBehaviour
             else
             {
                 if (particles) particles.Stop();
+                pointsTimer = 0f;
             }
             
             // Draws the sprite that represents where the "start" of the hold note is

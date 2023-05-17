@@ -141,6 +141,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
                 if (!note.hit)
                 {
                     HealthManager.healthManager.DecreaseHealth(HealthManager.MISS_NOTE_AMOUNT);
+                    ScoreManager.scoreManager.IncreaseScore(Accuracy.Miss);
                     StartCoroutine(DelayedDestroy(other.gameObject));
                 }
                 notes[note.lane].Dequeue();
