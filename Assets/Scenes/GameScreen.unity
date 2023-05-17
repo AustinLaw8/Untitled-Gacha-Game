@@ -454,7 +454,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &733954388
@@ -528,6 +528,14 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 964838823}
+    - target: {fileID: 1536787873329030460, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: container
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c121ec638f57485cb9064a4e3631eeb, type: 2}
+    - target: {fileID: 1536787873329030460, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: beatManager
+      value: 
+      objectReference: {fileID: 744484030}
     - target: {fileID: 1536787873656430272, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: m_Name
       value: GameManagers
@@ -1218,7 +1226,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1300807151
@@ -1819,6 +1827,14 @@ PrefabInstance:
     - target: {fileID: 8823745638604270454, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8823745638604270455, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8823745638604270455, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8823745638604270458, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_Name

@@ -30,9 +30,7 @@ public class ScoreManager : MonoBehaviour
     private int maxCombo;
     private int mapBaseScore = 1;
 
-    [SerializeField] private BeatManager beatManager; 
-
-    [SerializeField] private ScoreToGacha container; 
+    [SerializeField] private ScoreToGachaSO container; 
 
     [SerializeField] private Slider slider;
     [SerializeField] private Image fill;
@@ -167,19 +165,19 @@ public class ScoreManager : MonoBehaviour
     public void OnEndGame()
     {
         container.score = score;
-        if (maxCombo < (beatManager.NumNotes * 0.25f))
+        if (maxCombo < (BeatManager.beatManager.NumNotes * 0.25f))
         {
             container.combo = Combo._0;
         }
-        else if (maxCombo < (beatManager.NumNotes * 0.5f))
+        else if (maxCombo < (BeatManager.beatManager.NumNotes * 0.5f))
         {
             container.combo = Combo._25;
         }
-        else if (maxCombo < (beatManager.NumNotes * 0.75f))
+        else if (maxCombo < (BeatManager.beatManager.NumNotes * 0.75f))
         {
             container.combo = Combo._50;
         }
-        else if (maxCombo < (beatManager.NumNotes * 1.00f))
+        else if (maxCombo < (BeatManager.beatManager.NumNotes * 1.00f))
         {
             container.combo = Combo._75;
         }
