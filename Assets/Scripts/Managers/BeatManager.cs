@@ -20,8 +20,6 @@ public class BeatManager : MonoBehaviour
 
     private static float WAIT_TIME = 5f;
     
-    public static BeatManager beatManager { get; private set;  }
-    
     [Header("Game Information")]
     [Tooltip("Container BeatmapSO so BeatManager knows what song to play and load")]
     [SerializeField] private BeatmapSO container;
