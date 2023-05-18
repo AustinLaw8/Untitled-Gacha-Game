@@ -272,9 +272,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   easyButton: {fileID: 1436504164}
   hardButton: {fileID: 232505031}
-  container: {fileID: 0}
-  easy: {fileID: 0}
-  hard: {fileID: 0}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
+  easy: {fileID: 11400000, guid: c4498d1cfb5f1414799bb491c8a8d42d, type: 2}
+  hard: {fileID: 11400000, guid: 830f00b1dc97e4f179523426711e0f3e, type: 2}
 --- !u!1 &227673724
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c1aeaed2e354e20aaa67884c47b1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatmap: {fileID: 0}
+  beatmap: {fileID: 11400000, guid: bfa62e36828644c2cbc9d837081cad01, type: 2}
   container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
 --- !u!114 &232505032
 MonoBehaviour:
@@ -845,9 +845,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   easyButton: {fileID: 1436504164}
   hardButton: {fileID: 232505031}
-  container: {fileID: 0}
-  easy: {fileID: 0}
-  hard: {fileID: 0}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
+  easy: {fileID: 11400000, guid: 3b8cf14a77cbc4345a22af13214cbff0, type: 2}
+  hard: {fileID: 11400000, guid: f2116cdbeebf04c6680edce6bf42864a, type: 2}
 --- !u!1 &652821413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,9 +1342,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   easyButton: {fileID: 1436504164}
   hardButton: {fileID: 232505031}
-  container: {fileID: 0}
-  easy: {fileID: 0}
-  hard: {fileID: 0}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
+  easy: {fileID: 11400000, guid: bb3af99a107974e7da4505aff59003a5, type: 2}
+  hard: {fileID: 11400000, guid: 162c8a10fe6aa4147a1e09aaf90a1d88, type: 2}
 --- !u!1 &876556695
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,9 +1494,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   easyButton: {fileID: 1436504164}
   hardButton: {fileID: 232505031}
-  container: {fileID: 0}
-  easy: {fileID: 0}
-  hard: {fileID: 0}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
+  easy: {fileID: 11400000, guid: b8730a4e228c2427db8817a749ee6e1c, type: 2}
+  hard: {fileID: 11400000, guid: bfa62e36828644c2cbc9d837081cad01, type: 2}
 --- !u!1 &961855732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2244,7 +2244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c1aeaed2e354e20aaa67884c47b1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatmap: {fileID: 0}
+  beatmap: {fileID: 11400000, guid: b8730a4e228c2427db8817a749ee6e1c, type: 2}
   container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
 --- !u!114 &1436504165
 MonoBehaviour:
@@ -2352,7 +2352,6 @@ GameObject:
   - component: {fileID: 1481698674}
   - component: {fileID: 1481698673}
   - component: {fileID: 1481698672}
-  - component: {fileID: 1481698671}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -2381,20 +2380,6 @@ RectTransform:
   m_AnchoredPosition: {x: 175, y: -175}
   m_SizeDelta: {x: 160, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1481698671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481698669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c1aeaed2e354e20aaa67884c47b1b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beatmap: {fileID: 0}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
 --- !u!114 &1481698672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2449,18 +2434,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: GameScreen
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1481698671}
-        m_TargetAssemblyTypeName: SetBeatmap, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1481698673

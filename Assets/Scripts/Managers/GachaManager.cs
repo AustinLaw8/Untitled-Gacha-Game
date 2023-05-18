@@ -5,21 +5,48 @@ using UnityEngine.UI;
 // using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
+using System.IO;
+
+[System.Serializable]
+public class PlayerSongInfo
+{
+    private static int NUM_SONGS = 4;
+    public static string songInfoFilePath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerSongInfo.json" ;} }
+
+    public int tickets;
+    public bool[] rewardsReceived = new bool[4 * 2 * NUM_SONGS];
+
+    public static PlayerSongInfo GetPlayerSongInfo()
+    {
+        try {
+            string songInfo = System.IO.File.ReadAllText(songInfoFilePath, System.Text.Encoding.UTF8);
+            return JsonUtility.FromJson<PlayerSongInfo>(songInfo);
+        } catch (FileNotFoundException) {
+            return new PlayerSongInfo();
+        }
+    }
+
+    public static void Write(PlayerSongInfo obj)
+    {
+        string writeback = JsonUtility.ToJson(obj);
+        System.IO.File.WriteAllText(songInfoFilePath, writeback, System.Text.Encoding.UTF8);
+    }
+}
 
 // Handles rolling and animating the roll
-public class GachaManager : MonoBehaviour, IPointerDownHandler
+public class GachaManager : MonoBehaviour
 {
     public static int CARD_WIDTH = 2048;
     public static int CARD_HEIGHT = 1261;
 
     private int currentCard;
     private RawImage cardImage;
-    private bool summonsDone;
     private int numRolls = 10;
     // array to hold the texture results of the roll
     private int[] rolls;
 
     [SerializeField] private ScoreToGachaSO container; 
+    [SerializeField] private BeatmapSO beatmapContainer;
     // [SerializeField] private CardDBSO cardDB; 
     [SerializeField] private CardManager cardDB; 
     [SerializeField] private GameObject allResults;
@@ -62,7 +89,6 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    // Interface for a button to tell the GachaManager to start rolling
     public void Roll(int numberOfRolls, Combo combo)
     {
         numRolls = numberOfRolls;
@@ -74,16 +100,17 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         RunAnimationLoop();
     }
 
-    // Interface for a button to tell the GachaManager to start rolling
-    public void Roll(int numberOfRolls)
+    public void Roll()
     {
-        Roll(numberOfRolls, Combo._0);
-    }
-
-    // :)
-    public void PostGameRoll()
-    {
-        Roll(10, container.combo);
+        if (container.postGame)
+        {
+            Roll(10, container.combo);
+            GiveTickets();
+        }
+        else
+        {
+            Roll(container.numRolls, Combo._0);
+        }
     }
 
     // Either retrieves and animates summon for next roll, or skips the summon animation and displays the current roll
@@ -100,6 +127,7 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
             {
                 card.SetActive(false);
                 allResults.SetActive(true);
+                container.reset();
                 return;
             }
             animationTime = 0f;
@@ -158,14 +186,15 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
         }
         return id;
     }
-    public void OnPointerDown(PointerEventData e)
-    {
-        // insert some async stuff here about waiting for cards to be received 
-        if (summonsDone)
-        {
-            RunAnimationLoop();
-        }
-    }
+
+    // public void OnPointerDown(PointerEventData e)
+    // {
+    //     // insert some async stuff here about waiting for cards to be received 
+    //     if (summonsDone)
+    //     {
+    //         RunAnimationLoop();
+    //     }
+    // }
 
     // Checks if animator is currently playing the fade animation (essentially the animation the plays between each roll)
     private bool AnimatorIsPlaying()
@@ -211,6 +240,43 @@ public class GachaManager : MonoBehaviour, IPointerDownHandler
                 oneStarChance = .56f;
                 break;
         }
+    }
+
+    private void GiveTickets()
+    {
+        PlayerSongInfo playerSongInfo = PlayerSongInfo.GetPlayerSongInfo();
+        switch (container.grade)
+        {
+            case Grade.C:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID])
+                {
+                    playerSongInfo.tickets += 1;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID] = true;
+                }
+                break;
+            case Grade.B:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 1])
+                {
+                    playerSongInfo.tickets += 3;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 1] = true;
+                }
+                break;
+            case Grade.A:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 2])
+                {
+                    playerSongInfo.tickets += 5;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 2] = true;
+                }
+                break;
+            case Grade.S:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 3])
+                {
+                    playerSongInfo.tickets += 10;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 3] = true;
+                }
+                break;
+        }
+        PlayerSongInfo.Write(playerSongInfo);
     }
 }
 

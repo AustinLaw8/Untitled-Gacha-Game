@@ -26,6 +26,7 @@ public class ScoreManager : MonoBehaviour
     private static float BREAKPOINT_S=1000f;
 
     private float score;
+    private Grade grade;
     private int combo;
     private int maxCombo;
     private int mapBaseScore = 1;
@@ -94,18 +95,22 @@ public class ScoreManager : MonoBehaviour
         }
         else if (score <= BREAKPOINT_B)
         {
+            grade = Grade.C;
             letter.sprite = C;
         }
         else if (score <= BREAKPOINT_A)
         {
+            grade = Grade.B;
             letter.sprite = B;
         }
         else if (score <= BREAKPOINT_S)
         {
+            grade = Grade.A;
             letter.sprite = A;
         }
         else
         {
+            grade = Grade.S;
             letter.sprite = S;
         }
         slider.value = score/BREAKPOINT_S;
@@ -165,6 +170,8 @@ public class ScoreManager : MonoBehaviour
     public void OnEndGame()
     {
         container.score = score;
+        container.grade = grade;
+        container.postGame = true;
         if (maxCombo < (BeatManager.beatManager.NumNotes * 0.25f))
         {
             container.combo = Combo._0;
