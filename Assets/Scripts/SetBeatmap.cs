@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class SetBeatmap : MonoBehaviour
 {
-    public BeatmapSO beatmap;
+    public BeatmapSO temp;
     [SerializeField] private BeatmapSO container;
 
     public void SetContainer()
-        { container = beatmap; } // on click
+    {
+        container.songName = temp.songName;
+        container.mapData = temp.mapData;
+        container.clip = temp.clip;
+        container.artist = temp.artist;
+    }
 }

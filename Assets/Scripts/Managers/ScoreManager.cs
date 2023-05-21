@@ -26,12 +26,10 @@ public class ScoreManager : MonoBehaviour
     private static float BREAKPOINT_S=1000f;
 
     private float score;
-    private Grade grade;
     private int combo;
-    private int maxCombo;
     private int mapBaseScore = 1;
 
-    [SerializeField] private ScoreToGachaSO container; 
+    /* [SerializeField] private ScoreToGachaSO container; */
 
     [SerializeField] private Slider slider;
     [SerializeField] private Image fill;
@@ -60,7 +58,6 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         combo = 0;
-        maxCombo = 0;
     }
 
     public void IncreaseScore(Accuracy accuracy)
@@ -81,8 +78,7 @@ public class ScoreManager : MonoBehaviour
 
     public void GiveHoldPoints()
     {
-        float deltaScore = mapBaseScore / 10f;
-        combo+=1;
+        float deltaScore = 0;
         UpdateScore(deltaScore);
     }
 
@@ -95,22 +91,18 @@ public class ScoreManager : MonoBehaviour
         }
         else if (score <= BREAKPOINT_B)
         {
-            grade = Grade.C;
             letter.sprite = C;
         }
         else if (score <= BREAKPOINT_A)
         {
-            grade = Grade.B;
             letter.sprite = B;
         }
         else if (score <= BREAKPOINT_S)
         {
-            grade = Grade.A;
             letter.sprite = A;
         }
         else
         {
-            grade = Grade.S;
             letter.sprite = S;
         }
         slider.value = score/BREAKPOINT_S;
@@ -120,7 +112,7 @@ public class ScoreManager : MonoBehaviour
     // Returns the score multiplier for a given accuracy
     private float GetAccuracyMultiplierAndUpdateCombo(Accuracy accuracy)
     {
-        // TODO: Set all these values to their actual values.
+        // TODO: Set all these values to their actual values, and determine what reset combos.
         switch (accuracy)
         { 
             case Accuracy.Perfect:
@@ -130,27 +122,19 @@ public class ScoreManager : MonoBehaviour
                 combo += 1;
                 return 4;
             case Accuracy.Good:
-                combo += 1;
+                combo = 0;
                 return 3;
             case Accuracy.Bad:
-                if (combo > maxCombo)
-                {
-                    maxCombo = combo;
-                }
                 combo = 0;
                 return 2;
             case Accuracy.Miss:
-                if (combo > maxCombo)
-                {
-                    maxCombo = combo;
-                }
                 combo = 0;
                 return 0;
             default:
                 return 0;
         }
     }
-    
+
     // Returns the score muliplier for a given accuracy
     // TODO: determine actual values and formula
     private float GetComboMultiplier(int curCombo)
@@ -164,40 +148,17 @@ public class ScoreManager : MonoBehaviour
             default:
                 break;
         }
-        return 1;
+        return 1.0f + GetComboSkillMultiplier(0, 0, 0);
     }
 
-    public void OnEndGame()
+    private float GetComboSkillMultiplier(int numOneStarTigers, int numTwoStarTigers, int numThreeStarTigers)
     {
-        container.score = score;
-        container.grade = grade;
-        container.postGame = true;
-        if (maxCombo < (BeatManager.beatManager.NumNotes * 0.25f))
-        {
-            container.combo = Combo._0;
-        }
-        else if (maxCombo < (BeatManager.beatManager.NumNotes * 0.5f))
-        {
-            container.combo = Combo._25;
-        }
-        else if (maxCombo < (BeatManager.beatManager.NumNotes * 0.75f))
-        {
-            container.combo = Combo._50;
-        }
-        else if (maxCombo < (BeatManager.beatManager.NumNotes * 1.00f))
-        {
-            container.combo = Combo._75;
-        }
-        else
-        {
-            container.combo = Combo._100;
-        }
+        return numOneStarTigers * 0.03f + numTwoStarTigers * 0.05f + numThreeStarTigers * 0.10f;
     }
 
-    // Various getters/setters 
+    /* Various getters/setters */
     public float GetScore() { return score; }
     public float GetCombo() { return combo; }
     public void ResetScore() { score = 0; }
     public void ResetCombo() { combo = 0; }
-    public void ResetMaxCombo() { maxCombo = 0; }
 }

@@ -32,6 +32,7 @@ public class HealthManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI health;
     private int currentHealth;
+    private bool healSkill = false;
 
     void Awake()
     {
@@ -52,6 +53,25 @@ public class HealthManager : MonoBehaviour
         currentHealth = startingHP;
         SetHealthSlider();
         ColorCheck();
+
+        if (getHealSkillAmount(0, 0, 0) != 0)
+            healSkill = true;
+    }
+
+    void Update()
+    {
+        if (healSkill && (float)AudioSettings.dspTime % 10.0 == 0.0)
+        {
+            if (startingHP - currentHealth <= getHealSkillAmount(0, 0, 0))
+                currentHealth = startingHP;
+            else
+                IncreaseHealth(getHealSkillAmount(0, 0, 0));
+        }
+    }
+
+    private int getHealSkillAmount(int numOneStarRabbits, int numTwoStarRabbits, int numThreeStarRabbits)
+    {
+        return numOneStarRabbits * 1 + numTwoStarRabbits * 2 + numThreeStarRabbits * 3;
     }
 
     public void IncreaseHealth(int amount)

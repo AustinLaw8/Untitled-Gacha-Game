@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Beatmap", menuName = "ScriptableObjects/Beatmap", order = 1)]
 public class BeatmapSO : ScriptableObject
 {
-    public uint ID;
+    // public uint ID;
     public string songName;
     public TextAsset mapData;
     // public float duration;
