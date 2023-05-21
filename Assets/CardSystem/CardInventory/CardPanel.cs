@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestPanel : MonoBehaviour
+public class CardPanel : MonoBehaviour
 {
     public void OpenProfile()
     {
