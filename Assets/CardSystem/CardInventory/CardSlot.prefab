@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 8410323372262238203}
   - component: {fileID: 8410323372262238200}
   - component: {fileID: 6347779713786931319}
-  - component: {fileID: -622189412625981425}
-  - component: {fileID: 7756966244639170698}
+  - component: {fileID: 9027909411156029105}
   m_Layer: 5
   m_Name: CardSlot
   m_TagString: Untagged
@@ -92,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardID: 0
---- !u!114 &-622189412625981425
+--- !u!114 &9027909411156029105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,28 +134,4 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8410323372262238200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7756966244639170698}
-        m_TargetAssemblyTypeName: TestPanel, Assembly-CSharp
-        m_MethodName: OpenProfile
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7756966244639170698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8410323372262238198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9fc650c3bdc3364a8aa7054958d91ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls: []

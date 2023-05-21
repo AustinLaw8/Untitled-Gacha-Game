@@ -34,6 +34,7 @@ public class HoldNote : MonoBehaviour
     private List<int> triangles;
 
     public float timer;
+    private float pointsTimer;
     private float fallTime;
     private float lastHoldTime;
 
@@ -60,6 +61,7 @@ public class HoldNote : MonoBehaviour
         vertices = new List<Vector3>();
 
         timer = 0f;
+        pointsTimer = 0f;
         fallTime = Lane.DISTANCE / Note.fallSpeed;
         start = 0;
         end = 0;
@@ -67,37 +69,46 @@ public class HoldNote : MonoBehaviour
 
     void Update()
     {
-        // Checks if it has to delete itself
-        // This is sort of a hack to ensure the note is destroyed by checking if the endNote is destroyed
-        if (endNoteSpawned && endNote == null)
+        if (BeatManager.beatManager.IsPlaying)
         {
-            Destroy(this.gameObject);
-        }
-        // While holding, play particles and give points
-        if (holding)
-        {
-            ScoreManager.scoreManager.GiveHoldPoints();
+            // Checks if it has to delete itself
+            // This is sort of a hack to ensure the note is destroyed by checking if the endNote is destroyed
+            if (endNoteSpawned && endNote == null)
+            {
+                Destroy(this.gameObject);
+            }
+            // While holding, play particles and give points
+            if (holding)
+            {
+                pointsTimer += Time.deltaTime;
+                if (pointsTimer > .1f)
+                {
+                    pointsTimer = 0f;
+                    ScoreManager.scoreManager.GiveHoldPoints();
+                }
+                if (bottom != Vector2.zero)
+                {
+                    PlayParticles();
+                }
+            }
+            else
+            {
+                if (particles) particles.Stop();
+                pointsTimer = 0f;
+            }
+            
+            // Draws the sprite that represents where the "start" of the hold note is
             if (bottom != Vector2.zero)
             {
-                PlayParticles();
+                noteSprite.transform.position = new Vector3(bottom.x, bottom.y, -2f);
+                noteSprite.SetActive(bottom.y>-5.45f);
             }
-        }
-        else
-        {
-            if (particles) particles.Stop();
-        }
-        
-        // Draws the sprite that represents where the "start" of the hold note is
-        if (bottom != Vector2.zero)
-        {
-            noteSprite.transform.position = new Vector3(bottom.x, bottom.y, -2f);
-            noteSprite.SetActive(bottom.y>-5.45f);
-        }
 
-        timer += Time.deltaTime;
+            timer += Time.deltaTime;
 
-        // Update mesh and collider
-        UpdateAll();
+            // Update mesh and collider
+            UpdateAll();
+        }
     }
 
     // Gets particles if necessary, and then plays them at the bottom

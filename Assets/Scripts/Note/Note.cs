@@ -49,19 +49,22 @@ public class Note : MonoBehaviour
     // Drops note
     void Update()
     {
-        timer += Time.deltaTime;
+        if (BeatManager.beatManager.IsPlaying)
+        {
+            timer += Time.deltaTime;
 
-        // Calculates smoothing based on time spent falling
-        smoothing = Mathf.Lerp(0,2,timer/fallTime);
+            // Calculates smoothing based on time spent falling
+            smoothing = Mathf.Lerp(0,2,timer/fallTime);
 
-        // Calculates ySpeed, xSpeed, and scalingRate based on smoothing
-        ySpeed = Lane.DISTANCE / fallTime * smoothing;
-        xSpeed = (laneOffset * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime * smoothing;
-        scaleRate = (END_SCALE - START_SCALE) / fallTime * smoothing;
+            // Calculates ySpeed, xSpeed, and scalingRate based on smoothing
+            ySpeed = Lane.DISTANCE / fallTime * smoothing;
+            xSpeed = (laneOffset * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime * smoothing;
+            scaleRate = (END_SCALE - START_SCALE) / fallTime * smoothing;
 
-        // Move and scale
-        this.transform.position += new Vector3(xSpeed, -ySpeed, 0) * Time.deltaTime;
-        this.transform.localScale += new Vector3(scaleRate, scaleRate, scaleRate) * Time.deltaTime;
+            // Move and scale
+            this.transform.position += new Vector3(xSpeed, -ySpeed, 0) * Time.deltaTime;
+            this.transform.localScale += new Vector3(scaleRate, scaleRate, scaleRate) * Time.deltaTime;
+        }
     }
 
     // Sets laneOffset, position, and sprite based on lane
