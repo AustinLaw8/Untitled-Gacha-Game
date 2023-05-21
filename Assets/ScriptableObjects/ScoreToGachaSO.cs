@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreToGacha : MonoBehaviour
+[CreateAssetMenu(fileName = "ScoreToGacha", menuName = "ScriptableObjects/ScoreToGacha", order = 1)]
+public class ScoreToGachaSO : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Allow Gacha Manager to access the combo percent and total score
+    public Combo combo;
+    public float score;
+    public Grade grade;
+    public bool postGame;
+    public int numRolls;
 
-    // Update is called once per frame
-    void Update()
+    public void reset()
     {
-        
+        combo = Combo._0;
+        score = 0;
+        grade = Grade.C;
+        postGame = false;
+        numRolls = 0;
     }
 }

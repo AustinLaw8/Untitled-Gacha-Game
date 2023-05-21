@@ -62,6 +62,7 @@ public class CardInventory : MonoBehaviour
 
     //card manager for access to all cards the player has/ possibly can have
     [SerializeField] CardManager cardManager;
+    [SerializeField] TeamManager teamManager;
 
     public enum SortCategories
     {
@@ -84,11 +85,18 @@ public class CardInventory : MonoBehaviour
         ySpaceBetweenItem = xSpaceBetweenItem;
         spaceBetween = (int) xSpaceBetweenItem / 3;
 
-        for(int i = 0; i < cardManager.cardDB.Length; i++)
+        if (forTeamFormation)
         {
-            if (cardManager.cardDB[i].numCopies > 0)
+            UpdateCards();
+        }
+        else 
+        { 
+            for(int i = 0; i < cardManager.cardDB.Length; i++)
             {
-                ownedCards.Add(cardManager.cardDB[i]);
+                if (cardManager.cardDB[i].numCopies > 0)
+                {
+                    ownedCards.Add(cardManager.cardDB[i]);
+                }
             }
         }
 
@@ -114,9 +122,10 @@ public class CardInventory : MonoBehaviour
         Debug.Log(ownedCards.Count);
         Debug.Log(((ownedCards.Count + 6)/7));
         
-        DisplayCards();
+        UpdateDisplay();
         
     }
+
 
     public void ToggleAscDesc()
     {
@@ -529,16 +538,34 @@ public class CardInventory : MonoBehaviour
     }
 
     //used for testing, ignore me
+    // Tiffany: hijacking this
     public void UpdateCards()
     {
         ownedCards.Clear();
-        for(int i = 0; i < cardManager.cardDB.Length; i++)
+        /*for(int i = 0; i < cardManager.cardDB.Length; i++)
         {
             if (cardManager.cardDB[i].numCopies > 0)
             {
                 ownedCards.Add(cardManager.cardDB[i]);
             }
+        }*/
+
+        for (int i = 0; i < teamManager.teamInvIDs.Count; i++)
+        {
+            int ID = teamManager.teamInvIDs[i];
+            CardSO card = null;
+            for (int j = 0; j < cardManager.cardDB.Length; j++)
+            {
+                if (ID == cardManager.cardDB[j].ID)
+                    card = cardManager.cardDB[j];
+            }
+            if (card && card.numCopies > 0)
+            {
+                ownedCards.Add(card);
+            }
         }
+
+        UpdateDisplay();
     }
 
     public Vector2 GetPosition(int i)
