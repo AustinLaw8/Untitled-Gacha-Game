@@ -7,13 +7,27 @@ using System;
 public class CardManager : MonoBehaviour
 {
     [SerializeField] public CardSO[] cardDB;
-
+    public static CardManager cardManager { get; private set;  }
+    static string cardFilepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerCards.json" ;} }
+    
     public void Awake()
     {
-        //SaveCards();
-        //LoadCards();
-        //Load cards in here
+        if (cardManager != null && cardManager != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            cardManager = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
 
+        try {
+            LoadCards();
+        } catch {
+            SaveCards();
+            LoadCards();
+        }
     }
 
     public void addCard (int cardId)
@@ -83,9 +97,6 @@ public class CardManager : MonoBehaviour
 	{
 		public int[] Items;
 	}
-
-
-    string filepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerCards.json" ;} }
     
     public void SaveCards()
     {
@@ -97,9 +108,9 @@ public class CardManager : MonoBehaviour
             i++;
         }
         var cardData = ToJson(cardAmounts);
-        Debug.Log(cardData);
-        System.IO.File.WriteAllText(filepath, cardData, System.Text.Encoding.UTF8);
-        Debug.Log(cardData);
+        // Debug.Log(cardData);
+        System.IO.File.WriteAllText(cardFilepath, cardData, System.Text.Encoding.UTF8);
+        // Debug.Log(cardData);
     }
 
 
@@ -131,7 +142,7 @@ public class CardManager : MonoBehaviour
     public void LoadCards()
     {
         int[] cardAmounts = new int[cardDB.Length];
-        var loadedCardData = System.IO.File.ReadAllText(filepath, System.Text.Encoding.UTF8);
+        var loadedCardData = System.IO.File.ReadAllText(cardFilepath, System.Text.Encoding.UTF8);
         cardAmounts = FromJson(loadedCardData);
         int i = 0;
         while (i < cardDB.Length)
@@ -140,51 +151,6 @@ public class CardManager : MonoBehaviour
             cardDB[i].numCopies = cardAmounts[i];
             cardDB[i].power = calculatePower(cardDB[i].numCopies, cardDB[i].rarity);
             //adjust card power accordingly
-            // if (cardDB[i].rarity == Rarity.Three)
-            // {
-            //     if(cardAmounts[i] > 0)
-            //     {
-            //         cardDB[i].power = (3 * 1000) + (3 * 500 * (cardAmounts[i]-1));
-            //     }
-            //     else
-            //     {
-            //         cardDB[i].power = 0;
-            //     }
-                
-            // }
-            // else if (cardDB[i].rarity == Rarity.Four)
-            // {
-            //     if(cardAmounts[i] > 0)
-            //     {
-            //         cardDB[i].power = (4 * 1000) + (4 * 500 * (cardAmounts[i]-1));
-            //     }
-            //     else
-            //     {
-            //         cardDB[i].power = 0;
-            //     }
-            // }
-            // else if (cardDB[i].rarity == Rarity.Five)
-            // {
-            //     if(cardAmounts[i] > 0)
-            //     {
-            //         cardDB[i].power = (5 * 1000) + (5 * 500 * (cardAmounts[i]-1));
-            //     }
-            //     else
-            //     {
-            //         cardDB[i].power = 0;
-            //     }
-            // }
-            // else
-            // {
-            //     if(cardAmounts[i] > 0)
-            //     {
-            //         cardDB[i].power = (6 * 1000) + (6 * 500 * (cardAmounts[i]-1));
-            //     }
-            //     else
-            //     {
-            //         cardDB[i].power = 0;
-            //     }
-            // }
             i++;
         }
     }

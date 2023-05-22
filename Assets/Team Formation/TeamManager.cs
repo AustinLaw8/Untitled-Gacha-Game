@@ -11,6 +11,14 @@ public class TeamManager : MonoBehaviour
     public List<int> teamInvIDs = new List<int>();
     [SerializeField] CardInventory script; 
 
+    static string teamFilepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "teamCards.json"; } }
+
+    public static int[] GetTeam()
+    {
+        var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
+        return FromJson(loadedTeam);
+    }
+
     public void Awake()
     {
         LoadTeam();
@@ -36,7 +44,6 @@ public class TeamManager : MonoBehaviour
     }
 
 
-    string filepath2 { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "teamCards.json"; } }
 
     // 3900 means empty slot
     public void SaveTeam()
@@ -44,14 +51,14 @@ public class TeamManager : MonoBehaviour
         Wrapper temp = new Wrapper();
         temp.Items = teamIDs;
         var teamData = JsonUtility.ToJson(temp);
-        System.IO.File.WriteAllText(filepath2, teamData, System.Text.Encoding.UTF8);
+        System.IO.File.WriteAllText(teamFilepath, teamData, System.Text.Encoding.UTF8);
     }
 
     public void LoadTeam()
     {
         teamInvIDs.Clear();
         try {
-            var loadedTeam = System.IO.File.ReadAllText(filepath2, System.Text.Encoding.UTF8);
+            var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
             teamIDs = FromJson(loadedTeam);
         } catch (Exception) {
             teamIDs = new int[5]{3900, 3900, 3900, 3900, 3900};
