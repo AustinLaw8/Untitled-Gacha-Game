@@ -30,7 +30,7 @@ public class Team : MonoBehaviour
         //Debug.Log(card.artist);
         // send message to selectedCard script
         int id = gameObject.GetComponent<CardIDIdentifier>().cardID;
-        Debug.Log("id of selected card " + id);
+        // Debug.Log("id of selected card " + id);
         script = FindObjectOfType<selectedCard>();
         script.OnCardSelected(id, pos);
 

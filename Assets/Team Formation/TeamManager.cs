@@ -13,8 +13,7 @@ public class TeamManager : MonoBehaviour
 
     public void Awake()
     {
-        //LoadCards();
-        //Load cards in here
+        LoadTeam();
     }
 
     public static int[] FromJson(string json)
@@ -40,26 +39,23 @@ public class TeamManager : MonoBehaviour
     string filepath2 { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "teamCards.json"; } }
 
     // 3900 means empty slot
-    public void SaveTeam(int cardID1 = 3900, int cardID2 = 3900, int cardID3 = 3900, int cardID4 = 3900, int cardID5 = 3900)
+    public void SaveTeam()
     {
-        int[] teamIDs = new int[5];
-        teamIDs[0] = cardID1;
-        teamIDs[1] = cardID2;
-        teamIDs[2] = cardID3;
-        teamIDs[3] = cardID4;
-        teamIDs[4] = cardID5;
-        var teamData = JsonUtility.ToJson(teamIDs);
-        //Debug.Log(cardData);
+        Wrapper temp = new Wrapper();
+        temp.Items = teamIDs;
+        var teamData = JsonUtility.ToJson(temp);
         System.IO.File.WriteAllText(filepath2, teamData, System.Text.Encoding.UTF8);
-        //Debug.Log(cardData);
     }
 
     public void LoadTeam()
     {
-        teamIDs = new int[5];
         teamInvIDs.Clear();
-        var loadedTeam = System.IO.File.ReadAllText(filepath2, System.Text.Encoding.UTF8);
-        teamIDs = FromJson(loadedTeam);
+        try {
+            var loadedTeam = System.IO.File.ReadAllText(filepath2, System.Text.Encoding.UTF8);
+            teamIDs = FromJson(loadedTeam);
+        } catch (Exception) {
+            teamIDs = new int[5]{3900, 3900, 3900, 3900, 3900};
+        }
 
         // add the IDs of the non-team cards to the team inventory
         int index = 0;
@@ -91,18 +87,13 @@ public class TeamManager : MonoBehaviour
 
         // add the IDs of the non-team cards to the team inventory
         int index = 0;
-        bool onTeam = false;
         for (int i = 0; i < cardManager.cardDB.Length; i++)
         {
             teamInvIDs.Add((int)cardManager.cardDB[i].ID);
         }
 
-        for (int i = 0; i<teamInvIDs.Count; i++)
-        {
-            Debug.Log("in inv: " + teamInvIDs[i] + " " + i);
-        }
-
         script.UpdateCards();
+        SaveTeam();
     }
 
 }

@@ -67,7 +67,7 @@ public class HealthManager : MonoBehaviour
         ColorCheck();
         if (currentHealth <= 0)
         {
-            EndGame();
+            BeatManager.beatManager.EndGame();
             currentHealth = 0;
         }
         SetHealthSlider();        
@@ -122,11 +122,5 @@ public class HealthManager : MonoBehaviour
             // hpBarBackground.color = highHealthColor;
             // health.color = highHealthColor;
         }
-    }
-
-    private void EndGame()
-    {
-        // TODO: do something about dying
-        // Debug.Log("u died");
     }
 }

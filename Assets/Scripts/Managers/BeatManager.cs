@@ -43,6 +43,7 @@ public class BeatManager : MonoBehaviour
 
     private float startTime;
 
+    [SerializeField] private GameObject deathCanvas;
     [SerializeField] private GameObject pauseCanvas;
     public bool playing;
     public bool IsPlaying { get {return playing; } }
@@ -241,5 +242,17 @@ public class BeatManager : MonoBehaviour
             holdNotes.Enqueue(temp);
             numNotes += Mathf.RoundToInt(temp[temp.Count - 1].Item1 - temp[0].Item2) / 10f + 2;
         }
+    }
+
+    public void EndGame()
+    {
+        musicSource.Pause();
+        playing = false;
+        deathCanvas.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
