@@ -38,7 +38,6 @@ public class GachaManager : MonoBehaviour
 {
     public static int CARD_WIDTH = 2048;
     public static int CARD_HEIGHT = 1261;
-
     private int currentCard;
     private RawImage cardImage;
     private int numRolls = 10;
@@ -61,13 +60,17 @@ public class GachaManager : MonoBehaviour
     private Animator cardAnimator;
     private float animationTime;
    
-    void Awake()
+    public static float GetScale()
     {
         // calculates the scale about which all card pngs will scaled by, dependent on screen size
-        float scale = Screen.width > CARD_WIDTH ? 
+        return Screen.width > CARD_WIDTH ? 
                 Mathf.Max(1.0f * Screen.width / CARD_WIDTH, 1.0f * Screen.height / CARD_HEIGHT): 
                 Mathf.Min(1.0f * CARD_WIDTH / Screen.width, 1.0f * CARD_HEIGHT / Screen.height);
+    }
 
+    void Awake()
+    {
+        float scale = GetScale();
         card.transform.localScale = new Vector3(scale, scale, 1f);
         animationTime = 0f;
         cardAnimator = card.GetComponent<Animator>();

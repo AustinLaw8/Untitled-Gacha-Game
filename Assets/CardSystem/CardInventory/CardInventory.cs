@@ -69,10 +69,14 @@ public class CardInventory : MonoBehaviour
         Rarity, NumberOfCopies, CardNum, Zodiac
     }
 
+    void Awake()
+    {
+       if (cardManager == null) cardManager = GameObject.Find("CardData").GetComponent<CardManager>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-       
         Vector3[] v = new Vector3[4];
 
         cardScreen.GetComponent<RectTransform>().GetLocalCorners(v);
@@ -117,13 +121,10 @@ public class CardInventory : MonoBehaviour
             scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
         }
        
-
-
-        Debug.Log(ownedCards.Count);
-        Debug.Log(((ownedCards.Count + 6)/7));
+        // Debug.Log(ownedCards.Count);
+        // Debug.Log(((ownedCards.Count + 6)/7));
         
         UpdateDisplay();
-        
     }
 
 

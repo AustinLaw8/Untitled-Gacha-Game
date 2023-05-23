@@ -4,21 +4,20 @@ using UnityEngine.UI;
 
 public class ModalManager : MonoBehaviour
 {
-    public GameObject modalWindow;
-    //public TextMeshProUGUI header;
- 
-    public GameObject imageWindow;
-    [SerializeField] CardManager cardManager;
-    [SerializeField] CardInventory cardInventory;
-    [SerializeField] RawImage cardImg;
-    [SerializeField] RawImage enlargeImage;
-    public TextMeshProUGUI cardHeader;
-    public TextMeshProUGUI cardDesc;
-    private CardSO card;
-
-    //public GameObject body;
-
     public static ModalManager instance;
+
+    [SerializeField] CardInventory cardInventory;
+    [SerializeField] CardManager cardManager;
+    
+    [Header("Modal Sections")]
+    [SerializeField] GameObject modalWindow;
+    [SerializeField] TextMeshProUGUI cardTitle;
+    [SerializeField] TextMeshProUGUI cardZodiac;
+    [SerializeField] RawImage cardImg;
+    [SerializeField] TextMeshProUGUI cardArtist;
+    [SerializeField] RawImage enlargeImage;
+
+    private CardSO card;
 
     private void Awake()
     {
@@ -30,15 +29,19 @@ public class ModalManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (cardInventory == null) cardInventory = GameObject.Find("CardData").GetComponent<CardInventory>();
+        if (cardManager == null) cardManager = GameObject.Find("CardData").GetComponent<CardManager>();
     }
 
     public void ShowModal(int cardID)
     {
         card = cardManager.cardDB[cardID];
+        cardTitle.text = card.title;
+        cardZodiac.text = card.zodiac.ToString();
         cardImg.texture = card.cardArt;
-        cardHeader.text = string.Concat(card.zodiac.ToString(), ", ", card.title);
-        cardDesc.text = string.Concat("Title: ", card.title, "\n", "Artist: ", card.artist, "\n", "Zodiac: ", card.zodiac.ToString(), "\n", "Rarity: ", card.rarity.ToString(), "\n");
-
+        cardArtist.text = "Art by " + card.artist;
+        
         if (cardInventory.forTeamFormation == false)
         {
             modalWindow.SetActive(true);
@@ -50,15 +53,11 @@ public class ModalManager : MonoBehaviour
         modalWindow.SetActive(false);
     }
 
-    public void ShowImage(int cardID)
+    public void ShowImage()
     {
+        float scale = GachaManager.GetScale();
         enlargeImage.texture = card.cardArt;
-
-        imageWindow.SetActive(true);
-    }
-
-    public void HideImage()
-    {
-        imageWindow.SetActive(false);
+        enlargeImage.transform.localScale = new Vector3(scale, scale, 1f);
+        enlargeImage.gameObject.SetActive(true);
     }
 }
