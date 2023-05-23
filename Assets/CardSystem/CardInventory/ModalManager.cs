@@ -9,6 +9,7 @@ public class ModalManager : MonoBehaviour
  
     public GameObject imageWindow;
     [SerializeField] CardManager cardManager;
+    [SerializeField] CardInventory cardInventory;
     [SerializeField] RawImage cardImg;
     [SerializeField] RawImage enlargeImage;
     public TextMeshProUGUI cardHeader;
@@ -38,7 +39,10 @@ public class ModalManager : MonoBehaviour
         cardHeader.text = string.Concat(card.zodiac.ToString(), ", ", card.title);
         cardDesc.text = string.Concat("Title: ", card.title, "\n", "Artist: ", card.artist, "\n", "Zodiac: ", card.zodiac.ToString(), "\n", "Rarity: ", card.rarity.ToString(), "\n");
 
-        modalWindow.SetActive(true);
+        if (cardInventory.forTeamFormation == false)
+        {
+            modalWindow.SetActive(true);
+        }
     }
 
     public void HideModal()
