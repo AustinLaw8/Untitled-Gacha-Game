@@ -23,7 +23,10 @@ public class CardInventory : MonoBehaviour
     [SerializeField] public GameObject scrollyBoxContents;
     [SerializeField] public GameObject filterPanel;
     [SerializeField] public TextMeshProUGUI ascButton;
-    
+
+    //[SerializeField] public GameObject profilePanel;
+
+
     //Used for filter toggles
     private bool threeStarsState = true;
     private bool fourStarsState = true;
