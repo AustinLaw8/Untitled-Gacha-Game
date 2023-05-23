@@ -12,8 +12,8 @@ public class selectedCard : MonoBehaviour
 
     public void OnCardSelected(int id, int pos)
     {
-        /*Debug.Log(teamManager);
-        Debug.Log(teamManager.cardDB[0]);*/
+        // Debug.Log(teamManager);
+        // Debug.Log(teamManager.cardDB[0]);
         script = FindObjectOfType<MemberSwap>();
         script.SetTeamID(id);
         script.SetTeamPos(pos);

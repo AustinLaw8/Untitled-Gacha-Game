@@ -30,13 +30,13 @@ public class MemberSwap : MonoBehaviour
     public void SetInvID(int id)
     {
         invID = id;
-        Debug.Log("team inventory " + invID);
+        // Debug.Log("team inventory " + invID);
     }
 
     public void SetTeamID(int id)
     {
         teamID = id;
-        Debug.Log("team " + teamID);
+        // Debug.Log("team " + teamID);
     }
 
     public void SetTeamPos(int pos)
@@ -47,8 +47,8 @@ public class MemberSwap : MonoBehaviour
 
     private void Confirmed()
     {
-        Debug.Log("clicked");
-        Debug.Log("team " + teamID + " inv "+ invID);
+        // Debug.Log("clicked");
+        // Debug.Log("team " + teamID + " inv "+ invID);
         // take the two IDs and then swap their cards in the respective arrays
 
         for (int i = 0; i < teamManager.teamInvIDs.Count; i++)
@@ -59,9 +59,9 @@ public class MemberSwap : MonoBehaviour
                 if (teamManager.teamIDs[j] == teamID && teamManager.teamInvIDs[i] == invID)
                 {
                     teamManager.teamInvIDs[i] = teamID;
-                    Debug.Log("should be 3900 "+ teamManager.teamInvIDs[i] + " " + teamID);
+                    // Debug.Log("should be 3900 "+ teamManager.teamInvIDs[i] + " " + teamID);
                     teamManager.teamIDs[teamPos] = invID;
-                    Debug.Log("attempted swap");
+                    // Debug.Log("attempted swap");
                     break;
                 }
             }
@@ -72,6 +72,7 @@ public class MemberSwap : MonoBehaviour
         script.UpdateCards();
         scriptInv.ClearImage();
         scriptTeam.ClearImage();
+        teamManager.SaveTeam();
     }
 
 }

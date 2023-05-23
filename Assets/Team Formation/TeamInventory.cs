@@ -71,10 +71,9 @@ public class TeamInventory : MonoBehaviour
 
     CardSO FindCard(int ID)
     {
-        for (int i = 0; i < cardManager.cardDB.Length; i++)
+        if (ID < cardManager.cardDB.Length)
         {
-            if (ID == cardManager.cardDB[i].ID)
-                return cardManager.cardDB[i];
+            return cardManager.cardDB[ID];
         }
         return emptyCard;
     }
