@@ -24,6 +24,7 @@ public class TeamManager : MonoBehaviour
     public void Awake()
     {
         LoadTeam();
+        cardInventory.forTeamFormation = true;
     }
 
     public static int[] FromJson(string json)

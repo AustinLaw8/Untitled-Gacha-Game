@@ -42,10 +42,7 @@ public class ModalManager : MonoBehaviour
         cardImg.texture = card.cardArt;
         cardArtist.text = "Art by " + card.artist;
         
-        if (cardInventory.forTeamFormation == false)
-        {
-            modalWindow.SetActive(true);
-        }
+        modalWindow.SetActive(true);
     }
 
     public void HideModal()
