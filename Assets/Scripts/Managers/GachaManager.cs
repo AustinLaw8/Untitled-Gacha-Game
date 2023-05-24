@@ -70,8 +70,6 @@ public class GachaManager : MonoBehaviour
 
     void Awake()
     {
-        float scale = GetScale();
-        card.transform.localScale = new Vector3(scale, scale, 1f);
         animationTime = 0f;
         cardAnimator = card.GetComponent<Animator>();
     }

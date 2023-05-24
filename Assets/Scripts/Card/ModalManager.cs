@@ -52,9 +52,7 @@ public class ModalManager : MonoBehaviour
 
     public void ShowImage()
     {
-        float scale = GachaManager.GetScale();
         enlargeImage.texture = card.cardArt;
-        enlargeImage.transform.localScale = new Vector3(scale, scale, 1f);
         enlargeImage.gameObject.SetActive(true);
     }
 }
