@@ -15,19 +15,12 @@ public class TeamInventorySelect : MonoBehaviour
         b.onClick.AddListener(delegate () { OnCardSlotSelected(); });
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void OnCardSlotSelected()
     {
-        //Debug.Log(card.artist);
         // send message to TeamInventorySelected script
         int id = gameObject.GetComponent<CardIDIdentifier>().cardID;
+        if (GameObject.Find("TeamData").GetComponent<TeamManager>().InTeam(id)) return;
         script = FindObjectOfType<TeamInventorySelected>();
         script.OnCardSelected(id);
-
     }
 }

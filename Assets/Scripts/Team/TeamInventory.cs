@@ -6,15 +6,17 @@ using TMPro;
 
 public class TeamInventory : MonoBehaviour
 {
+    public static int TEAM_SIZE=5;
+
     //game objects accessed in code
     [SerializeField] public GameObject cardSlotPrefab;
     [SerializeField] public GameObject cardScreen;
 
     //List of cards to display
-    public List<CardSO> teamCards = new List<CardSO>();
+    public CardSO[] teamCards;
 
     //List of card slots
-    public List<GameObject> cardSlots = new List<GameObject>();
+    [SerializeField] GameObject[] cardSlots;
 
     //card manager for access to all cards the player has on their team
     [SerializeField] TeamManager teamManager;
@@ -24,32 +26,8 @@ public class TeamInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        teamCards = new CardSO[TEAM_SIZE];
         UpdateCards();
-
-        cardSlots.Add(GameObject.Find("CardSlotTall 0"));
-        cardSlots.Add(GameObject.Find("CardSlotTall 1"));
-        cardSlots.Add(GameObject.Find("CardSlotTall 2"));
-        cardSlots.Add(GameObject.Find("CardSlotTall 3"));
-        cardSlots.Add(GameObject.Find("CardSlotTall 4"));
-
-
-        /*for (int i = 0; i < teamManager.teamIDs.Length; i++)
-        {
-            //UpdateCards();
-            UpdateTeamMember(teamCards[i], cardSlots[i]);
-        }*/
-        //UpdateCards();
-    }
-
-    // TODO - may have to fix thiss
-    void Update()
-    {
-        UpdateCards();
-        for (int i = 0; i < teamCards.Count; i++)
-        {
-            //Debug.Log(teamCards[i]);
-            UpdateTeamMember(teamCards[i], cardSlots[i]);
-        }
     }
 
     // Adds current team's ID & icon to the slots
@@ -62,10 +40,10 @@ public class TeamInventory : MonoBehaviour
     // Updates current team list (cards)
     public void UpdateCards()
     {
-        teamCards.Clear();
-        for (int i = 0; i < teamManager.teamIDs.Length; i++)
+        for (int i = 0; i < TEAM_SIZE; i++)
         {
-            teamCards.Add(FindCard(teamManager.teamIDs[i]));
+            teamCards[i] = (FindCard(teamManager.teamIDs[i]));
+            UpdateTeamMember(teamCards[i], cardSlots[i]);
         }
     }
 
@@ -77,5 +55,4 @@ public class TeamInventory : MonoBehaviour
         }
         return emptyCard;
     }
-
 }

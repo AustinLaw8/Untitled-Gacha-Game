@@ -12,28 +12,13 @@ public class selectedCard : MonoBehaviour
 
     public void OnCardSelected(int id, int pos)
     {
-        // Debug.Log(teamManager);
-        // Debug.Log(teamManager.cardDB[0]);
-        script = FindObjectOfType<MemberSwap>();
-        script.SetTeamID(id);
-        script.SetTeamPos(pos);
-
-
-        Sprite s = null;
-        Button b = gameObject.GetComponent<Button>();
-        for (int i = 0; i < cardManager.cardDB.Length; i++)
-        {
-            if (id == cardManager.cardDB[i].ID)
-            {
-                s = cardManager.cardDB[i].cardIcon;
-            }
-        }
-        b.image.sprite = s;
+        FindObjectOfType<MemberSwap>().SetTeamPos(pos);
+        if (id != 3900)
+            gameObject.GetComponent<Image>().sprite = cardManager.cardDB[id].cardIcon;
     }
 
     public void ClearImage()
     {
-        Button b = gameObject.GetComponent<Button>();
-        b.image.sprite = null;
+        gameObject.GetComponent<Image>().sprite = null;
     }
 }

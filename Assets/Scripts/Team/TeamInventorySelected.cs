@@ -7,23 +7,17 @@ using UnityEngine.UI;
 public class TeamInventorySelected : MonoBehaviour
 {
     [SerializeField] CardManager invManager;
-    private MemberSwap script;
 
+    void Start()
+    {
+        ClearImage();
+    }
+    
     public void OnCardSelected(int id)
     {
-        //Debug.Log(id);
-        script = FindObjectOfType<MemberSwap>();
-        script.SetInvID(id);
-        Sprite s = invManager.cardDB[0].cardIcon;
-        Button b = gameObject.GetComponent<Button>();
-        for (int i = 0; i < invManager.cardDB.Length; i++)
-        {
-            if (id == invManager.cardDB[i].ID)
-            {
-                s = invManager.cardDB[i].cardIcon;
-            }
-        }
-        b.image.sprite = s;
+        FindObjectOfType<MemberSwap>().SetTeamId(id);
+        Sprite s = invManager.cardDB[id].cardIcon;
+        gameObject.GetComponent<Button>().image.sprite = s;
     }
 
     // for clearing the image of the button when first entering the page

@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/CharacterScreen.unity
     guid: e7c9cae54e12dff4f83f354eb4aa443a
   - enabled: 1
-    path: Assets/CardSystem/CardInventory/Inventory with Sort and Filter.unity
+    path: Assets/Scenes/CharacterView.unity
     guid: 3f0c97ce5d4084a9bbd00c9117ee53d7
   - enabled: 1
     path: Assets/Scenes/CreditScreen.unity

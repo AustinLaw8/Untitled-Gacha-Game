@@ -18,25 +18,12 @@ public class Team : MonoBehaviour
         pos = b.name[b.name.Length-1] - '0';
         //b.image.sprite = card.cardIcon;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public void OnCardSlotSelected()
     {
-        //Debug.Log(card.artist);
         // send message to selectedCard script
         int id = gameObject.GetComponent<CardIDIdentifier>().cardID;
-        // Debug.Log("id of selected card " + id);
         script = FindObjectOfType<selectedCard>();
         script.OnCardSelected(id, pos);
-
-        /*scriptRight = FindObjectOfType<TeamInventorySelected>();
-        scriptRight.ClearImage();*/
-
-
     }
 }

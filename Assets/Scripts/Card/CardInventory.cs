@@ -89,18 +89,11 @@ public class CardInventory : MonoBehaviour
         ySpaceBetweenItem = xSpaceBetweenItem;
         spaceBetween = (int) xSpaceBetweenItem / 3;
 
-        if (forTeamFormation)
+        for(int i = 0; i < cardManager.cardDB.Length; i++)
         {
-            UpdateCards();
-        }
-        else 
-        { 
-            for(int i = 0; i < cardManager.cardDB.Length; i++)
+            if (cardManager.cardDB[i].numCopies > 0)
             {
-                if (cardManager.cardDB[i].numCopies > 0)
-                {
-                    ownedCards.Add(cardManager.cardDB[i]);
-                }
+                ownedCards.Add(cardManager.cardDB[i]);
             }
         }
 
@@ -112,6 +105,7 @@ public class CardInventory : MonoBehaviour
 
         if (forTeamFormation)
         {
+            teamManager = GameObject.Find("TeamData").GetComponent<TeamManager>();
             //screenView.GetComponent<RectTransform>().sizeDelta = new Vector((Screen.width/2 - 50), 25);
             xSpaceBetweenItem = - ((v[1].x - v[2].x) / 16) * 3;
             ySpaceBetweenItem = xSpaceBetweenItem;
@@ -515,6 +509,7 @@ public class CardInventory : MonoBehaviour
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
                 obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
+                if (forTeamFormation && teamManager.InTeam(i)) obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
             }
         }
         else{
@@ -523,7 +518,7 @@ public class CardInventory : MonoBehaviour
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
                 obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
-                
+                if (forTeamFormation && teamManager.InTeam(i)) obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
             }
         }       
     }
@@ -536,37 +531,6 @@ public class CardInventory : MonoBehaviour
         }
         
         DisplayCards();
-    }
-
-    //used for testing, ignore me
-    // Tiffany: hijacking this
-    public void UpdateCards()
-    {
-        ownedCards.Clear();
-        /*for(int i = 0; i < cardManager.cardDB.Length; i++)
-        {
-            if (cardManager.cardDB[i].numCopies > 0)
-            {
-                ownedCards.Add(cardManager.cardDB[i]);
-            }
-        }*/
-
-        for (int i = 0; i < teamManager.teamInvIDs.Count; i++)
-        {
-            int ID = teamManager.teamInvIDs[i];
-            CardSO card = null;
-            for (int j = 0; j < cardManager.cardDB.Length; j++)
-            {
-                if (ID == cardManager.cardDB[j].ID)
-                    card = cardManager.cardDB[j];
-            }
-            if (card && card.numCopies > 0)
-            {
-                ownedCards.Add(card);
-            }
-        }
-
-        UpdateDisplay();
     }
 
     public Vector2 GetPosition(int i)

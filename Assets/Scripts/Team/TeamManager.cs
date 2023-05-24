@@ -6,12 +6,14 @@ using System;
 
 public class TeamManager : MonoBehaviour
 {
-    [SerializeField] CardManager cardManager;
-    public int[] teamIDs;
-    public List<int> teamInvIDs = new List<int>();
-    [SerializeField] CardInventory script; 
-
+    public static int TEAM_SIZE=5;
     static string teamFilepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "teamCards.json"; } }
+    
+    [SerializeField] CardManager cardManager;
+    [SerializeField] CardInventory cardInventory; 
+    [SerializeField] TeamInventory teamInventory; 
+
+    public int[] teamIDs;
 
     public static int[] GetTeam()
     {
@@ -43,8 +45,6 @@ public class TeamManager : MonoBehaviour
         public int[] Items;
     }
 
-
-
     // 3900 means empty slot
     public void SaveTeam()
     {
@@ -54,53 +54,33 @@ public class TeamManager : MonoBehaviour
         System.IO.File.WriteAllText(teamFilepath, teamData, System.Text.Encoding.UTF8);
     }
 
-    public void LoadTeam()
+    void LoadTeam()
     {
-        teamInvIDs.Clear();
         try {
             var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
             teamIDs = FromJson(loadedTeam);
         } catch (Exception) {
             teamIDs = new int[5]{3900, 3900, 3900, 3900, 3900};
+            SaveTeam();
         }
 
-        // add the IDs of the non-team cards to the team inventory
-        int index = 0;
-        bool onTeam = false;
-        for (int i = 0; i<cardManager.cardDB.Length; i++)
-        {
-            for (int j = 0; j<5; j++)
-            {
-                if (cardManager.cardDB[i].ID == teamIDs[j])
-                    onTeam = true;
-            }
-            if (!onTeam)
-            {
-                teamInvIDs.Add((int)cardManager.cardDB[i].ID);
-                index++;
-            }
-
-        }
+        cardInventory.UpdateDisplay();
     }
 
     public void ClearTeam()
     {
-        for (int i = 0; i<teamIDs.Length; i++)
+        for (int i = 0; i < TEAM_SIZE; i++)
         {
             teamIDs[i] = 3900;
         }
 
-        teamInvIDs.Clear();
-
-        // add the IDs of the non-team cards to the team inventory
-        int index = 0;
-        for (int i = 0; i < cardManager.cardDB.Length; i++)
-        {
-            teamInvIDs.Add((int)cardManager.cardDB[i].ID);
-        }
-
-        script.UpdateCards();
         SaveTeam();
+        teamInventory.UpdateCards();
+        cardInventory.UpdateDisplay();
     }
 
+    public bool InTeam(int cardID)
+    {
+        return Array.Exists(teamIDs, element => element == cardID);
+    }
 }
