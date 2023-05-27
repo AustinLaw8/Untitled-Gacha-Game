@@ -576,6 +576,8 @@ public class CardInventory : MonoBehaviour
                     
                 
                 if (forTeamFormation && teamManager.InTeam(i)) obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
+                if (forTeamFormation && teamManager.InTeam(i)) obj.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
+                if (forTeamFormation && teamManager.InTeam(i)) obj.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
             }
         }
         else{
@@ -596,6 +598,8 @@ public class CardInventory : MonoBehaviour
                 }
 
                 if (forTeamFormation && teamManager.InTeam(i)) obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
+                if (forTeamFormation && teamManager.InTeam(i)) obj.transform.GetChild(2).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
+                if (forTeamFormation && teamManager.InTeam(i)) obj.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
             }
         }       
     }
