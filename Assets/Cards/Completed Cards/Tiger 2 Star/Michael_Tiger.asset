@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
+  m_Name: Michael_Tiger
+  m_EditorClassIdentifier: 
+  ID: 0
+  cardArt: {fileID: 2800000, guid: 12512ffe21ea9467b90b30b09892b028, type: 3}
+  cardIcon: {fileID: 21300000, guid: 1c13c75fc84314f6db46488107632d73, type: 3}
+  artist: Michael
+  rarity: 1
+  zodiac: 2
+  power: 0
+  numCopies: 0
+  title: 
