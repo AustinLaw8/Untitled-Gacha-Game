@@ -10,7 +10,7 @@ public enum Rarity
 
 public enum Zodiac
 {
-    Rabbit, Dragon, Tiger, Horse
+    Rabbit, Dragon, Tiger, Horse, Snake
 }
 
 /* It is not set in stone if we are going to have assets be stored here like this, or if they will be online*/

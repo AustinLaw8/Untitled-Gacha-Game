@@ -41,6 +41,7 @@ public class CardInventory : MonoBehaviour
     private bool dragonState = true;
     private bool tigerState = true;
     private bool horseState = true;
+    private bool snakeState = true;
     [SerializeField] public Toggle threeStars;
     [SerializeField] public Toggle fourStars;
     [SerializeField] public Toggle fiveStars;
@@ -54,6 +55,12 @@ public class CardInventory : MonoBehaviour
     [SerializeField] public Toggle dragon;
     [SerializeField] public Toggle tiger;
     [SerializeField] public Toggle horse;
+    [SerializeField] public Toggle snake;
+
+    [SerializeField] public Text horseText;
+    [SerializeField] public Text snakeText;
+    [SerializeField] public Text sixStarText;
+
 
     private bool ascState = true;
 
@@ -77,6 +84,9 @@ public class CardInventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bool hasSnake = false;
+        bool hasHorse = false;
+
         Vector3[] v = new Vector3[4];
 
         cardScreen.GetComponent<RectTransform>().GetLocalCorners(v);
@@ -93,9 +103,32 @@ public class CardInventory : MonoBehaviour
         {
             if (cardManager.cardDB[i].numCopies > 0)
             {
+                if (cardManager.cardDB[i].zodiac == Zodiac.Snake)
+                {
+                    hasSnake = true;
+                }
+                else if (cardManager.cardDB[i].zodiac == Zodiac.Horse)
+                {
+                    hasHorse = true;
+                }
                 ownedCards.Add(cardManager.cardDB[i]);
             }
         }
+
+        if(!hasSnake)
+        {
+            snake.interactable = false;
+            snakeText.text = "?????";
+        }
+        if(!hasHorse)
+        {
+            horse.interactable = false;
+            sixStars.interactable = false;
+            horseText.text = "?????";
+            sixStarText.text = "?????";
+        }
+
+
 
 
         scrollyBoxContents.GetComponent<GridLayoutGroup>().cellSize = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
@@ -184,6 +217,7 @@ public class CardInventory : MonoBehaviour
         dragonState = dragon.isOn;
         tigerState = tiger.isOn;
         horseState = horse.isOn;
+        snakeState = snake.isOn;
         
         if (filterPanel != null)
         {
@@ -207,6 +241,7 @@ public class CardInventory : MonoBehaviour
         dragon.isOn = dragonState;
         tiger.isOn = tigerState;
         horse.isOn = horseState;
+        snake.isOn = snakeState;
         if (filterPanel != null)
         {
             //bool isActive = filterPanel.activeSelf;
@@ -359,6 +394,14 @@ public class CardInventory : MonoBehaviour
                         }
                         break;
                     }
+                case Zodiac.Snake:
+                    {
+                        if (snake.isOn)
+                        {
+                            zodiacCorrect = true;
+                        }
+                        break;
+                    }
                 // }
             }
 
@@ -478,6 +521,17 @@ public class CardInventory : MonoBehaviour
             }
             else if (card1.zodiac == Zodiac.Tiger)
             {
+                if (card2.zodiac == Zodiac.Horse || card2.zodiac == Zodiac.Snake)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else if (card1.zodiac == Zodiac.Snake)
+            {
                 if (card2.zodiac == Zodiac.Horse)
                 {
                     return -1;
@@ -509,6 +563,18 @@ public class CardInventory : MonoBehaviour
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
                 obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
+                
+                if(ownedCards[i].numCopies == 1)
+                {
+                    obj.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+                    obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
+                }
+                else
+                {
+                    obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
+                }
+                    
+                
                 if (forTeamFormation && teamManager.InTeam(i)) obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
             }
         }
@@ -518,6 +584,17 @@ public class CardInventory : MonoBehaviour
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
                 obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
+
+                if(ownedCards[i].numCopies == 1)
+                {
+                    obj.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+                    obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
+                }
+                else
+                {
+                    obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
+                }
+
                 if (forTeamFormation && teamManager.InTeam(i)) obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
             }
         }       
