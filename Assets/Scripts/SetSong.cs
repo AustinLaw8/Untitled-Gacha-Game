@@ -15,6 +15,6 @@ public class SetSong : MonoBehaviour
     {
         easyButton.beatmap = easy;
         hardButton.beatmap = hard;
-        container = easy;
+        container.copy(easy);
     }
 }

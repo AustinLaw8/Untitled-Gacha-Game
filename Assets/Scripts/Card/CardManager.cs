@@ -43,13 +43,9 @@ public class CardManager : MonoBehaviour
             {
                 cardDB[cardId].power = (4 * 1000);
             }
-            else if (cardDB[cardId].rarity == Rarity.Five)
+            else if (cardDB[cardId].rarity == Rarity.Five || cardDB[cardId].rarity == Rarity.Six)
             {
                 cardDB[cardId].power = (5 * 1000);
-            }
-            else
-            {
-                cardDB[cardId].power = (6 * 1000);
             }
             
         }
@@ -64,13 +60,9 @@ public class CardManager : MonoBehaviour
             {
                 cardDB[cardId].power += (4 * 500);
             }
-            else if (cardDB[cardId].rarity == Rarity.Five)
+            else if (cardDB[cardId].rarity == Rarity.Five || cardDB[cardId].rarity == Rarity.Six)
             {
                 cardDB[cardId].power += (5 * 500);
-            }
-            else
-            {
-                cardDB[cardId].power += (6 * 500);
             }
         }
         else
@@ -120,23 +112,24 @@ public class CardManager : MonoBehaviour
         {
             return 0;
         }
-        if (rarity == Rarity.Three)
+        int multiplier;
+        switch (rarity)
         {
-            return ((3 * 1000 + 3 * 500 * (numCopies - 1)));
+            case Rarity.Three:
+                multiplier = 3;
+                break;
+            case Rarity.Four:
+                multiplier = 4;
+                break;
+            case Rarity.Five:
+            case Rarity.Six:
+                multiplier = 5;
+                break;
+            default:
+                multiplier = 0;
+                break;
         }
-        else if (rarity == Rarity.Four)
-        {
-            return ((4 * 1000 + 4 * 500 * (numCopies - 1)));
-        }
-        else if (rarity == Rarity.Five)
-        {
-            return ((5 * 1000 + 5 * 500 * (numCopies - 1)));
-        }
-        else if (rarity == Rarity.Six)
-        {
-            return ((5 * 1000 + 5 * 500 * (numCopies - 1)));
-        }
-        return 0;
+        return ((multiplier * 1000 + multiplier * 500 * (numCopies - 1)));
     }
 
     public void LoadCards()

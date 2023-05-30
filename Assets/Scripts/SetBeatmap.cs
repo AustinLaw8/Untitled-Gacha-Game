@@ -8,5 +8,5 @@ public class SetBeatmap : MonoBehaviour
     [SerializeField] private BeatmapSO container;
 
     public void SetContainer()
-        { container = beatmap; } // on click
+        { container.copy(beatmap); } // on click
 }

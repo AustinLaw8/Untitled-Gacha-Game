@@ -71,6 +71,13 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     private List<HoldNote> holdNotes;
     private HashSet<PointerEventData> holds;
 
+    private int notesTillNextHeal;
+
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip tapSfx;
+    [SerializeField] private AudioClip flickSfx;
+    [SerializeField] private AudioClip holdSfx;
+
     void Awake()
     {
         Vibration.Init();
@@ -85,6 +92,8 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
             notes.Add(new Queue<Note>());
         holdNotes = new List<HoldNote>();
         holds = new HashSet<PointerEventData>();
+        notesTillNextHeal = 20;
+        audioSource = GetComponent<AudioSource>();
     }
     
     void Update()
@@ -102,23 +111,14 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
                     break;
                 }
             }
-            // if (holdNote.holding)
-            // {
-            //     StartCoroutine(Delay(holdNote));
-            // }
         }
     }
-
-    IEnumerator Delay(HoldNote note) { yield return new WaitForSeconds(1f); note.holding = false; }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         Note note = other.gameObject.GetComponent<Note>();
-        if (note)
-            notes[note.lane].Enqueue(note);
-        else
-            holdNotes.Add(other.gameObject.GetComponent<HoldNote>());
-
+        if (note) notes[note.lane].Enqueue(note);
+        else holdNotes.Add(other.gameObject.GetComponent<HoldNote>());
     }
     
     void OnTriggerExit2D(Collider2D other)
@@ -238,6 +238,13 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
             ScoreManager.scoreManager.IncreaseScore(accuracy);
             Vibration.VibratePeek();
             note.hit = true;
+
+            if (note.isFlick) audioSource.PlayOneShot(flickSfx,.25f);
+            else audioSource.PlayOneShot(tapSfx,.25f);
+
+            notesTillNextHeal -= 1;
+            if (notesTillNextHeal == 0) HealthManager.healthManager.IncreaseHealth(SkillManager.skillManager.healAmount);
+    
             Destroy(note.gameObject);
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,18 +19,19 @@ public enum Combo
 }
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager scoreManager { get; private set;  }
+    public static ScoreManager scoreManager { get; private set; }
 
-    private static float BREAKPOINT_C=10f;
-    private static float BREAKPOINT_B=200f;
-    private static float BREAKPOINT_A=400f;
-    private static float BREAKPOINT_S=1000f;
+    private static float BREAKPOINT_C=500_000f;
+    private static float BREAKPOINT_B=750_000f;
+    private static float BREAKPOINT_A=900_000f;
+    private static float BREAKPOINT_S=1_000_000f;
+
+    private float baseScore;
 
     private float score;
     private Grade grade;
     private int combo;
     private int maxCombo;
-    private int mapBaseScore = 1;
 
     [SerializeField] private ScoreToGachaSO container; 
 
@@ -58,6 +60,18 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
+        int[] teamIDs = TeamManager.GetTeam();
+
+        int power = 0;
+        foreach(int i in teamIDs)
+        {
+            power += CardManager.cardManager.cardDB[i].power;
+        }
+        float scoreFromPower = power / 1000f;
+        int mapDifficultyBonus = BeatManager.beatManager.container.ID % 2 == 0 ? 1 : 0;
+        Debug.Log(scoreFromPower);
+        baseScore = scoreFromPower + BREAKPOINT_C / BeatManager.beatManager.NumNotes*1f + mapDifficultyBonus;
+        
         score = 0;
         combo = 0;
         maxCombo = 0;
@@ -67,27 +81,27 @@ public class ScoreManager : MonoBehaviour
     {
         float accuracyMultiplier = GetAccuracyMultiplierAndUpdateCombo(accuracy);
 
-        int baseScore = 
-            // Some value based on team
-            + mapBaseScore;
-
         float comboMultiplier = GetComboMultiplier(combo);
 
-        // TODO: conduct full score calcs
-        int deltaScore = (int)Mathf.Ceil(baseScore * comboMultiplier * accuracyMultiplier);
+        float deltaScore = baseScore * comboMultiplier * accuracyMultiplier;
 
+        Debug.Log(baseScore);
+        Debug.Log(accuracyMultiplier);
+        Debug.Log(comboMultiplier);
         UpdateScore(deltaScore);
     }
 
     public void GiveHoldPoints()
     {
-        float deltaScore = mapBaseScore / 10f;
+        float deltaScore = baseScore / 10f;
         combo+=1;
         UpdateScore(deltaScore);
     }
 
+    // Increases score and score bar
     private void UpdateScore(float deltaScore)
     {
+        Debug.Log(deltaScore);
         score += deltaScore;
         if (score <= BREAKPOINT_C)
         {
@@ -113,60 +127,63 @@ public class ScoreManager : MonoBehaviour
             grade = Grade.S;
             letter.sprite = S;
         }
-        slider.value = score/BREAKPOINT_S;
-        fill.color = gradient.Evaluate(1-slider.value);
+        slider.value = 1f* score/BREAKPOINT_S;
+        fill.color = gradient.Evaluate(Mathf.Min(1, 1-slider.value));
     }
-    // Updates combo based on accuracy
-    // Returns the score multiplier for a given accuracy
+    
+    /**
+     * Updates combo based on accuracy, and returns the score multiplier for a given accuracy
+     * Perfect: 100% 
+     * Great: 90%
+     * Good: 75%
+     * Bad: 50%
+     * Miss: 0%
+     */
     private float GetAccuracyMultiplierAndUpdateCombo(Accuracy accuracy)
     {
-        // TODO: Set all these values to their actual values.
+        switch (accuracy)
+        { 
+            case Accuracy.Perfect:
+            case Accuracy.Great:
+            case Accuracy.Good:
+                if(combo > 0 && combo % 25 == 0)
+                    score += SkillManager.skillManager.flatScoreBonus;
+                break;
+            case Accuracy.Bad:
+            case Accuracy.Miss:
+            default:
+                combo = Math.Max(maxCombo,  combo);
+                break;
+        }
+
         switch (accuracy)
         { 
             case Accuracy.Perfect:
                 combo += 1;
-                return 5;
+                return 1f;
             case Accuracy.Great:
                 combo += 1;
-                return 4;
+                return .9f;
             case Accuracy.Good:
                 combo += 1;
-                return 3;
+                return .75f;
             case Accuracy.Bad:
-                if (combo > maxCombo)
-                {
-                    maxCombo = combo;
-                }
-                combo = 0;
-                return 2;
+                return .5f;
             case Accuracy.Miss:
-                if (combo > maxCombo)
-                {
-                    maxCombo = combo;
-                }
-                combo = 0;
-                return 0;
             default:
-                return 0;
+                return 0f;
         }
     }
     
     // Returns the score muliplier for a given accuracy
-    // TODO: determine actual values and formula
+    // Returns an extra 5% per 50 combo
     private float GetComboMultiplier(int curCombo)
     {
-        switch (curCombo)
-        { 
-            case 10:
-                //break;
-            case 20:
-                //break;
-            default:
-                break;
-        }
-        return 1;
+        return Mathf.Floor(curCombo / 50f) * .05f * SkillManager.skillManager.comboMultiplierBonus + 1f;
     }
 
+    // Sets the ScoreToGacha Container
+    // Needed to know rates, number of rolls, tickets, and set PlayerSongInfo
     public void OnEndGame()
     {
         container.score = score;

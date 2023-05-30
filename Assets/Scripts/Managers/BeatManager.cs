@@ -22,7 +22,7 @@ public class BeatManager : MonoBehaviour
     
     [Header("Game Information")]
     [Tooltip("Container BeatmapSO so BeatManager knows what song to play and load")]
-    [SerializeField] private BeatmapSO container;
+    [SerializeField] public BeatmapSO container;
     [Tooltip("Container SettingsSO")]
     [SerializeField] private SettingsSO settings;
 
@@ -83,11 +83,11 @@ public class BeatManager : MonoBehaviour
 
         spawnDiff = (spawnLine.position.y - playLine.position.y) / Note.fallSpeed;
         offset = 0;
+        LoadSong();
     }
 
     void Start()
     {
-        LoadSong();
         playing = true;
         startTime = (float)AudioSettings.dspTime + WAIT_TIME;
         pauseTime = startTime;

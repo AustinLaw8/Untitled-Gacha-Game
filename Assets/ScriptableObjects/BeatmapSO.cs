@@ -11,4 +11,13 @@ public class BeatmapSO : ScriptableObject
     // public float duration;
     public AudioClip clip;
     public string artist;
+
+    public void copy (BeatmapSO other)
+    {
+        this.ID = other.ID;
+        this.songName = other.songName;
+        this.mapData = other.mapData;
+        this.clip = other.clip;
+        this.artist = other.artist;
+    }
 }
