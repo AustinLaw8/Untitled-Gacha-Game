@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d07e3b3077d4a77bc9dd41d72c4906, type: 3}
   m_Name: Song 1 Hard
   m_EditorClassIdentifier: 
+  ID: 0
   songName: 
-  mapData: {fileID: 0}
-  clip: {fileID: 0}
+  mapData: {fileID: 4900000, guid: c17223ed764e2483baac572aee6f433c, type: 3}
+  clip: {fileID: 8300000, guid: 6a3a570fc2be34bdd96cb3749efedf62, type: 3}
   artist: 

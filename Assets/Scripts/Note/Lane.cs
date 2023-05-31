@@ -73,7 +73,8 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 
     private int notesTillNextHeal;
 
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSourceHold;
+    [SerializeField] private AudioSource audioSourceOneShots;
     [SerializeField] private AudioClip tapSfx;
     [SerializeField] private AudioClip flickSfx;
     [SerializeField] private AudioClip holdSfx;
@@ -93,11 +94,11 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
         holdNotes = new List<HoldNote>();
         holds = new HashSet<PointerEventData>();
         notesTillNextHeal = 20;
-        audioSource = GetComponent<AudioSource>();
     }
     
     void Update()
     {
+        bool held = false;
         holdNotes.RemoveAll(x=>x==null);
         foreach (HoldNote holdNote in holdNotes)
         {
@@ -108,9 +109,19 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
                 if (holdNote.GetComponent<Collider2D>().OverlapPoint(loc))
                 {
                     holdNote.holding = true;
+                    held = true;
                     break;
                 }
             }
+        }
+        if (held)
+        {
+            if (!audioSourceHold.isPlaying) audioSourceHold.Play();
+
+        }
+        else
+        {
+            if (audioSourceHold.isPlaying) audioSourceHold.Stop();
         }
     }
 
@@ -239,8 +250,8 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
             Vibration.VibratePeek();
             note.hit = true;
 
-            if (note.isFlick) audioSource.PlayOneShot(flickSfx,.25f);
-            else audioSource.PlayOneShot(tapSfx,.25f);
+            if (note.isFlick) audioSourceOneShots.PlayOneShot(flickSfx);
+            else audioSourceOneShots.PlayOneShot(tapSfx);
 
             notesTillNextHeal -= 1;
             if (notesTillNextHeal == 0)

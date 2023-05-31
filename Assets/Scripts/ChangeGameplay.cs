@@ -7,20 +7,22 @@ using UnityEngine.UI;
 public class ChangeGameplay : MonoBehaviour
 {
     [SerializeField] private SettingsSO settings;
-    [SerializeField] private TMPro.TMP_InputField speedInput, offsetInput, transparentInput, brightInput;
+
+    [SerializeField] private TMPro.TMP_InputField speedInput, offsetInput, transparentInput, brightnessInput;
+    [SerializeField] private Slider transparentSlider, brightnessSlider;
     [SerializeField] private Toggle showSkills;
 
     // Start is called before the first frame update
     void Start()
     {
         if(!PlayerPrefs.HasKey("noteSpeed")) 
-            PlayerPrefs.SetFloat("noteSpeed", 5f);
+            PlayerPrefs.SetFloat("noteSpeed", 4f);
 
         if(!PlayerPrefs.HasKey("noteOffset")) 
-            PlayerPrefs.SetFloat("noteOffset", 5f);
+            PlayerPrefs.SetFloat("noteOffset", 0f);
 
         if(!PlayerPrefs.HasKey("transparency")) 
-            PlayerPrefs.SetFloat("transparency", 1f);
+            PlayerPrefs.SetFloat("transparency", .75f);
         
         if(!PlayerPrefs.HasKey("brightness")) 
             PlayerPrefs.SetFloat("brightness", 1f);
@@ -56,27 +58,37 @@ public class ChangeGameplay : MonoBehaviour
         }
         Load();
     }
-    
-    public void transparentChange()
+
+    public void transparentSliderChange() 
+    {
+        settings.transparency = transparentSlider.value;
+        Load();
+    }
+
+    public void transparentInputChange()
     {
         float value;
         if (float.TryParse(transparentInput.text, out value)) 
         {
-            if (value > 100)
-                value = 100;
-            settings.transparency = value / 100f;
+            value = Mathf.Clamp01(value);
+            settings.transparency = value;
         }
         Load();
     }
     
-    public void brightnessChange()
+    public void brightnessSliderChange() 
+    {
+        settings.brightness = brightnessSlider.value;
+        Load();
+    }
+
+    public void brightnessInputChange()
     {
         float value;
-        if (float.TryParse(brightInput.text, out value)) 
+        if (float.TryParse(brightnessInput.text, out value)) 
         {
-            if (value > 100)
-                value = 100;
-            settings.brightness = value / 100f;
+            value = Mathf.Clamp01(value);
+            settings.brightness = value;
         }
         Load();
     }
@@ -91,9 +103,12 @@ public class ChangeGameplay : MonoBehaviour
     {
         speedInput.text = settings.noteSpeed.ToString("0.0");
         offsetInput.text = settings.noteOffset.ToString("0.0");
+
+        transparentSlider.value = settings.transparency;
+        brightnessSlider.value = settings.brightness;
         
-        transparentInput.text = Mathf.Round(settings.transparency * 100f).ToString();
-        brightInput.text = Mathf.Round(settings.brightness * 100f).ToString();
+        transparentInput.text = (Mathf.Round(settings.transparency * 100) / 100).ToString();
+        brightnessInput.text = (Mathf.Round(settings.brightness * 100) / 100).ToString();
 
         showSkills.isOn = settings.showSkill;
 

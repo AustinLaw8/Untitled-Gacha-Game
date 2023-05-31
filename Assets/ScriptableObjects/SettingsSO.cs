@@ -25,7 +25,7 @@ public class SettingsSO : ScriptableObject
         musicVolume = PlayerPrefs.GetFloat("musicVolume", 1f);
         sfxVolume = PlayerPrefs.GetFloat("sfxVolume", 1f);
 
-        noteSpeed = PlayerPrefs.GetFloat("noteSpeed", 2f);
+        noteSpeed = PlayerPrefs.GetFloat("noteSpeed", 4f);
         noteOffset = PlayerPrefs.GetFloat("noteOffset", 0f);
         transparency = PlayerPrefs.GetFloat("transparency", .75f);
         brightness = PlayerPrefs.GetFloat("brightness", 1f);
