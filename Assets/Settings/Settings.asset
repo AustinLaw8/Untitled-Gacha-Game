@@ -16,8 +16,8 @@ MonoBehaviour:
   _masterVolume: 1
   _musicVolume: 1
   _sfxVolume: 1
-  _noteSpeed: 2
+  _noteSpeed: 8
   _noteOffset: 0
-  _transparency: 0.01
+  _transparency: 0.75
   _brightness: 0.01
   _showSkill: 1

@@ -24,6 +24,7 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI skillText;
     [SerializeField] private Animator skillAnimator;
+    [SerializeField] private SettingsSO settings;
 
     void Awake()
     {
@@ -39,6 +40,8 @@ public class SkillManager : MonoBehaviour
 
     public void AnimateSkill(Zodiac zodiac)
     {
+        if (!settings.showSkill) return;
+
         string str;
         switch (zodiac)
         {

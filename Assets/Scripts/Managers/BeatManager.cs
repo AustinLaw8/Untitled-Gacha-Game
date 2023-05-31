@@ -94,7 +94,8 @@ public class BeatManager : MonoBehaviour
 
         musicSource.clip = container.clip;
         StartCoroutine("PlayMusicWithOffset", WAIT_TIME);
-        background.color = new Color(255,255,255,255 * settings.transparency);
+        Debug.Log(settings.transparency);
+        background.color = new Color(1,1,1, settings.transparency);
     }
 
     void Update()

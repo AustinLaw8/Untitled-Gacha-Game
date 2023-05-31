@@ -340,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillText: {fileID: 89674771}
   skillAnimator: {fileID: 89674770}
+  settings: {fileID: 11400000, guid: b102a611b64294314b46f5b28e9a6d35, type: 2}
 --- !u!1001 &348343809
 PrefabInstance:
   m_ObjectHideFlags: 0
