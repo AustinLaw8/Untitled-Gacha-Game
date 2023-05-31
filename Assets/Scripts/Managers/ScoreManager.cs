@@ -33,7 +33,9 @@ public class ScoreManager : MonoBehaviour
     private int combo;
     private int maxCombo;
 
-    [SerializeField] private ScoreToGachaSO container; 
+    [SerializeField] private ScoreToGachaSO container;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private Animator scoreAnimator;
 
     [SerializeField] private Slider slider;
     [SerializeField] private Image fill;
@@ -69,7 +71,6 @@ public class ScoreManager : MonoBehaviour
         }
         float scoreFromPower = power / 1000f;
         int mapDifficultyBonus = BeatManager.beatManager.container.ID % 2 == 0 ? 1 : 0;
-        Debug.Log(scoreFromPower);
         baseScore = scoreFromPower + BREAKPOINT_C / BeatManager.beatManager.NumNotes*1f + mapDifficultyBonus;
         
         score = 0;
@@ -80,14 +81,8 @@ public class ScoreManager : MonoBehaviour
     public void IncreaseScore(Accuracy accuracy)
     {
         float accuracyMultiplier = GetAccuracyMultiplierAndUpdateCombo(accuracy);
-
         float comboMultiplier = GetComboMultiplier(combo);
-
         float deltaScore = baseScore * comboMultiplier * accuracyMultiplier;
-
-        Debug.Log(baseScore);
-        Debug.Log(accuracyMultiplier);
-        Debug.Log(comboMultiplier);
         UpdateScore(deltaScore);
     }
 
@@ -101,7 +96,6 @@ public class ScoreManager : MonoBehaviour
     // Increases score and score bar
     private void UpdateScore(float deltaScore)
     {
-        Debug.Log(deltaScore);
         score += deltaScore;
         if (score <= BREAKPOINT_C)
         {
@@ -127,6 +121,11 @@ public class ScoreManager : MonoBehaviour
             grade = Grade.S;
             letter.sprite = S;
         }
+        if (!Mathf.Approximately(deltaScore, 0f))
+        {
+            scoreText.text = $"+{Mathf.Round(deltaScore)}";
+            scoreAnimator.Play("Fade");
+        }
         slider.value = 1f* score/BREAKPOINT_S;
         fill.color = gradient.Evaluate(Mathf.Min(1, 1-slider.value));
     }
@@ -147,7 +146,7 @@ public class ScoreManager : MonoBehaviour
             case Accuracy.Great:
             case Accuracy.Good:
                 if(combo > 0 && combo % 25 == 0)
-                    score += SkillManager.skillManager.flatScoreBonus;
+                    UpdateScore(SkillManager.skillManager.flatScoreBonus);
                 break;
             case Accuracy.Bad:
             case Accuracy.Miss:

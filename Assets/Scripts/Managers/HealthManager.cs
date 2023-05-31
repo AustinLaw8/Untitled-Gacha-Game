@@ -101,26 +101,18 @@ public class HealthManager : MonoBehaviour
         if(currentHealth <= 0)
         {
             hpHeart.sprite = lowHealthHeart;
-            //hpBarBackground.color = ded;
-            //health.color = lowHealthColor;
         }
         else if(currentHealth <= lowHealth)
         {
             hpHeart.sprite = lowHealthHeart;
-            // hpBarBackground.color = lowHealthColor;
-            // health.color = lowHealthColor;
         }
         else if (currentHealth <= medHealth)
         {
             hpHeart.sprite = medHealthHeart;
-            // hpBarBackground.color = medHealthColor;
-            // health.color = medHealthColor;
         }
         else
         {
             hpHeart.sprite = highHealthHeart;
-            // hpBarBackground.color = highHealthColor;
-            // health.color = highHealthColor;
         }
     }
 }
