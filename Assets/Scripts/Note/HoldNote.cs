@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 // Given the lines a hold note follows, handles the interactions of tapping, particle effects, and holding
 public class HoldNote : MonoBehaviour
-// , IPointerUpHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject above;
@@ -56,7 +55,6 @@ public class HoldNote : MonoBehaviour
         mesh = new Mesh();
         mesh.MarkDynamic();
 
-        // livePoints = new Queue<(float time, int lane)>();
         points = new List<(float time, int lane)>();
         vertices = new List<Vector3>();
 
@@ -165,18 +163,15 @@ public class HoldNote : MonoBehaviour
         CalculateTris();
         CalculateUV();
 
-        // if (vertices.Count >= 3)
-        // {
-            mesh.Clear();
-            mesh.vertices = vertices.ToArray();
-            mesh.triangles = triangles.ToArray();
-            mesh.normals = vertices.ConvertAll<Vector3>( x => -Vector3.forward ).ToArray();
-            mesh.uv = uv.ToArray();
+        mesh.Clear();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.normals = vertices.ConvertAll<Vector3>( x => -Vector3.forward ).ToArray();
+        mesh.uv = uv.ToArray();
 
-            meshFilter.mesh = mesh;
-            
-            SetCollider();
-        // }
+        meshFilter.mesh = mesh;
+        
+        SetCollider();
     }
 
     /**
@@ -202,9 +197,6 @@ public class HoldNote : MonoBehaviour
         while (end < points.Count && points[end].time <= timer)
         {
             
-            // Note newNote = GameObject.Instantiate(note).GetComponent<Note>();
-            // newNote.transform.position = new Vector3(0f, BeatManager.SPAWN_POINT, -2f);
-            // newNote.SetLane(points[end].Item2);
             end += 1;
         }
 
@@ -219,7 +211,6 @@ public class HoldNote : MonoBehaviour
                 vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane].getX(y) + INNER_BUMP, y, -1f) );
                 vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane + 1].getX(y) - INNER_BUMP, y, -1f) );
                 bottom = new Vector2(Lane.LANE_LINES[points[start].lane].getX(BeatManager.PLAY_POINT), BeatManager.PLAY_POINT);
-                // lastHoldTime = 0f;
             }
             else
             {
@@ -253,15 +244,8 @@ public class HoldNote : MonoBehaviour
                         1 - ((BeatManager.PLAY_POINT - yBelow) / (yAbove - yBelow))
                     );
 
-            // vertices.Add(new Vector3(temp - Lane.TOP_DISTANCE_PER_LANE / 2 + INNER_BUMP, BeatManager.SPAWN_POINT, -1f));
-            // vertices.Add(new Vector3(temp + Lane.TOP_DISTANCE_PER_LANE / 2 - INNER_BUMP, BeatManager.SPAWN_POINT, -1f));
-
                     above.transform.position = new Vector2(xAbove, yAbove);
                     below.transform.position = new Vector2(xBelow, yBelow);
-                    //     Debug.Log(
-                    //     1 - ((BeatManager.PLAY_POINT - yBelow) / (yAbove - yBelow))
-                    // );
-                    // lastHoldTime = (timer - fallTime - lastBelow.time) / (firstAbove.time - lastBelow.time);
 
                     vertices.Add(new Vector3(bottom.x - Lane.BOTTOM_DISTANCE_PER_LANE / 2 + INNER_BUMP, BeatManager.PLAY_POINT, -1f));
                     vertices.Add(new Vector3(bottom.x + Lane.BOTTOM_DISTANCE_PER_LANE / 2 - INNER_BUMP, BeatManager.PLAY_POINT, -1f));
@@ -275,19 +259,6 @@ public class HoldNote : MonoBehaviour
                 float y = GetYAtTime(points[start].time);
                 vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane].getX(y) + INNER_BUMP, y, -1f) );
                 vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane + 1].getX(y) - INNER_BUMP, y, -1f) );
-
-                // if (start >= 1 && y <=)
-                // {
-
-                // }
-                // (float time, int lane) lastBelow = points[start-1];
-                // (float time, int lane) firstAbove = points[start];
-                // float xBelow = Lane.LANE_LINES[lastBelow.lane].getX(5f);
-                // float xAbove = Lane.LANE_LINES[firstAbove.lane].getX(5f);
-                // float temp = Mathf.Lerp(xBelow, xAbove, (timer - lastBelow.time) / (firstAbove.time - lastBelow.time) );
-
-                // vertices.Add(new Vector3(temp - Lane.TOP_DISTANCE_PER_LANE / 2 + INNER_BUMP, BeatManager.SPAWN_POINT, -1f));
-                // vertices.Add(new Vector3(temp + Lane.TOP_DISTANCE_PER_LANE / 2 - INNER_BUMP, BeatManager.SPAWN_POINT, -1f));
             }
             else
             {
@@ -312,26 +283,10 @@ public class HoldNote : MonoBehaviour
 
                 above.transform.position = new Vector2(xAbove, yAbove);
                 below.transform.position = new Vector2(xBelow, yBelow);
-                // Debug.Log($"{lastHoldTime} {bottom} {(bottom.y - yBelow) / (yAbove - yBelow)}");
-                //  {(yAbove - bottom.y) / (yAbove - yBelow)}");
-                // bottom.x += (2.5f * Lane.TOP_TO_BOTTOM_DISTANCE_PER_LANE) / fallTime * 2 * Time.deltaTime;
 
-                // if /
                 float dist = Mathf.Abs(Lane.LANE_LINES_FOR_OFFSET[points[start].lane].getX(bottom.y) - Lane.LANE_LINES_FOR_OFFSET[points[start].lane + 1].getX(bottom.y));
                 vertices.Add( new Vector3(bottom.x - dist / 2 + INNER_BUMP, bottom.y, -1f));
                 vertices.Add( new Vector3(bottom.x + dist / 2 - INNER_BUMP, bottom.y, -1f));
-
-                // float y = GetYAtTime(points[start].time);
-                // vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane].getX(y) + INNER_BUMP, y, -1f) );
-                // vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane + 1].getX(y) - INNER_BUMP, y, -1f) );
-
-                // vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane].Lerp((bottom.y - yBelow) / (yAbove - yBelow)) + INNER_BUMP, bottom.y, -1f) );
-                // vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[points[start].lane + 1].Lerp((bottom.y - yBelow) / (yAbove - yBelow)) - INNER_BUMP, bottom.y, -1f) );
-
-                // if (bottom.y < -5.5f)
-                // {
-                //     bottom = Vector2.zero;
-                // }
             }
         }
 
@@ -367,174 +322,7 @@ public class HoldNote : MonoBehaviour
             endNote.isEnd = true;
             endNoteSpawned = true;
         }
-
-        // Debug.Log($"{start} {end} {bottom}");
-        // Debug.Log("Vertices:");
-        // foreach(var v in vertices)
-        //     Debug.Log(v);
     }
-    // // Very painfully calculates the vertices
-    // private void CalculateVertices()
-    // {
-    //     vertices.Clear();
-
-    //     int i;
-
-    //     float temp, y;
-    //     (float time, int lane) x;
-
-    //     // This if block draws the first two vertices
-    //     // In pseudocode, the if block looks like:
-    //     /*
-    //         if not holding
-    //             if has not touched yet
-    //                 draw vertices as they are defined by points
-    //             else
-    //                 draw bottom two vertices based on the last calculated bottom of hold note
-    //         else
-    //             set the bottom of the hold note as the x value of the hold note at the play line
-    //             draw bottom two vertices based on this calculated bottom 
-    //     */
-    //     if (!holding)
-    //     {
-    //         i = 0;
-
-    //         // If completely missed (hasn't touched the hold note yet)
-    //         if (bottom == Vector2.zero)
-    //         {
-    //             // Basic functionality: go through points, set vertices based on points
-    //             while(i < points.Count && points[i].time <= timer)
-    //             {
-    //                 x = points[i];
-    //                 y = GetYAtTime(x.time);
-    //                 vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(y) + INNER_BUMP, y, -1f) );
-    //                 vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y) - INNER_BUMP, y, -1f) );
-    //                 i++;
-    //             }
-    //         }
-    //         // If hit at some point but then is missing now
-    //         else
-    //         {
-    //             Debug.Log($"befroe: {bottom}");
-    //             // If the last point pressed is on screen still, just move it down
-    //             if (bottom.y > -5.45f)
-    //             {
-    //                 i = 0;
-    //                 // Find the pair of vertices directly after the bottom, set i to be here
-    //                 while(i < points.Count)
-    //                 {
-    //                     x = points[i];
-    //                     y = GetYAtTime(x.time);
-    //                     if (bottom.y < y)
-    //                         break;
-    //                     i++;
-    //                 }
-                    
-    //                 // Draw bottom vertices
-    //                 bottom.y = GetYAtTime(lastHoldTime - fallTime);
-    //                 if (!Mathf.Approximately(bottom.x, 0f))
-    //                 {
-    //                     float delta = Lane.BOTTOM_DISTANCE_PER_LANE * Time.deltaTime;
-    //                     bottom.x = bottom.x < 0f ? bottom.x - delta : bottom.x + delta;
-    //                 }
-    //                 vertices.Add( new Vector3(bottom.x - Lane.BOTTOM_DISTANCE_PER_LANE / 2 + INNER_BUMP, bottom.y, -1f));
-    //                 vertices.Add( new Vector3(bottom.x + Lane.BOTTOM_DISTANCE_PER_LANE / 2 - INNER_BUMP, bottom.y, -1f));
-    //             }
-    //             // else, keep track of the bottom manually 
-    //             else
-    //             {
-    //                 // Find the point where the hold note is at the bottom of the screen (find where y = -5.5f)
-    //                 i = -1;
-    //                 while(i < points.Count - 1)
-    //                 //  && points[i+1].time + 10.5f / Note.fallSpeed <= timer)
-    //                 {
-    //                     if(GetYAtTime(points[i+1].time) > -5.5f)
-    //                         break;
-    //                     i++;
-    //                 }
-
-    //                 // Calculate the x position of the hold note at this point (y=-5f)
-    //                 if (i != -1 && i != points.Count - 1)
-    //                 {
-    //                     (float time, int lane) lastBelow = points[i];
-    //                     (float time, int lane) firstAbove = points[i+1];
-    //                     float yBelow = GetYAtTime(lastBelow.time);
-    //                     float yAbove = GetYAtTime(firstAbove.time);
-    //                     float xBelow = Lane.LANE_LINES[lastBelow.lane].getX(yBelow);
-    //                     float xAbove = Lane.LANE_LINES[firstAbove.lane].getX(yAbove);
-    //                     Debug.Log($"{i}, ({xBelow}, {yBelow}), ({xAbove}, {yAbove})");
-    //                     Vector2 limPoint = Vector2.LerpUnclamped(
-    //                         new Vector2(xBelow, yBelow),
-    //                         new Vector2(xAbove, yAbove),
-    //                         (-5.5f - yBelow) / (yAbove - yBelow)
-    //                     );
-    //                     bottom = limPoint;
-    //                     vertices.Add(new Vector3(limPoint.x - 7.2f/7f + INNER_BUMP, -5.5f, -1f));
-    //                     vertices.Add(new Vector3(limPoint.x + 7.2f/7f - INNER_BUMP, -5.5f, -1f));
-    //                 }
-    //                 i++;
-    //             }
-    //             Debug.Log($"after:{bottom}");
-
-    //         }
-    //     }
-    //     else // currently holding
-    //     {
-    //         // Set lastHoldTime. This is needed to know how far the bottom has traveled in case the player releases the hold note
-    //         lastHoldTime = timer;
-
-    //         // Find the point where the hold note is at the play line (find where y = -3.4f)
-    //         i = -1;
-    //         while(i < points.Count - 1 && points[i+1].time + Lane.DISTANCE / Note.fallSpeed <= timer)
-    //         {
-    //             i++;
-    //         }
-
-    //         // If this point is somewhere in the middle of the hold note
-    //         // i.e. the hold note is note completely above the play line
-    //         // and also not completely below it
-    //         // Calculate the x position of the hold note at this point
-    //         if (i != -1 && i != points.Count - 1)
-    //         {
-    //             (float time, int lane) lastBelow = points[i];
-    //             (float time, int lane) firstAbove = points[i+1];
-    //             float yBelow = GetYAtTime(lastBelow.time);
-    //             float yAbove = GetYAtTime(firstAbove.time);
-    //             float xBelow = Lane.LANE_LINES[lastBelow.lane].getX(yBelow);
-    //             float xAbove = Lane.LANE_LINES[firstAbove.lane].getX(yAbove);
-    //             Vector2 limPoint = Vector2.Lerp(
-    //                 new Vector2(xBelow, yBelow),
-    //                 new Vector2(xAbove, yAbove),
-    //                 (BeatManager.PLAY_POINT - yBelow) / (yAbove - yBelow)
-    //             );
-
-    //             bottom = limPoint;
-    //             vertices.Add(new Vector3(limPoint.x - Lane.BOTTOM_DISTANCE_PER_LANE / 2 + INNER_BUMP, BeatManager.PLAY_POINT, -1f));
-    //             vertices.Add(new Vector3(limPoint.x + Lane.BOTTOM_DISTANCE_PER_LANE / 2 - INNER_BUMP, BeatManager.PLAY_POINT, -1f));
-    //         }
-    //         i++;
-    //     }
-
-    //     // Draw everything else that is on screen ...
-    //     while(i < points.Count && points[i].time <= timer)
-    //     {
-    //         x = points[i];
-    //         y = GetYAtTime(x.time);
-    //         vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(y) + INNER_BUMP, y, -1f) );
-    //         vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(y) - INNER_BUMP, y, -1f) );
-    //         i++;
-    //     }
-
-    //     // ... as well as the first point that goes off screen ...
-    //     if (i < points.Count)
-    //     {
-    //         x = points[i];
-    //         temp = Mathf.Pow((timer - x.time)/fallTime, 2);
-    //         y = BeatManager.SPAWN_POINT + temp * Lane.DISTANCE;
-    //         vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane].getX(5f) + INNER_BUMP, 5f, -1f) );
-    //         vertices.Add( new Vector3(Lane.LANE_LINES_FOR_OFFSET[x.lane + 1].getX(5f) - INNER_BUMP, 5f, -1f) );
-    //     }
-    // }
 
     /**
      * Sets triangles
@@ -578,8 +366,6 @@ public class HoldNote : MonoBehaviour
 
     private float GetYAtTime(float t)
     {
-        // float temp = Note.fallSpeed * (timer - t);
-        // return t > timer ? BeatManager.SPAWN_POINT + temp : BeatManager.SPAWN_POINT - temp;
         float temp = Mathf.Pow((timer - t)/fallTime, 2) * Lane.DISTANCE;
         return t > timer ? BeatManager.SPAWN_POINT + temp : BeatManager.SPAWN_POINT - temp;
     }
