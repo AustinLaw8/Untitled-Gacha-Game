@@ -11,7 +11,7 @@ public enum Accuracy
 }
 public enum Grade
 {
-    S, A, B, C
+    S, A, B, C, D
 }
 public enum Combo
 {
@@ -35,6 +35,7 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private ScoreToGachaSO container;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI plusScoreText;
     [SerializeField] private Animator scoreAnimator;
 
     [SerializeField] private Slider slider;
@@ -47,6 +48,15 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Sprite B;
     [SerializeField] private Sprite C;
     [SerializeField] private Sprite D;
+
+    [SerializeField] private GameObject postGameCanvas;
+    [SerializeField] private TextMeshProUGUI postGameHeader;
+    [SerializeField] private Transform postGameRewards;
+    [SerializeField] private TextMeshProUGUI postGameScoreText;
+    [SerializeField] private Image postGameScoreLetter;
+
+    [SerializeField] private Color blue;
+    [SerializeField] private Color purple;
 
     void Awake()
     {
@@ -76,6 +86,8 @@ public class ScoreManager : MonoBehaviour
         score = 0;
         combo = 0;
         maxCombo = 0;
+        scoreText.text = "0";
+        grade = Grade.D;
     }
 
     public void IncreaseScore(Accuracy accuracy)
@@ -123,9 +135,10 @@ public class ScoreManager : MonoBehaviour
         }
         if (!Mathf.Approximately(deltaScore, 0f))
         {
-            scoreText.text = $"+{Mathf.Round(deltaScore)}";
+            plusScoreText.text = $"+{Mathf.Round(deltaScore)}";
             scoreAnimator.Play("Fade");
         }
+        scoreText.text = $"{Mathf.Round(score)}";
         slider.value = 1f* score/BREAKPOINT_S;
         fill.color = gradient.Evaluate(Mathf.Min(1, 1-slider.value));
     }
@@ -145,6 +158,7 @@ public class ScoreManager : MonoBehaviour
             case Accuracy.Perfect:
             case Accuracy.Great:
             case Accuracy.Good:
+                combo += 1;
                 if(combo > 0 && combo % 25 == 0)
                 {
                     UpdateScore(SkillManager.skillManager.flatScoreBonus);
@@ -154,20 +168,18 @@ public class ScoreManager : MonoBehaviour
             case Accuracy.Bad:
             case Accuracy.Miss:
             default:
-                combo = Math.Max(maxCombo,  combo);
+                maxCombo = Math.Max(maxCombo,  combo);
+                combo = 0;
                 break;
         }
 
         switch (accuracy)
         { 
             case Accuracy.Perfect:
-                combo += 1;
                 return 1f;
             case Accuracy.Great:
-                combo += 1;
                 return .9f;
             case Accuracy.Good:
-                combo += 1;
                 return .75f;
             case Accuracy.Bad:
                 return .5f;
@@ -188,6 +200,7 @@ public class ScoreManager : MonoBehaviour
     // Needed to know rates, number of rolls, tickets, and set PlayerSongInfo
     public void OnEndGame()
     {
+        PlayerSongInfo playerSongInfo = PlayerSongInfo.GetPlayerSongInfo();
         container.score = score;
         container.grade = grade;
         container.postGame = true;
@@ -210,6 +223,67 @@ public class ScoreManager : MonoBehaviour
         else
         {
             container.combo = Combo._100;
+        }
+        BeatmapSO beatmap = BeatManager.beatManager.container;
+        string difficulty = beatmap.ID % 8 < 4 ? "easy" : "hard";
+        float percentCombo = Mathf.Round(100f * maxCombo / BeatManager.beatManager.NumNotes);
+        GiveTickets(playerSongInfo, beatmap);
+        postGameHeader.text = $"Passed - {beatmap.songName} ({difficulty})";
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerSongInfo.rewardsReceived[beatmap.ID + i])
+            {
+                postGameRewards.GetChild(i).GetComponent<Image>().color = blue;
+            }
+            else if (maxCombo >= Mathf.FloorToInt(BeatManager.beatManager.NumNotes * .25f * (i + 1)))
+            {
+                postGameRewards.GetChild(i).GetComponent<Animator>().Play("TurnBlue");
+                playerSongInfo.rewardsReceived[beatmap.ID + i] = true;
+            }
+            else
+            {
+                postGameRewards.GetChild(i).GetComponent<Image>().color = purple;
+            }
+        }
+        if (Mathf.Approximately(percentCombo, 100f)) postGameScoreText.text = $"Final Score: {Mathf.Round(score)}\nHighest Combo: {maxCombo} (Full Combo!)";
+        else postGameScoreText.text = $"Final Score: {Mathf.Round(score)}\nHighest Combo: {maxCombo} ({percentCombo.ToString()}%)";
+        postGameScoreLetter.sprite = letter.sprite;
+        postGameCanvas.SetActive(true);
+        PlayerSongInfo.Write(playerSongInfo);
+    }
+
+    private void GiveTickets(PlayerSongInfo playerSongInfo, BeatmapSO beatmapContainer)
+    {
+        switch (container.grade)
+        {
+            case Grade.S:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 3])
+                {
+                    playerSongInfo.tickets += 10;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 3] = true;
+                }
+                goto case Grade.A;
+            case Grade.A:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 2])
+                {
+                    playerSongInfo.tickets += 5;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 2] = true;
+                }
+                goto case Grade.B;
+            case Grade.B:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 1])
+                {
+                    playerSongInfo.tickets += 3;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 1] = true;
+                }
+                goto case Grade.C;
+            case Grade.C:
+                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID])
+                {
+                    playerSongInfo.tickets += 1;
+                    playerSongInfo.rewardsReceived[beatmapContainer.ID] = true;
+                }
+                break;
         }
     }
 

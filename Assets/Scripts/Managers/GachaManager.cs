@@ -106,7 +106,6 @@ public class GachaManager : MonoBehaviour
         if (container.postGame)
         {
             Roll(10, container.combo);
-            GiveTickets();
         }
         else
         {
@@ -244,43 +243,6 @@ public class GachaManager : MonoBehaviour
                 oneStarChance = .56f;
                 break;
         }
-    }
-
-    private void GiveTickets()
-    {
-        PlayerSongInfo playerSongInfo = PlayerSongInfo.GetPlayerSongInfo();
-        switch (container.grade)
-        {
-            case Grade.C:
-                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID])
-                {
-                    playerSongInfo.tickets += 1;
-                    playerSongInfo.rewardsReceived[beatmapContainer.ID] = true;
-                }
-                break;
-            case Grade.B:
-                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 1])
-                {
-                    playerSongInfo.tickets += 3;
-                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 1] = true;
-                }
-                break;
-            case Grade.A:
-                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 2])
-                {
-                    playerSongInfo.tickets += 5;
-                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 2] = true;
-                }
-                break;
-            case Grade.S:
-                if (!playerSongInfo.rewardsReceived[beatmapContainer.ID + 3])
-                {
-                    playerSongInfo.tickets += 10;
-                    playerSongInfo.rewardsReceived[beatmapContainer.ID + 3] = true;
-                }
-                break;
-        }
-        PlayerSongInfo.Write(playerSongInfo);
     }
 }
 

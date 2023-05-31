@@ -298,6 +298,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -273.17535
       objectReference: {fileID: 0}
+    - target: {fileID: 4573626402838347128, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
+      propertyPath: m_text
+      value: Tap
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573626402838347128, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4573626403332774656, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: cardDB
       value: 
@@ -389,6 +397,10 @@ PrefabInstance:
     - target: {fileID: 4573626403332774716, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573626403332774717, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4573626403959341182, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: m_IsActive

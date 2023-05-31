@@ -4956,7 +4956,7 @@ MonoBehaviour:
   speedInput: {fileID: 6421780371501742713}
   offsetInput: {fileID: 6421780372255536012}
   transparentInput: {fileID: 4089640940145203778}
-  brightInput: {fileID: 3245739248860315439}
+  brightnessInput: {fileID: 0}
   transparentSlider: {fileID: 0}
   brightnessSlider: {fileID: 0}
   showSkills: {fileID: 6421780371089480457}

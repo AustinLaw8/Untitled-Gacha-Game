@@ -60,8 +60,8 @@ public class BeatManager : MonoBehaviour
     // i.e. (2.2, 3), (3.3, 5) means that there should be a note to press at 2.2 seconds and held until 3.3 seconds in lane 5
     private Queue<List<(float, int)>> holdNotes = new Queue<List<(float, int)>>();
 
-    private float numNotes;
-    public float NumNotes { get { return numNotes; } }
+    private int numNotes;
+    public int NumNotes { get { return numNotes; } }
 
     private float spawnDiff;
     
@@ -157,7 +157,6 @@ public class BeatManager : MonoBehaviour
 
             if (beatmap.Count == 0 && !musicSource.isPlaying)
             {
-                ScoreManager.scoreManager.OnEndGame();
                 StartCoroutine(EndGameWithOffset(WAIT_TIME));
             }
         }
@@ -173,7 +172,7 @@ public class BeatManager : MonoBehaviour
     IEnumerator EndGameWithOffset(float time)
     {
         yield return new WaitForSeconds(time);
-        SceneManager.LoadScene("GachaScreen", LoadSceneMode.Single);
+        ScoreManager.scoreManager.OnEndGame();
     }
 
     public void OnPause()
@@ -240,7 +239,7 @@ public class BeatManager : MonoBehaviour
                 temp.Add( (float.Parse(times[j+1]), int.Parse(times[j])) );
             }
             holdNotes.Enqueue(temp);
-            numNotes += Mathf.RoundToInt(temp[temp.Count - 1].Item1 - temp[0].Item2) / 10f + 2;
+            numNotes += Mathf.RoundToInt((temp[temp.Count - 1].Item1 - temp[0].Item2) / 10f) + 2;
         }
     }
 
