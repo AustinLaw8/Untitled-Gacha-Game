@@ -67,7 +67,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.12
+    - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
@@ -175,6 +175,21 @@ MonoBehaviour:
       m_Y: 278
       m_Width: 7
       m_Height: 68
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+  - m_Index: 13
+    m_Metrics:
+      m_Width: 33.65625
+      m_Height: 37.796875
+      m_HorizontalBearingX: 5.671875
+      m_HorizontalBearingY: 61.46875
+      m_HorizontalAdvance: 45
+    m_GlyphRect:
+      m_X: 876
+      m_Y: 165
+      m_Width: 35
+      m_Height: 39
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
@@ -1183,21 +1198,6 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
-  - m_Index: 13
-    m_Metrics:
-      m_Width: 33.65625
-      m_Height: 37.796875
-      m_HorizontalBearingX: 5.671875
-      m_HorizontalBearingY: 61.46875
-      m_HorizontalAdvance: 45
-    m_GlyphRect:
-      m_X: 876
-      m_Y: 165
-      m_Width: 35
-      m_Height: 39
-    m_Scale: 1
-    m_AtlasIndex: 0
-    m_ClassDefinitionType: 0
   m_CharacterTable:
   - m_ElementType: 1
     m_Unicode: 32
@@ -1206,6 +1206,10 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 33
     m_GlyphIndex: 4
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 42
+    m_GlyphIndex: 13
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 43
@@ -1474,10 +1478,6 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 8230
     m_GlyphIndex: 4918
-    m_Scale: 1
-  - m_ElementType: 1
-    m_Unicode: 42
-    m_GlyphIndex: 13
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: 3089832944684582607}

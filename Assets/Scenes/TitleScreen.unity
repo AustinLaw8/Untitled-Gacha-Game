@@ -853,7 +853,7 @@ MonoBehaviour:
   m_text: Untitled Gacha Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a94231fc1ed9d44c8b18d37932e63c52, type: 2}
-  m_sharedMaterial: {fileID: -5241208395872558412, guid: a94231fc1ed9d44c8b18d37932e63c52, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 6a03ce7a578444cfd893fa5ab48dc47c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
