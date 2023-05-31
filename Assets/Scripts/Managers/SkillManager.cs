@@ -78,6 +78,7 @@ public class SkillManager : MonoBehaviour
         int count = 0;
         foreach (int id in teamIDs)
         {
+            if (id == 3900) continue;
             CardSO card = CardManager.cardManager.cardDB[id];
             if(zodiac == card.zodiac)
             {
