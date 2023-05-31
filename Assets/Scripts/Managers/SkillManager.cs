@@ -49,10 +49,11 @@ public class SkillManager : MonoBehaviour
                 str = "Rabbit";
                 break;
             case Zodiac.Dragon:
+            default:
                 str = "Dragon";
                 break;
         }
-        skillText.text = $"{zodiac} Skill Activated";
+        skillText.text = $"{str} Skill Activated";
         skillAnimator.Play("Fade");
     }
 

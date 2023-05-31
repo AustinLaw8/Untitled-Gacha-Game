@@ -31,5 +31,6 @@ public class MemberSwap : MonoBehaviour
         scriptTeam.ClearImage();
         cardInventory.UpdateDisplay();
         teamManager.SaveTeam();
+        teamID = 3900;
     }
 }

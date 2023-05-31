@@ -35,6 +35,9 @@ public class TeamInventory : MonoBehaviour
     {
         slot.GetComponent<CardIDIdentifier>().cardID = (int)card.ID;
         slot.GetComponent<Image>().sprite = card.cardIcon;
+        slot.transform.GetChild(0).gameObject.SetActive(card.ID != 3900);
+        slot.transform.GetChild(1).gameObject.SetActive(card.ID != 3900);
+        slot.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{card.numCopies}";
     }
 
     // Updates current team list (cards)
