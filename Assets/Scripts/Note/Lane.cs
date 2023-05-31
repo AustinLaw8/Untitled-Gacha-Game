@@ -243,7 +243,11 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
             else audioSource.PlayOneShot(tapSfx,.25f);
 
             notesTillNextHeal -= 1;
-            if (notesTillNextHeal == 0) HealthManager.healthManager.IncreaseHealth(SkillManager.skillManager.healAmount);
+            if (notesTillNextHeal == 0)
+            {
+                HealthManager.healthManager.IncreaseHealth(SkillManager.skillManager.healAmount);
+                SkillManager.skillManager.AnimateSkill(Zodiac.Rabbit);
+            }
     
             Destroy(note.gameObject);
         }

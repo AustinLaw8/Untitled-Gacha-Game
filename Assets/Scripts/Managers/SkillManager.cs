@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SkillManager : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class SkillManager : MonoBehaviour
     private int[] teamIDs;
     private int ind;
 
+    [SerializeField] private TextMeshProUGUI skillText;
+    [SerializeField] private Animator skillAnimator;
+
     void Awake()
     {
         if (skillManager != null && skillManager != this)
@@ -33,6 +37,25 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+    public void AnimateSkill(Zodiac zodiac)
+    {
+        string str;
+        switch (zodiac)
+        {
+            case Zodiac.Tiger:
+                str = "Tiger";
+                break;
+            case Zodiac.Rabbit:
+                str = "Rabbit";
+                break;
+            case Zodiac.Dragon:
+                str = "Dragon";
+                break;
+        }
+        skillText.text = $"{zodiac} Skill Activated";
+        skillAnimator.Play("Fade");
+    }
+
     void Start()
     {
         teamIDs = TeamManager.GetTeam();
@@ -40,6 +63,10 @@ public class SkillManager : MonoBehaviour
         flatScoreBonus_ = baseScoreBonus * GetNumOfZodiac(teamIDs, Zodiac.Dragon);
         comboMultiplierBonus_ = baseComboBonus + GetNumOfZodiac(teamIDs, Zodiac.Tiger)/100f;
         healAmount_ = baseHealAmount * GetNumOfZodiac(teamIDs, Zodiac.Rabbit);
+        if (comboMultiplierBonus_ > 0)
+        {
+            AnimateSkill(Zodiac.Tiger);
+        }
     }
 
     int GetNumOfZodiac(int[] teamIDs, Zodiac zodiac)

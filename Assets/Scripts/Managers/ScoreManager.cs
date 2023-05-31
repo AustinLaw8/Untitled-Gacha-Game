@@ -146,7 +146,10 @@ public class ScoreManager : MonoBehaviour
             case Accuracy.Great:
             case Accuracy.Good:
                 if(combo > 0 && combo % 25 == 0)
+                {
                     UpdateScore(SkillManager.skillManager.flatScoreBonus);
+                    SkillManager.skillManager.AnimateSkill(Zodiac.Dragon);
+                }
                 break;
             case Accuracy.Bad:
             case Accuracy.Miss:
