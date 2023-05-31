@@ -47,8 +47,6 @@ public class HoldNote : MonoBehaviour
         bottom = Vector2.zero;
 
         col = this.gameObject.GetComponent<PolygonCollider2D>();
-        above = GameObject.Find("a");
-        below = GameObject.Find("b");
 
         meshRenderer = GetComponent<MeshRenderer>();
         meshFilter = GetComponent<MeshFilter>();
@@ -244,9 +242,6 @@ public class HoldNote : MonoBehaviour
                         1 - ((BeatManager.PLAY_POINT - yBelow) / (yAbove - yBelow))
                     );
 
-                    above.transform.position = new Vector2(xAbove, yAbove);
-                    below.transform.position = new Vector2(xBelow, yBelow);
-
                     vertices.Add(new Vector3(bottom.x - Lane.BOTTOM_DISTANCE_PER_LANE / 2 + INNER_BUMP, BeatManager.PLAY_POINT, -1f));
                     vertices.Add(new Vector3(bottom.x + Lane.BOTTOM_DISTANCE_PER_LANE / 2 - INNER_BUMP, BeatManager.PLAY_POINT, -1f));
                 }
@@ -280,9 +275,6 @@ public class HoldNote : MonoBehaviour
                     new Vector2(xBelow, bottom.y),
                     1 - ((bottom.y - yBelow) / (yAbove - yBelow))
                 );
-
-                above.transform.position = new Vector2(xAbove, yAbove);
-                below.transform.position = new Vector2(xBelow, yBelow);
 
                 float dist = Mathf.Abs(Lane.LANE_LINES_FOR_OFFSET[points[start].lane].getX(bottom.y) - Lane.LANE_LINES_FOR_OFFSET[points[start].lane + 1].getX(bottom.y));
                 vertices.Add( new Vector3(bottom.x - dist / 2 + INNER_BUMP, bottom.y, -1f));
