@@ -127,6 +127,10 @@ public class GachaManager : MonoBehaviour
             if (currentCard >= numRolls)
             {
                 card.SetActive(false);
+                for(int i = 0; i < 10; i++)
+                {
+                    allResults.transform.GetChild(0).GetChild(i).gameObject.SetActive(i < numRolls);
+                }
                 allResults.SetActive(true);
                 container.reset();
                 return;
@@ -167,7 +171,6 @@ public class GachaManager : MonoBehaviour
             cardDB.addCard(cardID);
             rolls[i] = cardID;
             allResults.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = cardDB.cardDB[cardID].cardIcon;
-            Debug.Log($"Roll {i} result: {cardID}");
         }
     }
 
