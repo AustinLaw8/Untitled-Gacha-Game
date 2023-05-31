@@ -80,8 +80,8 @@ public class TeamManager : MonoBehaviour
         cardInventory.UpdateDisplay();
     }
 
-    public bool InTeam(int cardID)
+    public int InTeam(int cardID)
     {
-        return Array.Exists(teamIDs, element => element == cardID);
+        return Array.FindIndex(teamIDs, element => element == cardID);
     }
 }

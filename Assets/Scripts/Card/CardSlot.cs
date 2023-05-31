@@ -75,7 +75,8 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void OnCardSlotSelected()
     {
         int id = gameObject.GetComponent<CardIDIdentifier>().cardID;
-        if (GameObject.Find("TeamData").GetComponent<TeamManager>().InTeam(id)) return;
+        int ind = GameObject.Find("TeamData").GetComponent<TeamManager>().InTeam(id);
+        if (ind != -1) FindObjectOfType<MemberSwap>().SetSwap(ind);
         FindObjectOfType<TeamInventorySelected>().OnCardSelected(id);
     }
 }
