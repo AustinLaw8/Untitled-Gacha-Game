@@ -7,6 +7,7 @@ using System;
 public class CardManager : MonoBehaviour
 {
     [SerializeField] public CardSO[] cardDB;
+    [SerializeField] public CardSO emptyCard;
     public static CardManager cardManager { get; private set;  }
     static string cardFilepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerCards.json" ;} }
     

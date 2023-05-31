@@ -24,7 +24,6 @@ public class TeamInventorySelected : MonoBehaviour
     // TODO clear image
     public void ClearImage()
     {
-        Button b = gameObject.GetComponent<Button>();
-        b.image.sprite = null;
+        gameObject.GetComponent<Image>().sprite = invManager.emptyCard.cardIcon;
     }
 }

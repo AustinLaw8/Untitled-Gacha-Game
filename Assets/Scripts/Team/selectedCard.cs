@@ -15,6 +15,9 @@ public class selectedCard : MonoBehaviour
         FindObjectOfType<MemberSwap>().SetTeamPos(pos);
         if (id != 3900)
             gameObject.GetComponent<Image>().sprite = cardManager.cardDB[id].cardIcon;
+        else
+            gameObject.GetComponent<Image>().sprite = cardManager.emptyCard.cardIcon;
+
     }
 
     public void ClearImage()

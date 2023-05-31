@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
-using System;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TeamManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class TeamManager : MonoBehaviour
     [SerializeField] CardManager cardManager;
     [SerializeField] CardInventory cardInventory; 
     [SerializeField] TeamInventory teamInventory; 
+    [SerializeField] Animator textAnimator;
 
     public int[] teamIDs;
 
@@ -75,7 +77,6 @@ public class TeamManager : MonoBehaviour
             teamIDs[i] = 3900;
         }
 
-        SaveTeam();
         teamInventory.UpdateCards();
         cardInventory.UpdateDisplay();
     }
@@ -83,5 +84,17 @@ public class TeamManager : MonoBehaviour
     public int InTeam(int cardID)
     {
         return Array.FindIndex(teamIDs, element => element == cardID);
+    }
+
+    public void TryChangeScene()
+    {
+        if(Array.Exists(teamIDs, id => id != 3900))
+        {
+            SceneManager.LoadScene("CharacterScreen", LoadSceneMode.Single);
+        }
+        else
+        {
+            textAnimator.Play("Fade");
+        }
     }
 }
