@@ -11,6 +11,19 @@ public class CardManager : MonoBehaviour
     public static CardManager cardManager { get; private set;  }
     static string cardFilepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerCards.json" ;} }
     
+    public static void ResetData()
+    {
+        if (cardManager == null) Debug.LogError("how did we get here?");
+        foreach(var card in cardManager.cardDB)
+        {
+            card.numCopies = 0;
+            card.power = 0;
+        }
+        cardManager.SaveCards();
+        cardManager.LoadCards();
+        // FIXME: give players their defaults
+    }
+
     public void Awake()
     {
         if (cardManager != null && cardManager != this)
