@@ -31,6 +31,11 @@ public class PlayerSongInfo
         string writeback = JsonUtility.ToJson(obj);
         System.IO.File.WriteAllText(songInfoFilePath, writeback, System.Text.Encoding.UTF8);
     }
+
+    public static void ResetData()
+    {
+        Write(new PlayerSongInfo());
+    }
 }
 
 // Handles rolling and animating the roll

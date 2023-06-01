@@ -21,6 +21,11 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager scoreManager { get; private set; }
 
+    private enum Which
+    {
+        Score, Accuracy
+    }
+
     /** percent of bar for each breakpoint 
      * c = .255
      * b = .575
@@ -44,6 +49,11 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI plusScoreText;
     [SerializeField] private Animator scoreAnimator;
+    private float scoreAnimationTime;
+
+    [SerializeField] private TextMeshProUGUI accuracyText;
+    [SerializeField] private Animator accuracyAnimator;
+    private float accuracyAnimationTime;
 
     [SerializeField] private Slider slider;
     [SerializeField] private Image fill;
@@ -95,6 +105,16 @@ public class ScoreManager : MonoBehaviour
         maxCombo = 0;
         scoreText.text = "0";
         grade = Grade.D;
+        scoreAnimationTime = 1f;
+        accuracyAnimationTime = 1f;
+    }
+
+    void Update()
+    {
+        scoreAnimationTime += Time.deltaTime;
+        accuracyAnimationTime += Time.deltaTime;
+        scoreAnimator.SetFloat("time", scoreAnimationTime);
+        accuracyAnimator.SetFloat("time", accuracyAnimationTime);
     }
 
     public void IncreaseScore(Accuracy accuracy)
@@ -143,7 +163,7 @@ public class ScoreManager : MonoBehaviour
         if (!Mathf.Approximately(deltaScore, 0f))
         {
             plusScoreText.text = $"+{Mathf.Round(deltaScore)}";
-            scoreAnimator.Play("Fade");
+            AnimatorTryPlay(Which.Score);
         }
         scoreText.text = $"{Mathf.Round(score)}";
         slider.value = score/MAX_SCORE;
@@ -180,20 +200,35 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
 
+        string disp;
+        float ret;
         switch (accuracy)
         { 
             case Accuracy.Perfect:
-                return 1f;
+                disp = "Perfect";
+                ret = 1f;
+                break;
             case Accuracy.Great:
-                return .9f;
+                disp = "Great";
+                ret = .9f;
+                break;
             case Accuracy.Good:
-                return .75f;
+                disp = "Good";
+                ret = .75f;
+                break;
             case Accuracy.Bad:
-                return .5f;
+                disp = "Bad";
+                ret = .5f;
+                break;
             case Accuracy.Miss:
             default:
-                return 0f;
+                disp = "Miss";
+                ret = 0f;
+                break;
         }
+        accuracyText.text = disp;
+        AnimatorTryPlay(Which.Accuracy);
+        return ret;
     }
     
     // Returns the score muliplier for a given accuracy
@@ -290,6 +325,21 @@ public class ScoreManager : MonoBehaviour
                     playerSongInfo.tickets += 1;
                     playerSongInfo.rewardsReceived[beatmapContainer.ID] = true;
                 }
+                break;
+        }
+    }
+
+    private void AnimatorTryPlay(Which which)
+    {
+        switch (which)
+        {
+            case Which.Score:
+                scoreAnimationTime = 0f;
+                scoreAnimator.Play("Fade");
+                break;
+            case Which.Accuracy:
+                accuracyAnimationTime = 0f;
+                accuracyAnimator.Play("Fade");
                 break;
         }
     }

@@ -30,7 +30,12 @@ public class TeamManager : MonoBehaviour
         var teamData = JsonUtility.ToJson(temp);
         System.IO.File.WriteAllText(teamFilepath, teamData, System.Text.Encoding.UTF8);
     }
-    
+
+    public static void ResetData()
+    {
+        SaveTeam(new int[5]{3900,3900,3900,3900,3900});
+    }
+
     public void Awake()
     {
         LoadTeam();

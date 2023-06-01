@@ -61,9 +61,9 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 
     private Collider2D col;
     private static List<float> ACCURACY_BREAK_POINTS = new List<float>(){
-            .25f, // Perfect
-            .5f, // Great
-            .7f, // Good
+            .125f, // Perfect
+            .25f, // Great
+            .35f, // Good
         };
 
     // Queue containing the notes that are in the "hittable" range
