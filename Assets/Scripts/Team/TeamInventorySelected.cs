@@ -21,7 +21,6 @@ public class TeamInventorySelected : MonoBehaviour
     }
 
     // for clearing the image of the button when first entering the page
-    // TODO clear image
     public void ClearImage()
     {
         gameObject.GetComponent<Image>().sprite = invManager.emptyCard.cardIcon;

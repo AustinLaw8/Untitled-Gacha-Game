@@ -20,17 +20,13 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private Sprite highHealthHeart;
     [SerializeField] private Sprite medHealthHeart;
     [SerializeField] private Sprite lowHealthHeart;
-    // [SerializeField] private Color lowHealthColor;
-    // [SerializeField] private Color medHealthColor;
-    // [SerializeField] private Color highHealthColor;
     [SerializeField] private Color ded;
 
     [SerializeField] private Image hpBarBackground;
-
+    [SerializeField] private TextMeshProUGUI health;
 
     [SerializeField] private int startingHP = 100;
 
-    [SerializeField] private TextMeshProUGUI health;
     private int currentHealth;
 
     void Awake()
@@ -91,13 +87,14 @@ public class HealthManager : MonoBehaviour
         if(currentHealth <= 0)
         {
             hpBarBackground.color = ded;
-            //
             health.color = gradient.Evaluate(0);
         }
-        else{
+        else
+        {
             hpBarBackground.color = gradient.Evaluate((float)currentHealth/startingHP);
             health.color = gradient.Evaluate(currentHealth/startingHP);
-        }       
+        }
+        
         if(currentHealth <= 0)
         {
             hpHeart.sprite = lowHealthHeart;

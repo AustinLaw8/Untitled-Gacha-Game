@@ -8,7 +8,6 @@ public class BeatmapSO : ScriptableObject
     public uint ID;
     public string songName;
     public TextAsset mapData;
-    // public float duration;
     public AudioClip clip;
     public string artist;
 

@@ -24,9 +24,6 @@ public class CardInventory : MonoBehaviour
     [SerializeField] public GameObject filterPanel;
     [SerializeField] public TextMeshProUGUI ascButton;
 
-    //[SerializeField] public GameObject profilePanel;
-
-
     //Used for filter toggles
     private bool threeStarsState = true;
     private bool fourStarsState = true;
@@ -61,7 +58,6 @@ public class CardInventory : MonoBehaviour
     [SerializeField] public Text snakeText;
     [SerializeField] public Text sixStarText;
 
-
     private bool ascState = true;
 
     //List of cards to display
@@ -81,7 +77,6 @@ public class CardInventory : MonoBehaviour
        if (cardManager == null) cardManager = GameObject.Find("CardData").GetComponent<CardManager>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         bool hasSnake = false;
@@ -128,9 +123,6 @@ public class CardInventory : MonoBehaviour
             sixStarText.text = "?????";
         }
 
-
-
-
         scrollyBoxContents.GetComponent<GridLayoutGroup>().cellSize = new Vector2(2*(xSpaceBetweenItem/3), 2*(xSpaceBetweenItem/3));
         scrollyBoxContents.GetComponent<GridLayoutGroup>().spacing = new Vector2(spaceBetween, spaceBetween);
         scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
@@ -148,9 +140,6 @@ public class CardInventory : MonoBehaviour
             scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
         }
        
-        // Debug.Log(ownedCards.Count);
-        // Debug.Log(((ownedCards.Count + 6)/7));
-        
         UpdateDisplay();
     }
 
@@ -169,13 +158,9 @@ public class CardInventory : MonoBehaviour
         
         UpdateDisplay();
     }
-
-
-
-    //
+    
     public void SortBy(int categoryID)
     {
-        Debug.Log(categoryID);
         //Category ID:
         // 0 - Rarity
         // 1 - Number of Copies
@@ -221,7 +206,6 @@ public class CardInventory : MonoBehaviour
         
         if (filterPanel != null)
         {
-            //bool isActive = filterPanel.activeSelf;
             filterPanel.SetActive(true);
         }
     }
@@ -244,7 +228,6 @@ public class CardInventory : MonoBehaviour
         snake.isOn = snakeState;
         if (filterPanel != null)
         {
-            //bool isActive = filterPanel.activeSelf;
             filterPanel.SetActive(false);
         }
     }
@@ -255,7 +238,6 @@ public class CardInventory : MonoBehaviour
         ownedCards.Clear();
         
         CardSO cardCheck;
-        //bool cardAdded = false;
         bool zodiacCorrect = false;
         bool rarityCorrect = false;
         bool numCopiesCorrect = false;
@@ -267,142 +249,53 @@ public class CardInventory : MonoBehaviour
             switch (cardCheck.rarity)
             {
                 case Rarity.Three:
-                    {
-                        if (threeStars.isOn)
-                        {
-                            rarityCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (threeStars.isOn) rarityCorrect = true;
+                    break;
                 case Rarity.Four:
-                    {
-                        if (fourStars.isOn)
-                        {
-                            rarityCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (fourStars.isOn) rarityCorrect = true;
+                    break;
                 case Rarity.Five:
-                    {
-                        if (fiveStars.isOn)
-                        {
-                            rarityCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (fiveStars.isOn) rarityCorrect = true;
+                    break;
                 case Rarity.Six:
-                    {
-                        if (sixStars.isOn)
-                        {
-                            rarityCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (sixStars.isOn) rarityCorrect = true;
+                    break;
             }
-            // if (!cardAdded)
-            // {
             switch (cardCheck.numCopies)
             {
                 case 1:
-                    {
-                        if (oneCopy.isOn)
-                        {
-                            numCopiesCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (oneCopy.isOn) numCopiesCorrect = true;
+                    break;
                 case 2:
-                    {
-                        if (twoCopies.isOn)
-                        {
-                            numCopiesCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (twoCopies.isOn) numCopiesCorrect = true;
+                    break;
                 case 3:
-                    {
-                        if (threeCopies.isOn)
-                        {
-                            numCopiesCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (threeCopies.isOn) numCopiesCorrect = true;
+                    break;
                 case 4:
-                    {
-                        if (fourCopies.isOn)
-                        {
-                            numCopiesCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (fourCopies.isOn) numCopiesCorrect = true;
+                    break;
                 case 5:
-                    {
-                        if (fiveCopies.isOn)
-                        {
-                            numCopiesCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (fiveCopies.isOn) numCopiesCorrect = true;
+                    break;
             }
-            // }
-            // if (!cardAdded)
-            // {
             switch (cardCheck.zodiac)
             {
                 case Zodiac.Rabbit:
-                    {
-                        if (rabbit.isOn)
-                        {
-                            zodiacCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (rabbit.isOn) zodiacCorrect = true;
+                    break;
                 case Zodiac.Dragon:
-                    {
-                        if (dragon.isOn)
-                        {
-                            zodiacCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (dragon.isOn) zodiacCorrect = true;
+                    break;
                 case Zodiac.Tiger:
-                    {
-                        if (tiger.isOn)
-                        {
-                            zodiacCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (tiger.isOn) zodiacCorrect = true;
+                    break;
                 case Zodiac.Horse:
-                    {
-                        if (horse.isOn)
-                        {
-                            zodiacCorrect = true;
-                            //ownedCards.Add(cardCheck);
-                        }
-                        break;
-                    }
+                    if (horse.isOn) zodiacCorrect = true;
+                    break;
                 case Zodiac.Snake:
-                    {
-                        if (snake.isOn)
-                        {
-                            zodiacCorrect = true;
-                        }
-                        break;
-                    }
-                // }
+                    if (snake.isOn) zodiacCorrect = true;
+                    break;
             }
 
             if (zodiacCorrect && rarityCorrect && numCopiesCorrect)
@@ -412,7 +305,6 @@ public class CardInventory : MonoBehaviour
             zodiacCorrect = false;
             rarityCorrect = false;
             numCopiesCorrect = false;
-
         }
 
         SortBy(sortCategory);
@@ -574,7 +466,6 @@ public class CardInventory : MonoBehaviour
                     obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
                 }
                     
-                
                 if (forTeamFormation && teamManager.InTeam(i) != -1)
                 {
                     obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
@@ -583,7 +474,8 @@ public class CardInventory : MonoBehaviour
                 }
             }
         }
-        else{
+        else
+        {
             for (int i = ownedCards.Count - 1; i >= 0; i--)
             {
                 var obj = Instantiate(cardSlotPrefab, Vector2.zero, Quaternion.identity, scrollyBoxContents.transform);

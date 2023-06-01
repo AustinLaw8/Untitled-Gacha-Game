@@ -114,9 +114,7 @@ public class CardManager : MonoBehaviour
             i++;
         }
         var cardData = ToJson(cardAmounts);
-        // Debug.Log(cardData);
         System.IO.File.WriteAllText(cardFilepath, cardData, System.Text.Encoding.UTF8);
-        // Debug.Log(cardData);
     }
 
 
@@ -160,7 +158,6 @@ public class CardManager : MonoBehaviour
             //adjust card power accordingly
             i++;
         }
-        // Array.Sort(cardDB, delegate (CardSO first, CardSO second) { return first.ID < second.ID ? -1 : 1; });
     }
 
 }

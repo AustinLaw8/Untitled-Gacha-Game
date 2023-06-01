@@ -7,7 +7,6 @@ public class Reset : MonoBehaviour
 {
     [SerializeField] TeamManager script;
 
-    // Start is called before the first frame update
     void Start()
     {
         Button b = gameObject.GetComponent<Button>();

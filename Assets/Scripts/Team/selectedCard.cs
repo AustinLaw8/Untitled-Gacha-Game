@@ -6,7 +6,6 @@ using UnityEngine.UI;
 // card selected to be swapped out from team
 public class selectedCard : MonoBehaviour
 {
-    //[SerializeField] TeamManager teamManager;
     [SerializeField] CardManager cardManager;
     private MemberSwap script;
 

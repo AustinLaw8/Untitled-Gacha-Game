@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-// using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using System.IO;
@@ -51,7 +50,6 @@ public class GachaManager : MonoBehaviour
 
     [SerializeField] private ScoreToGachaSO container; 
     [SerializeField] private BeatmapSO beatmapContainer;
-    // [SerializeField] private CardDBSO cardDB; 
     [SerializeField] private CardManager cardDB; 
     [SerializeField] private GameObject allResults;
 
@@ -194,15 +192,6 @@ public class GachaManager : MonoBehaviour
         }
         return id;
     }
-
-    // public void OnPointerDown(PointerEventData e)
-    // {
-    //     // insert some async stuff here about waiting for cards to be received 
-    //     if (summonsDone)
-    //     {
-    //         RunAnimationLoop();
-    //     }
-    // }
 
     // Checks if animator is currently playing the fade animation (essentially the animation the plays between each roll)
     private bool AnimatorIsPlaying()

@@ -11,9 +11,6 @@ using UnityEngine.EventSystems;
  */
 public class Line
 {
-    // private float slope;
-    // private float intercept;
-    // private float x;
     private Vector2 p1;
     private Vector2 p2;
     private float y;
@@ -22,14 +19,10 @@ public class Line
         this.p1 = p1;
         this.p2 = p2;
         this.y = p1.y - p2.y;
-        // slope = (p2.y - p1.y) / (p2.x - p1.x);
-        // x = p1.x;
-        // intercept = p1.y - slope * p1.x;
     }
 
     public float getX(float Y)
     {
-        // if (Y>5f) Y = 5f;
         return Vector2.LerpUnclamped(p1, p2, (p1.y - Y)/y).x;
     }
     
@@ -37,10 +30,6 @@ public class Line
     {
         return Vector2.Lerp(p1, p2, t).x;
     }
-    // public override string ToString()
-    // {
-    //     return $"slope: {slope}, intercept: {intercept}";
-    // }
 }
 
 [RequireComponent(typeof(Collider2D))]

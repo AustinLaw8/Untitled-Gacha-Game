@@ -4,13 +4,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/** TODO
-[System.Serializable]
-public class NotePressedEvent : UnityEvent
-{
-}
-*/
-
 public class BeatManager : MonoBehaviour
 {
     public readonly static float SPAWN_POINT = 5f;
