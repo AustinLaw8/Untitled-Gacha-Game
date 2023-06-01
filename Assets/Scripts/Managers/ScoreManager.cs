@@ -21,10 +21,17 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager scoreManager { get; private set; }
 
-    private static float BREAKPOINT_C=500_000f;
-    private static float BREAKPOINT_B=750_000f;
-    private static float BREAKPOINT_A=900_000f;
-    private static float BREAKPOINT_S=1_000_000f;
+    /** percent of bar for each breakpoint 
+     * c = .255
+     * b = .575
+     * a = .8
+     * s = .935
+     */
+    private static float MAX_SCORE=1_200_000f;
+    private static float BREAKPOINT_C=MAX_SCORE * .255f;
+    private static float BREAKPOINT_B=MAX_SCORE * .575f;
+    private static float BREAKPOINT_A=MAX_SCORE * .800f;
+    private static float BREAKPOINT_S=MAX_SCORE * .935f;
 
     private float baseScore;
 
@@ -139,7 +146,7 @@ public class ScoreManager : MonoBehaviour
             scoreAnimator.Play("Fade");
         }
         scoreText.text = $"{Mathf.Round(score)}";
-        slider.value = 1f* score/BREAKPOINT_S;
+        slider.value = score/MAX_SCORE;
         fill.color = gradient.Evaluate(Mathf.Min(1, 1-slider.value));
     }
     

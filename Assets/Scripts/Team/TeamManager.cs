@@ -23,6 +23,14 @@ public class TeamManager : MonoBehaviour
         return FromJson(loadedTeam);
     }
 
+    public static void SaveTeam(int[] teamIDs)
+    {
+        Wrapper temp = new Wrapper();
+        temp.Items = teamIDs;
+        var teamData = JsonUtility.ToJson(temp);
+        System.IO.File.WriteAllText(teamFilepath, teamData, System.Text.Encoding.UTF8);
+    }
+    
     public void Awake()
     {
         LoadTeam();
