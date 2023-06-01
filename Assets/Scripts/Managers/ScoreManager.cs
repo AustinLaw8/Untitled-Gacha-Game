@@ -46,6 +46,7 @@ public class ScoreManager : MonoBehaviour
     private int maxCombo;
 
     [SerializeField] private ScoreToGachaSO container;
+    [SerializeField] private TextMeshProUGUI comboText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI plusScoreText;
     [SerializeField] private Animator scoreAnimator;
@@ -104,6 +105,7 @@ public class ScoreManager : MonoBehaviour
         combo = 0;
         maxCombo = 0;
         scoreText.text = "0";
+        comboText.text = $"Combo\n{combo}";
         grade = Grade.D;
         scoreAnimationTime = 1f;
         accuracyAnimationTime = 1f;
@@ -184,7 +186,6 @@ public class ScoreManager : MonoBehaviour
         { 
             case Accuracy.Perfect:
             case Accuracy.Great:
-            case Accuracy.Good:
                 combo += 1;
                 if(combo > 0 && combo % 25 == 0)
                 {
@@ -192,6 +193,7 @@ public class ScoreManager : MonoBehaviour
                     SkillManager.skillManager.AnimateSkill(Zodiac.Dragon);
                 }
                 break;
+            case Accuracy.Good:
             case Accuracy.Bad:
             case Accuracy.Miss:
             default:
@@ -199,6 +201,7 @@ public class ScoreManager : MonoBehaviour
                 combo = 0;
                 break;
         }
+        comboText.text = $"Combo\n{combo}";
 
         string disp;
         float ret;
