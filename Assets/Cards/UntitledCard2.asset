@@ -18,6 +18,6 @@ MonoBehaviour:
   artist: Derek
   rarity: 0
   zodiac: 0
-  power: 6000
-  numCopies: 3
-  pivot: {x: 0, y: 0}
+  power: 0
+  numCopies: 1
+  title: 

@@ -129,6 +129,7 @@ public class GachaManager : MonoBehaviour
             if (currentCard >= numRolls)
             {
                 card.SetActive(false);
+                cardDB.SaveCards();
                 for(int i = 0; i < 10; i++)
                 {
                     allResults.transform.GetChild(0).GetChild(i).gameObject.SetActive(i < numRolls);

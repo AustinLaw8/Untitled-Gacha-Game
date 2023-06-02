@@ -95,6 +95,7 @@ public class ScoreManager : MonoBehaviour
         int power = 0;
         foreach(int i in teamIDs)
         {
+            if (i == 3900) continue;
             power += CardManager.cardManager.cardDB[i].power;
         }
         float scoreFromPower = power / 1000f;

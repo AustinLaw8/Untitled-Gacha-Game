@@ -17,7 +17,7 @@ public class TeamInventorySelected : MonoBehaviour
     {
         FindObjectOfType<MemberSwap>().SetTeamId(id);
         Sprite s = invManager.cardDB[id].cardIcon;
-        gameObject.GetComponent<Button>().image.sprite = s;
+        gameObject.GetComponent<Image>().sprite = s;
     }
 
     // for clearing the image of the button when first entering the page

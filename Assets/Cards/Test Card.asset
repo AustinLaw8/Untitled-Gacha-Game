@@ -19,5 +19,5 @@ MonoBehaviour:
   rarity: 0
   zodiac: 0
   power: 3000
-  numCopies: 1
-  pivot: {x: 0, y: 0}
+  numCopies: 2
+  title: 

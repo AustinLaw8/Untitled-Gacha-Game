@@ -103,6 +103,7 @@ public class TeamManager : MonoBehaviour
     {
         if(Array.Exists(teamIDs, id => id != 3900))
         {
+            CardManager.cardManager.PlayButtonSFX();
             SceneManager.LoadScene("CharacterScreen", LoadSceneMode.Single);
         }
         else

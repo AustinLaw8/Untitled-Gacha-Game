@@ -11,6 +11,10 @@ public class CardManager : MonoBehaviour
     public static CardManager cardManager { get; private set;  }
     static string cardFilepath { get { return Application.persistentDataPath + Path.DirectorySeparatorChar + "playerCards.json" ;} }
     
+    [Header("Button SFX Hack")]
+    [SerializeField] public AudioClip buttonClick;
+    private AudioSource audioSource;
+
     public static void ResetData()
     {
         if (cardManager == null) Debug.LogError("how did we get here?");
@@ -29,6 +33,7 @@ public class CardManager : MonoBehaviour
         if (cardManager != null && cardManager != this)
         {
             Destroy(this.gameObject);
+            return;
         }
         else
         {
@@ -37,11 +42,17 @@ public class CardManager : MonoBehaviour
         }
 
         try {
+            #if UNITY_EDITOR
+            SaveCards();
+            #else
             LoadCards();
+            #endif
         } catch {
             SaveCards();
             LoadCards();
         }
+
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     public void addCard (int cardId)
@@ -82,7 +93,7 @@ public class CardManager : MonoBehaviour
         else
         {
             Debug.Log("Too many dupes (rip) time to give the players something else LOL");
-        }        
+        }
     }
 
     public static int[] FromJson(string json)
@@ -160,4 +171,8 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    public void PlayButtonSFX()
+    {
+        audioSource.Play();
+    }
 }
