@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Rachie_rabbit
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 31
   cardArt: {fileID: 2800000, guid: 55c619cf922914e089fb0c83b62bdef8, type: 3}
   cardIcon: {fileID: 21300000, guid: c7a854557a84e432291d7305e3f5d94e, type: 3}
   artist: Rachie

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Radish_tiger
   m_EditorClassIdentifier: 
-  ID: 0
-  cardArt: {fileID: 2800000, guid: bb5441cec5c564efca2fd92a1109098e, type: 3}
-  cardIcon: {fileID: 21300000, guid: bb5441cec5c564efca2fd92a1109098e, type: 3}
+  ID: 52
+  cardArt: {fileID: 2800000, guid: d8c566eadbe8b4e5bacc9d09e49720e5, type: 3}
+  cardIcon: {fileID: 21300000, guid: f2e89c0fae3934a4db9b2a483f80429c, type: 3}
   artist: Radish
   rarity: 0
   zodiac: 2
   power: 0
   numCopies: 0
-  title: Ark- Wang Xiao Hu
+  title: Operating in the Wrong Gacha Game

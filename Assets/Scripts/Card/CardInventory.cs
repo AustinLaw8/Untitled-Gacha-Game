@@ -16,6 +16,8 @@ public class CardInventory : MonoBehaviour
     private int sortCategory; 
 
     //game objects accessed in code
+    [SerializeField] public bool displayAllPossible = false;
+
     [SerializeField] public bool forTeamFormation = false;
     [SerializeField] public GameObject cardSlotPrefab;
     [SerializeField] public GameObject cardScreen;
@@ -96,7 +98,11 @@ public class CardInventory : MonoBehaviour
 
         for(int i = 0; i < cardManager.cardDB.Length; i++)
         {
-            if (cardManager.cardDB[i].numCopies > 0)
+            if(displayAllPossible)
+            {
+                ownedCards.Add(cardManager.cardDB[i]);
+            }
+            else if (cardManager.cardDB[i].numCopies > 0)
             {
                 if (cardManager.cardDB[i].zodiac == Zodiac.Snake)
                 {
@@ -396,13 +402,13 @@ public class CardInventory : MonoBehaviour
         }
         else
         {
-            if (card1.zodiac == Zodiac.Rabbit)
+            if (card1.zodiac == Zodiac.Tiger)
             {
                 return -1;
             }
-            else if (card1.zodiac == Zodiac.Dragon)
+            else if (card1.zodiac == Zodiac.Rabbit)
             {
-                if (card2.zodiac == Zodiac.Rabbit)
+                if (card2.zodiac == Zodiac.Tiger)
                 {
                     return 1;
                 }
@@ -411,7 +417,7 @@ public class CardInventory : MonoBehaviour
                     return -1;
                 }
             }
-            else if (card1.zodiac == Zodiac.Tiger)
+            else if (card1.zodiac == Zodiac.Dragon)
             {
                 if (card2.zodiac == Zodiac.Horse || card2.zodiac == Zodiac.Snake)
                 {

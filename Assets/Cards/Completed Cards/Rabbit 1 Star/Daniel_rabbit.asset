@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Daniel_rabbit
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 40
   cardArt: {fileID: 2800000, guid: 599f1c13556cb4c54b6abb54fde3e92f, type: 3}
   cardIcon: {fileID: 21300000, guid: 955e6fe1965604d77b62ca420e1f7d1a, type: 3}
   artist: Daniel

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Michael_Tiger
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 1
   cardArt: {fileID: 2800000, guid: 12512ffe21ea9467b90b30b09892b028, type: 3}
   cardIcon: {fileID: 21300000, guid: 1c13c75fc84314f6db46488107632d73, type: 3}
   artist: Michael
@@ -20,4 +20,4 @@ MonoBehaviour:
   zodiac: 2
   power: 0
   numCopies: 0
-  title: 
+  title: Prepared to Pounce
