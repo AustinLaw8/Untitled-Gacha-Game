@@ -18,7 +18,7 @@ public class TicketHandler : MonoBehaviour
     {
         playerSongInfo = PlayerSongInfo.GetPlayerSongInfo();
         numTickets = playerSongInfo.tickets;
-        ticketsText.text = $"Gacha (x{numTickets})";
+        ticketsText.text = $"{numTickets}";
     }
 
     public void UseTickets()

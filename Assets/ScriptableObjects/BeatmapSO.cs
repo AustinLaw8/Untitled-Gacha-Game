@@ -10,6 +10,7 @@ public class BeatmapSO : ScriptableObject
     public TextAsset mapData;
     public AudioClip clip;
     public string artist;
+    public string levelDesigner;
 
     public void copy (BeatmapSO other)
     {
@@ -18,5 +19,6 @@ public class BeatmapSO : ScriptableObject
         this.mapData = other.mapData;
         this.clip = other.clip;
         this.artist = other.artist;
+        this.levelDesigner = other.levelDesigner;
     }
 }

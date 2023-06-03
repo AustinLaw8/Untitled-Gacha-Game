@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d07e3b3077d4a77bc9dd41d72c4906, type: 3}
   m_Name: Song 4 Easy
   m_EditorClassIdentifier: 
-  songName: 
+  ID: 6
+  songName: Pulse of the Meteor
   mapData: {fileID: 0}
-  clip: {fileID: 0}
-  artist: 
+  clip: {fileID: 8300000, guid: b77304cd75bbf494aa1dbd6d00e82d01, type: 3}
+  artist: '*Luna'
+  levelDesigner: Karen Jin
