@@ -51,7 +51,7 @@ public class CardManager : MonoBehaviour
             SaveCards();
             LoadCards();
         }
-
+        Array.Sort(cardDB, (a, b) => a.ID.CompareTo(b.ID));
         audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
