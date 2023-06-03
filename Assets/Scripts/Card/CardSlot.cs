@@ -30,7 +30,7 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             timer += Time.deltaTime;
             if (timer > .5f)
             {
-                OpenProfile();
+                if(!ModalManager.instance.Active()) OpenProfile();
             }
         }
         else
@@ -61,19 +61,17 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 OnCardSlotSelected();
             }
         }
-        else
-        {
-            OpenProfile();
-        }
     }
     
     void OpenProfile()
     {
+        // CardManager.cardManager.PlayButtonSFX();
         ModalManager.instance.ShowModal(GetComponent<CardIDIdentifier>().cardID);
     }
 
     void OnCardSlotSelected()
     {
+        // CardManager.cardManager.PlayButtonSFX();
         int id = gameObject.GetComponent<CardIDIdentifier>().cardID;
         int ind = GameObject.Find("TeamData").GetComponent<TeamManager>().InTeam(id);
         if (ind != -1) FindObjectOfType<MemberSwap>().SetSwap(ind);

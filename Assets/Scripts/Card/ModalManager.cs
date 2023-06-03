@@ -34,6 +34,11 @@ public class ModalManager : MonoBehaviour
         if (cardManager == null) cardManager = GameObject.Find("CardData").GetComponent<CardManager>();
     }
 
+    public bool Active()
+    {
+        return modalWindow.activeSelf;
+    }
+
     public void ShowModal(int cardID)
     {
         card = cardManager.cardDB[cardID];
