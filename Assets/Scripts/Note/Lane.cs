@@ -62,6 +62,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 
     private int notesTillNextHeal;
 
+    [SerializeField] private Animator[] laneAnimators;
     [SerializeField] private AudioSource audioSourceHold;
     [SerializeField] private AudioSource audioSourceOneShots;
     [SerializeField] private AudioClip tapSfx;
@@ -153,16 +154,20 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     {
         int lane = GetLane(e);
         Note note;
-        if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
+        if (0 <= lane && lane < NUM_LANES)
         {  
-            if (note.isHold != null && !note.isEnd)
+            laneAnimators[lane].Play("Flash");
+            if(notes[lane].TryPeek(out note))
             {
-                note.isHold.holding = true;
-                OnNotePressed(note);
-            }
-            if (!note.isFlick)
-            {
-                OnNotePressed(note);
+                if (note.isHold != null && !note.isEnd)
+                {
+                    note.isHold.holding = true;
+                    OnNotePressed(note, lane);
+                }
+                if (!note.isFlick)
+                {
+                    OnNotePressed(note, lane);
+                }
             }
         }
         holds.Add(e);
@@ -184,8 +189,9 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
         {  
             if (note.isHold != null && note.isEnd)
             {
+                // laneAnimators[lane].Play("Flash");
                 Destroy(note.isHold.gameObject);
-                OnNotePressed(note);
+                OnNotePressed(note, lane);
             }
         }
         holds.Remove(e);
@@ -207,7 +213,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
         {  
             if (note.isHold == null)
             {
-                OnNotePressed(note);
+                OnNotePressed(note, lane);
             }
         }
     }
@@ -227,7 +233,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     }
 
     // Gets accuracy, tells ScoreManager to increase the score, and destroys the pressed Note.
-    public void OnNotePressed(Note note)
+    private void OnNotePressed(Note note, int lane)
     {
         if (BeatManager.beatManager.IsPlaying)
         {

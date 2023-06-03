@@ -28,7 +28,7 @@ public class BeatManager : MonoBehaviour
 
     [SerializeField] private Transform spawnLine;
     [SerializeField] private Transform playLine;
-    [SerializeField] private SpriteRenderer background;
+    // [SerializeField] private SpriteRenderer background;
 
     /* Calculated every Update() */
     [Tooltip("Song position in seconds")]
@@ -87,7 +87,7 @@ public class BeatManager : MonoBehaviour
 
         musicSource.clip = container.clip;
         StartCoroutine("PlayMusicWithOffset", WAIT_TIME);
-        background.color = new Color(1,1,1, settings.transparency);
+        // background.color = new Color(1,1,1, settings.transparency);
     }
 
     void Update()
@@ -173,7 +173,7 @@ public class BeatManager : MonoBehaviour
         if (playing)
         {
             pauseTime = (float)AudioSettings.dspTime;
-            if (pauseTime - startTime < WAIT_TIME) { pauseCanvas.SetActive(false); return; }
+            if (pauseTime - startTime < 0) { pauseCanvas.SetActive(false); return; }
             musicSource.Pause();
             pauseCanvas.SetActive(true);
             playing = false;
