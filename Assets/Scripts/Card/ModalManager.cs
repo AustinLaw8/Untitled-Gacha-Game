@@ -6,8 +6,8 @@ public class ModalManager : MonoBehaviour
 {
     public static ModalManager instance;
 
-    [SerializeField] CardInventory cardInventory;
-    [SerializeField] CardManager cardManager;
+    // [SerializeField] CardInventory cardInventory;
+    // [SerializeField] CardManager cardManager;
     
     [Header("Modal Sections")]
     [SerializeField] GameObject modalWindow;
@@ -30,8 +30,8 @@ public class ModalManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (cardInventory == null) cardInventory = GameObject.Find("CardData").GetComponent<CardInventory>();
-        if (cardManager == null) cardManager = GameObject.Find("CardData").GetComponent<CardManager>();
+        // if (cardInventory == null) cardInventory = GameObject.Find("CardData").GetComponent<CardInventory>();
+        // if (cardManager == null) cardManager = GameObject.Find("CardData").GetComponent<CardManager>();
     }
 
     public bool Active()
@@ -41,7 +41,7 @@ public class ModalManager : MonoBehaviour
 
     public void ShowModal(int cardID)
     {
-        card = cardManager.cardDB[cardID];
+        card = CardManager.cardManager.cardDB[cardID];
         cardTitle.text = card.title;
         cardZodiac.text = card.zodiac.ToString();
         cardImg.texture = card.cardArt;
