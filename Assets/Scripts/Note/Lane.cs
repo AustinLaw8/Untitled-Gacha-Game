@@ -63,7 +63,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     private int notesTillNextHeal;
 
     [SerializeField] private Animator[] laneAnimators;
-    [SerializeField] private AudioSource audioSourceHold;
     [SerializeField] private AudioSource audioSourceOneShots;
     [SerializeField] private AudioClip tapSfx;
     [SerializeField] private AudioClip flickSfx;
@@ -103,15 +102,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
                     break;
                 }
             }
-        }
-        if (held)
-        {
-            if (!audioSourceHold.isPlaying) audioSourceHold.Play();
-
-        }
-        else
-        {
-            if (audioSourceHold.isPlaying) audioSourceHold.Stop();
         }
     }
 

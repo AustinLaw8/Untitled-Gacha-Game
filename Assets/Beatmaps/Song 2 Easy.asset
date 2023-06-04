@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d07e3b3077d4a77bc9dd41d72c4906, type: 3}
   m_Name: Song 2 Easy
   m_EditorClassIdentifier: 
-  songName: 
+  ID: 2
+  songName: Flavor
   mapData: {fileID: 0}
-  clip: {fileID: 0}
-  artist: 
+  clip: {fileID: 8300000, guid: 881cb137eb3454853ad7709d1e944542, type: 3}
+  artist: Distatikal
+  levelDesigner: Karen Jin

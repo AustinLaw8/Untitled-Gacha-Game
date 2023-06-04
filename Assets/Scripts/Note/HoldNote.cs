@@ -22,6 +22,7 @@ public class HoldNote : MonoBehaviour
     
     private ParticleSystem particles;
 
+    private AudioSource audioSourceHold;
     private PolygonCollider2D col;
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
@@ -46,6 +47,7 @@ public class HoldNote : MonoBehaviour
         endNoteSpawned = false;
         bottom = Vector2.zero;
 
+        audioSourceHold = this.gameObject.GetComponent<AudioSource>();
         col = this.gameObject.GetComponent<PolygonCollider2D>();
 
         meshRenderer = GetComponent<MeshRenderer>();
@@ -86,10 +88,12 @@ public class HoldNote : MonoBehaviour
                 {
                     PlayParticles();
                 }
+                if (!audioSourceHold.isPlaying) audioSourceHold.Play();
             }
             else
             {
                 if (particles) particles.Stop();
+                if (audioSourceHold.isPlaying) audioSourceHold.Stop();
                 pointsTimer = 0f;
             }
             
