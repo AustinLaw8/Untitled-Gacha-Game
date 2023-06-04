@@ -13,7 +13,8 @@ public class CardManager : MonoBehaviour
     
     [Header("Button SFX Hack")]
     [SerializeField] public AudioClip buttonClick;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource bgm;
 
     public static void ResetData()
     {
@@ -56,7 +57,6 @@ public class CardManager : MonoBehaviour
             LoadCards();
         }
         Array.Sort(cardDB, (a, b) => a.ID.CompareTo(b.ID));
-        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     public void addCard (int cardId)
@@ -178,5 +178,15 @@ public class CardManager : MonoBehaviour
     public void PlayButtonSFX()
     {
         audioSource.Play();
+    }
+
+    public void PlayBGM()
+    {
+        if(!bgm.isPlaying) bgm.Play();
+    }
+
+    public void StopBGM()
+    {
+        bgm.Stop();
     }
 }

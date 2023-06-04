@@ -187,7 +187,7 @@ public class GachaManager : MonoBehaviour
             {
                 cardID = GetCardOfRarity(Rarity.Five);
             }
-            Debug.Log($"rolled {cardID}");
+            // Debug.Log($"rolled {cardID}");
             CardManager.cardManager.addCard(cardID);
             rolls[i] = cardID;
             allResults.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = CardManager.cardManager.cardDB[cardID].cardIcon;

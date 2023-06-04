@@ -901,21 +901,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 560712019, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -8868016136636739574, guid: a121852a64e255c41a2a03d1c3d54d5b, type: 2}
+    - target: {fileID: 6019137591530124584, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
+      propertyPath: bgm
+      value: 
+      objectReference: {fileID: 1593522456}
+    - target: {fileID: 6019137591530124584, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1593522457}
     - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 519.9621
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 264.4808
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.65920943
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -943,10 +955,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6019137591530124585, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
-      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6019137591530124591, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
@@ -1244,6 +1252,16 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!82 &1593522456 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 560712019, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
+  m_PrefabInstance: {fileID: 1243481603}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1593522457 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1803715510, guid: 0ccf3d8ee17c343cbb9e1a861aa984b3, type: 3}
+  m_PrefabInstance: {fileID: 1243481603}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1619002367
 GameObject:
   m_ObjectHideFlags: 0

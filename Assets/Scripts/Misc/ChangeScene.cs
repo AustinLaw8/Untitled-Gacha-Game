@@ -23,6 +23,7 @@ public class ChangeScene : MonoBehaviour
     public void OnChangeScene(string sceneName)
     {
         load.SetActive(true);
+        if (sceneName != "GameScreen") CardManager.cardManager.PlayBGM();
         if (GetComponent<Button>() != null) CardManager.cardManager.PlayButtonSFX();
         StartCoroutine(TryLoadNext(sceneName));
     }

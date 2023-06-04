@@ -81,6 +81,7 @@ public class BeatManager : MonoBehaviour
 
     void Start()
     {
+        CardManager.cardManager.StopBGM();
         playing = true;
         startTime = (float)AudioSettings.dspTime + WAIT_TIME;
         pauseTime = startTime;

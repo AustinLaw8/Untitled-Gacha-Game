@@ -98,7 +98,6 @@ public class CardInventory : MonoBehaviour
 
         for(int i = 0; i < cardManager.cardDB.Length; i++)
         {
-            Debug.Log($"reading {i}, with owned {cardManager.cardDB[i].numCopies}");
             if(displayAllPossible)
             {
                 ownedCards.Add(cardManager.cardDB[i]);
@@ -474,7 +473,7 @@ public class CardInventory : MonoBehaviour
                     obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
                 }
                     
-                if (forTeamFormation && teamManager.InTeam(i) != -1 || ownedCards[i].numCopies == 0)
+                if (forTeamFormation && teamManager.InTeam((int)ownedCards[i].ID) != -1 || ownedCards[i].numCopies == 0)
                 {
                     obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
                     obj.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
@@ -500,7 +499,7 @@ public class CardInventory : MonoBehaviour
                     obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
                 }
 
-                if (forTeamFormation && teamManager.InTeam(i) != -1 || ownedCards[i].numCopies == 0)
+                if (forTeamFormation && teamManager.InTeam((int)ownedCards[i].ID) != -1 || ownedCards[i].numCopies == 0)
                 {
                     obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
                     obj.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);

@@ -96,6 +96,7 @@ public class TeamManager : MonoBehaviour
 
     public int InTeam(int cardID)
     {
+        Debug.Log($"checking for card {cardID}");
         return Array.FindIndex(teamIDs, element => element == cardID);
     }
 

@@ -19,7 +19,6 @@ public class AsyncLoad : MonoBehaviour
             {
                 asyncLoad.allowSceneActivation = true;
             }
-            Debug.Log(asyncLoad.progress);
             yield return null;
         }
     }
