@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Sunny_tiger
   m_EditorClassIdentifier: 
-  ID: 57
+  ID: 29
   cardArt: {fileID: 2800000, guid: 3af3f06549e7f493a8851165d119824c, type: 3}
   cardIcon: {fileID: 21300000, guid: 3961fbbed63694b13963d62fa58d3d76, type: 3}
   artist: Sunny

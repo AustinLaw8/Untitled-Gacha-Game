@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Karen_snake2
   m_EditorClassIdentifier: 
-  ID: 59
+  ID: 61
   cardArt: {fileID: 2800000, guid: 78f51aff63af745a8914097219e3f337, type: 3}
   cardIcon: {fileID: 21300000, guid: 0c94a0783a0ef4b979c51f9964f2da0c, type: 3}
   artist: Karen

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Amy_dragon1
   m_EditorClassIdentifier: 
-  ID: 20
+  ID: 48
   cardArt: {fileID: 2800000, guid: 7fa1bc48651214b6e86b45167db7366c, type: 3}
   cardIcon: {fileID: 21300000, guid: f45b2c395b81c42f696632d3655017bb, type: 3}
   artist: Amy

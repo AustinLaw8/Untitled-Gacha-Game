@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
   m_Name: Austin_Tiger
   m_EditorClassIdentifier: 
-  ID: 5
+  ID: 12
   cardArt: {fileID: 2800000, guid: 31dd767ca1a3b48bfa2a1b2d5476c444, type: 3}
   cardIcon: {fileID: 21300000, guid: 6271e4e62e48a4c9ba5a7970ead5caa7, type: 3}
   artist: Austin
