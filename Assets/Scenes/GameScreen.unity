@@ -202,6 +202,10 @@ PrefabInstance:
       propertyPath: skillAnimator
       value: 
       objectReference: {fileID: 89674770}
+    - target: {fileID: 1278447610, guid: f4969b78b9250471996c870a162d446f, type: 3}
+      propertyPath: load
+      value: 
+      objectReference: {fileID: 1383268957}
     - target: {fileID: 1536787873281861810, guid: f4969b78b9250471996c870a162d446f, type: 3}
       propertyPath: playLine
       value: 
@@ -2146,6 +2150,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 338717123, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
+      propertyPath: load
+      value: 
+      objectReference: {fileID: 1383268957}
     - target: {fileID: 338717125, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_Type
       value: 0
@@ -2182,6 +2190,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -297.68103
       objectReference: {fileID: 0}
+    - target: {fileID: 650959615, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
+      propertyPath: load
+      value: 
+      objectReference: {fileID: 1383268957}
     - target: {fileID: 669780223, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2426,6 +2438,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 890508611, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
+      propertyPath: load
+      value: 
+      objectReference: {fileID: 1383268957}
     - target: {fileID: 890508612, guid: c5b24ff9485004a068d48ec8a2aa1b2a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1

@@ -50,7 +50,6 @@ public class GachaManager : MonoBehaviour
 
     [SerializeField] private ScoreToGachaSO container; 
     [SerializeField] private BeatmapSO beatmapContainer;
-    [SerializeField] private CardManager cardDB; 
     [SerializeField] private GameObject allResults;
 
     // roll rates
@@ -60,6 +59,7 @@ public class GachaManager : MonoBehaviour
 
     // the game object on which the cards are displayed and animated
     [SerializeField] private GameObject card;
+    [SerializeField] private GameObject[] stars;
     private Animator cardAnimator;
     private float animationTime;
    
@@ -125,11 +125,15 @@ public class GachaManager : MonoBehaviour
         }
         else
         {
+            foreach (GameObject star in stars)
+            {
+                star.SetActive(false);
+            }
             currentCard += 1;
             if (currentCard >= numRolls)
             {
                 card.SetActive(false);
-                cardDB.SaveCards();
+                CardManager.cardManager.SaveCards();
                 for(int i = 0; i < 10; i++)
                 {
                     allResults.transform.GetChild(0).GetChild(i).gameObject.SetActive(i < numRolls);
@@ -140,7 +144,19 @@ public class GachaManager : MonoBehaviour
             }
             animationTime = 0f;
             cardImage.color = new Color(cardImage.color.r,cardImage.color.g,cardImage.color.b,0);
-            cardImage.texture = cardDB.cardDB[rolls[currentCard]].cardArt;
+            cardImage.texture = CardManager.cardManager.cardDB[rolls[currentCard]].cardArt;
+            switch(CardManager.cardManager.cardDB[rolls[currentCard]].rarity)
+            {
+                case Rarity.Four:
+                    stars[0].SetActive(true);
+                    goto case Rarity.Five;
+                case Rarity.Five:
+                    stars[1].SetActive(true);
+                    goto case Rarity.Six;
+                case Rarity.Six:
+                    stars[2].SetActive(true);
+                    break;
+            }
             cardAnimator.Play("FadeToNext");
             cardAnimator.SetFloat("time", animationTime);
         }
@@ -172,17 +188,17 @@ public class GachaManager : MonoBehaviour
                 cardID = GetCardOfRarity(Rarity.Five);
             }
             Debug.Log($"rolled {cardID}");
-            cardDB.addCard(cardID);
+            CardManager.cardManager.addCard(cardID);
             rolls[i] = cardID;
-            allResults.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = cardDB.cardDB[cardID].cardIcon;
+            allResults.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = CardManager.cardManager.cardDB[cardID].cardIcon;
         }
     }
 
     int GetCardOfRarity(Rarity rarity)
     {
         int infLoopCatch = 0;
-        int id = Random.Range(0, cardDB.cardDB.Length);
-        while (cardDB.cardDB[id].rarity != rarity)
+        int id = Random.Range(0, CardManager.cardManager.cardDB.Length);
+        while (CardManager.cardManager.cardDB[id].rarity != rarity)
         {
             infLoopCatch++;
             if (infLoopCatch > 999)
@@ -190,7 +206,7 @@ public class GachaManager : MonoBehaviour
                 Debug.Log("infLoop while rolling");
                 break;
             }
-            id = Random.Range(0, cardDB.cardDB.Length);
+            id = Random.Range(0, CardManager.cardManager.cardDB.Length);
         }
         return id;
     }

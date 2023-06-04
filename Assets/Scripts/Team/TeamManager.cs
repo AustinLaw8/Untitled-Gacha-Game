@@ -33,7 +33,7 @@ public class TeamManager : MonoBehaviour
 
     public static void ResetData()
     {
-        SaveTeam(new int[5]{3900,3900,3900,3900,3900});
+        SaveTeam(new int[5]{0,1,2,3,62});
     }
 
     public void Awake()

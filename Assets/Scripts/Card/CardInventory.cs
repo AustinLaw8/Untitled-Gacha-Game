@@ -98,6 +98,7 @@ public class CardInventory : MonoBehaviour
 
         for(int i = 0; i < cardManager.cardDB.Length; i++)
         {
+            Debug.Log($"reading {i}, with owned {cardManager.cardDB[i].numCopies}");
             if(displayAllPossible)
             {
                 ownedCards.Add(cardManager.cardDB[i]);

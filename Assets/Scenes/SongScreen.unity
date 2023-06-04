@@ -803,6 +803,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Load
       objectReference: {fileID: 0}
+    - target: {fileID: 3632414296741914244, guid: 225e0bf237ef54f0db669b5d82e80887, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3632414296741914247, guid: 225e0bf237ef54f0db669b5d82e80887, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -914,6 +918,11 @@ RectTransform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3632414296741914244, guid: 225e0bf237ef54f0db669b5d82e80887, type: 3}
   m_PrefabInstance: {fileID: 295963520}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &477458071 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6421780370984386346, guid: 40a855512f6cd4f3ea8469959d6426e2, type: 3}
+  m_PrefabInstance: {fileID: 643568312}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &559361714
 GameObject:
@@ -1746,13 +1755,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 477458071}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2564,6 +2573,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4909004445941533445, guid: d4780d34eb0644b959e0dcab5252fe8e, type: 3}
+      propertyPath: load
+      value: 
+      objectReference: {fileID: 295963522}
     - target: {fileID: 4909004445941533447, guid: d4780d34eb0644b959e0dcab5252fe8e, type: 3}
       propertyPath: m_Name
       value: Back Button

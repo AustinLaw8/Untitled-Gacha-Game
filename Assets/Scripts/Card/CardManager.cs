@@ -25,7 +25,11 @@ public class CardManager : MonoBehaviour
         }
         cardManager.SaveCards();
         cardManager.LoadCards();
-        // FIXME: give players their defaults
+        cardManager.addCard(0);
+        cardManager.addCard(1);
+        cardManager.addCard(2);
+        cardManager.addCard(3);
+        cardManager.addCard(62);
     }
 
     public void Awake()

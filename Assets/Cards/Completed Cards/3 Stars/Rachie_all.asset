@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   cardArt: {fileID: 2800000, guid: 0f15137d1abf64d89ac8799cfba15787, type: 3}
-  cardIcon: {fileID: 21300000, guid: bb5441cec5c564efca2fd92a1109098e, type: 3}
+  cardIcon: {fileID: 21300000, guid: e51477de6223740fe94b59309fb29008, type: 3}
   artist: Rachie
   rarity: 2
   zodiac: 0
-  power: 0
-  numCopies: 0
+  power: 5000
+  numCopies: 1
   title: Title

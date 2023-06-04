@@ -67,7 +67,8 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         // CardManager.cardManager.PlayButtonSFX();
         int id = GetComponent<CardIDIdentifier>().cardID;
-        if (CardManager.cardManager.cardDB[id].numCopies == 0) return;
+        Debug.Log("read {id}");
+        // if (CardManager.cardManager.cardDB[id].numCopies == 0) return;
         ModalManager.instance.ShowModal(id);
     }
 
