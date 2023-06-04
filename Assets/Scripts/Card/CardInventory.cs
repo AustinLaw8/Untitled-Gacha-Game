@@ -146,6 +146,7 @@ public class CardInventory : MonoBehaviour
             scrollyBoxContents.GetComponent<GridLayoutGroup>().padding = new RectOffset(spaceBetween, spaceBetween, spaceBetween, spaceBetween);
         }
        
+        SortBy(0);
         UpdateDisplay();
     }
 
@@ -472,7 +473,7 @@ public class CardInventory : MonoBehaviour
                     obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
                 }
                     
-                if (forTeamFormation && teamManager.InTeam(i) != -1)
+                if (forTeamFormation && teamManager.InTeam(i) != -1 || ownedCards[i].numCopies == 0)
                 {
                     obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
                     obj.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
@@ -498,7 +499,7 @@ public class CardInventory : MonoBehaviour
                     obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ownedCards[i].numCopies.ToString();
                 }
 
-                if (forTeamFormation && teamManager.InTeam(i) != -1)
+                if (forTeamFormation && teamManager.InTeam(i) != -1 || ownedCards[i].numCopies == 0)
                 {
                     obj.GetComponent<Image>().color = new Color(.5f, .5f, .5f);
                     obj.transform.GetChild(0).gameObject.GetComponent<Image>().color = new Color(.5f, .5f, .5f);

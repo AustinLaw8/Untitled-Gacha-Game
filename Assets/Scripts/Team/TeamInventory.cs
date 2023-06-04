@@ -52,9 +52,9 @@ public class TeamInventory : MonoBehaviour
 
     CardSO FindCard(int ID)
     {
-        if (ID < cardManager.cardDB.Length)
+        if (ID < CardManager.cardManager.cardDB.Length)
         {
-            return cardManager.cardDB[ID];
+            return CardManager.cardManager.cardDB[ID];
         }
         return emptyCard;
     }

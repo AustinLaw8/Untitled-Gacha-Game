@@ -55,7 +55,7 @@ public class GachaManager : MonoBehaviour
 
     // roll rates
     // private float threeStarChance=.05f;
-    private float twoStarChance = .35f;
+    private float twoStarChance = .95f;
     private float oneStarChance = .60f;
 
     // the game object on which the cards are displayed and animated
@@ -159,11 +159,11 @@ public class GachaManager : MonoBehaviour
             // {
             //     give the horse!!!
             // }
-            if (roll > oneStarChance)
+            if (roll < oneStarChance)
             {
                 cardID = GetCardOfRarity(Rarity.Three);
             }
-            else if (roll > twoStarChance)
+            else if (roll < twoStarChance)
             {
                 cardID = GetCardOfRarity(Rarity.Four);
             }
@@ -171,6 +171,7 @@ public class GachaManager : MonoBehaviour
             {
                 cardID = GetCardOfRarity(Rarity.Five);
             }
+            Debug.Log($"rolled {cardID}");
             cardDB.addCard(cardID);
             rolls[i] = cardID;
             allResults.transform.GetChild(0).GetChild(i).GetComponent<Image>().sprite = cardDB.cardDB[cardID].cardIcon;
@@ -214,27 +215,27 @@ public class GachaManager : MonoBehaviour
         {
             case Combo._0:
                 // threeStarChance = .05f;
-                twoStarChance = .35f;
+                twoStarChance = .95f;
                 oneStarChance = .60f;
                 break;
             case Combo._25:
                 // threeStarChance = .07f;
-                twoStarChance = .34f;
+                twoStarChance = .93f;
                 oneStarChance = .59f;
                 break;
             case Combo._50:
                 // threeStarChance = .09f;
-                twoStarChance = .33f;
+                twoStarChance = .91f;
                 oneStarChance = .58f;
                 break;
             case Combo._75:
                 // threeStarChance = .11f;
-                twoStarChance = .32f;
+                twoStarChance = .89f;
                 oneStarChance = .57f;
                 break;
             case Combo._100:
                 // threeStarChance = .13f;
-                twoStarChance = .31f;
+                twoStarChance = .87f;
                 oneStarChance = .56f;
                 break;
         }

@@ -87,7 +87,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
     
     void Update()
     {
-        bool held = false;
         holdNotes.RemoveAll(x=>x==null);
         foreach (HoldNote holdNote in holdNotes)
         {
@@ -98,7 +97,6 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
                 if (holdNote.GetComponent<Collider2D>().OverlapPoint(loc))
                 {
                     holdNote.holding = true;
-                    held = true;
                     break;
                 }
             }
@@ -201,7 +199,7 @@ public class Lane : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
         Note note;
         if (0 <= lane && lane < NUM_LANES && notes[lane].TryPeek(out note))
         {  
-            if (note.isHold == null)
+            if (note.isHold == null && note.isFlick)
             {
                 OnNotePressed(note, lane);
             }

@@ -98,7 +98,7 @@ public class ScoreManager : MonoBehaviour
             if (i == 3900) continue;
             power += CardManager.cardManager.cardDB[i].power;
         }
-        float scoreFromPower = power / 1000f;
+        float scoreFromPower = power / 100f;
         int mapDifficultyBonus = BeatManager.beatManager.container.ID % 2 == 0 ? 1 : 0;
         baseScore = scoreFromPower + BREAKPOINT_C / BeatManager.beatManager.NumNotes*1f + mapDifficultyBonus;
         

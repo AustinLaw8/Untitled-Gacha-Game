@@ -23,6 +23,7 @@ public class TicketHandler : MonoBehaviour
 
     public void UseTickets()
     {
+        if (numTickets == 0) return;
         int numRolls = Math.Min(numTickets, 10);
 
         scoreToGacha.postGame = false;

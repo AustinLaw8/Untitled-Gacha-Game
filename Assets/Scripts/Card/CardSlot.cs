@@ -66,7 +66,9 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void OpenProfile()
     {
         // CardManager.cardManager.PlayButtonSFX();
-        ModalManager.instance.ShowModal(GetComponent<CardIDIdentifier>().cardID);
+        int id = GetComponent<CardIDIdentifier>().cardID;
+        if (CardManager.cardManager.cardDB[id].numCopies == 0) return;
+        ModalManager.instance.ShowModal(id);
     }
 
     void OnCardSlotSelected()
