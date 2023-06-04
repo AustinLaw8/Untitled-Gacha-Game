@@ -6,16 +6,15 @@ using UnityEngine.UI;
 // card selected to be swapped out from team
 public class selectedCard : MonoBehaviour
 {
-    [SerializeField] CardManager cardManager;
     private MemberSwap script;
 
     public void OnCardSelected(int id, int pos)
     {
         FindObjectOfType<MemberSwap>().SetTeamPos(pos);
         if (id != 3900)
-            gameObject.GetComponent<Image>().sprite = cardManager.cardDB[id].cardIcon;
+            gameObject.GetComponent<Image>().sprite = CardManager.cardManager.cardDB[id].cardIcon;
         else
-            gameObject.GetComponent<Image>().sprite = cardManager.emptyCard.cardIcon;
+            gameObject.GetComponent<Image>().sprite = CardManager.cardManager.emptyCard.cardIcon;
 
     }
 
