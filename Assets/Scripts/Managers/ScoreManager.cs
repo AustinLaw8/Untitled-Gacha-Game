@@ -193,6 +193,7 @@ public class ScoreManager : MonoBehaviour
                     UpdateScore(SkillManager.skillManager.flatScoreBonus);
                     SkillManager.skillManager.AnimateSkill(Zodiac.Dragon);
                 }
+                maxCombo = Math.Max(maxCombo,  combo);
                 break;
             case Accuracy.Good:
             case Accuracy.Bad:

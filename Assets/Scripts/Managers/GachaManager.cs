@@ -138,6 +138,7 @@ public class GachaManager : MonoBehaviour
                 {
                     allResults.transform.GetChild(0).GetChild(i).gameObject.SetActive(i < numRolls);
                 }
+                GameObject.Find("Stars").SetActive(false);
                 allResults.SetActive(true);
                 container.reset();
                 return;
@@ -149,13 +150,13 @@ public class GachaManager : MonoBehaviour
             {
                 case Rarity.Four:
                     stars[0].SetActive(true);
-                    goto case Rarity.Five;
+                    break;
                 case Rarity.Five:
                     stars[1].SetActive(true);
-                    goto case Rarity.Six;
+                    goto case Rarity.Four;
                 case Rarity.Six:
                     stars[2].SetActive(true);
-                    break;
+                    goto case Rarity.Five;
             }
             cardAnimator.Play("FadeToNext");
             cardAnimator.SetFloat("time", animationTime);
@@ -171,10 +172,10 @@ public class GachaManager : MonoBehaviour
         {
             roll = Random.Range(0f, 1f);
             // THE HORSE
-            // if (roll >= .999)
-            // {
-            //     give the horse!!!
-            // }
+            if (roll >= .999f)
+            {
+                cardID = roll >= .9995f ? 63 : 64;
+            }
             if (roll < oneStarChance)
             {
                 cardID = GetCardOfRarity(Rarity.Three);

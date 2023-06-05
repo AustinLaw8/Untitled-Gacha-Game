@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79d07e3b3077d4a77bc9dd41d72c4906, type: 3}
-  m_Name: Song 2 Easy
+  m_Name: 01_Evening_Star_Hard
   m_EditorClassIdentifier: 
-  ID: 2
-  songName: Flavor
-  mapData: {fileID: 0}
-  clip: {fileID: 8300000, guid: 881cb137eb3454853ad7709d1e944542, type: 3}
-  artist: Distatikal
-  levelDesigner: Karen Jin
+  ID: 1
+  songName: Evening Star
+  mapData: {fileID: 4900000, guid: c17223ed764e2483baac572aee6f433c, type: 3}
+  clip: {fileID: 8300000, guid: 58263baa5313e45a5962d1c6a956821a, type: 3}
+  artist: FutureYou
+  levelDesigner: Advaith Gowrishetty

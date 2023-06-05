@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &145543350
 RectTransform:
   m_ObjectHideFlags: 0
@@ -240,20 +240,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4573626403332774656, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: stars.Array.size
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4573626403332774656, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: stars.Array.data[0]
       value: 
-      objectReference: {fileID: 966023350}
+      objectReference: {fileID: 1683270738}
     - target: {fileID: 4573626403332774656, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: stars.Array.data[1]
       value: 
-      objectReference: {fileID: 493891653}
+      objectReference: {fileID: 1111656622}
     - target: {fileID: 4573626403332774656, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: stars.Array.data[2]
       value: 
-      objectReference: {fileID: 145543349}
+      objectReference: {fileID: 1800392925}
     - target: {fileID: 4573626403332774656, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: stars.Array.data[3]
       value: 
@@ -269,6 +269,10 @@ PrefabInstance:
     - target: {fileID: 4573626403332774657, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: m_Name
       value: GachaManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573626403332774657, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4573626403332774716, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: m_Pivot.x
@@ -355,6 +359,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4573626403959341182, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4757692091482430544, guid: 8b8f42eb91ed44d5ea3ec42b4009d4f7, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -466,7 +474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &493891654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -542,7 +550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &966023351
 MonoBehaviour:
   m_ObjectHideFlags: 0

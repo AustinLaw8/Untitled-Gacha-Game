@@ -28,7 +28,7 @@ public class TicketHandler : MonoBehaviour
 
         scoreToGacha.postGame = false;
         scoreToGacha.numRolls = numRolls;
-        numTickets -= numRolls;
+        playerSongInfo.tickets -= numRolls;
         PlayerSongInfo.Write(playerSongInfo);
         CardManager.cardManager.PlayButtonSFX();
         SceneManager.LoadScene("GachaScreen", LoadSceneMode.Single);

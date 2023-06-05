@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79d07e3b3077d4a77bc9dd41d72c4906, type: 3}
-  m_Name: Song 4 Easy
+  m_Name: 06_Pulse_of_the_Meteor_Hard
   m_EditorClassIdentifier: 
-  ID: 6
+  ID: 7
   songName: Pulse of the Meteor
-  mapData: {fileID: 0}
+  mapData: {fileID: 4900000, guid: 34cb311e1e2c44f699134ab4795e464b, type: 3}
   clip: {fileID: 8300000, guid: b77304cd75bbf494aa1dbd6d00e82d01, type: 3}
   artist: '*Luna'
   levelDesigner: Karen Jin

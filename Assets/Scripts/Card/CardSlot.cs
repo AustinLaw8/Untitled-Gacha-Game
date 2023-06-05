@@ -41,25 +41,19 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData e)
     {
-        if (teamManager)
-        {
-            pressing = true;
-        }
-        else
-        {
-            OpenProfile();
-        }
+        pressing = true;
     }
 
     public void OnPointerUp(PointerEventData e)
     {
-        if (teamManager)
+        pressing = false;
+        if (timer < .5f)
         {
-            pressing = false;
-            if (timer < .5f)
-            {
-                OnCardSlotSelected();
-            }
+            if(teamManager) OnCardSlotSelected();
+        }
+        else
+        {
+            if(!ModalManager.instance.Active()) OpenProfile();
         }
     }
     
@@ -75,7 +69,7 @@ public class CardSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         // CardManager.cardManager.PlayButtonSFX();
         int id = gameObject.GetComponent<CardIDIdentifier>().cardID;
-        int ind = GameObject.Find("TeamData").GetComponent<TeamManager>().InTeam(id);
+        int ind = teamManager.InTeam(id);
         if (ind != -1) FindObjectOfType<MemberSwap>().SetSwap(ind);
         FindObjectOfType<TeamInventorySelected>().OnCardSelected(id);
     }

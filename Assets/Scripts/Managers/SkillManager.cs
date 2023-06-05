@@ -24,6 +24,7 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI skillText;
     [SerializeField] private Animator skillAnimator;
+    private float animationTime;
     [SerializeField] private SettingsSO settings;
 
     void Awake()
@@ -36,6 +37,13 @@ public class SkillManager : MonoBehaviour
         {
             skillManager = this;
         }
+        animationTime = 1f;
+    }
+
+    void Update()
+    {
+        animationTime += Time.deltaTime;
+        skillAnimator.SetFloat("time", animationTime);
     }
 
     public void AnimateSkill(Zodiac zodiac)
@@ -56,8 +64,8 @@ public class SkillManager : MonoBehaviour
                 str = "Dragon";
                 break;
         }
+        animationTime = 0f;
         skillText.text = $"{str} Skill Activated";
-        skillAnimator.Play("Fade");
     }
 
     void Start()

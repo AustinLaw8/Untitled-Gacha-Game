@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79d07e3b3077d4a77bc9dd41d72c4906, type: 3}
-  m_Name: Song 4 Hard
+  m_Name: 03_Flavor_Hard
   m_EditorClassIdentifier: 
-  ID: 7
-  songName: Pulse of the Meteor
+  ID: 3
+  songName: Flavor
   mapData: {fileID: 0}
-  clip: {fileID: 8300000, guid: b77304cd75bbf494aa1dbd6d00e82d01, type: 3}
-  artist: '*Luna'
+  clip: {fileID: 8300000, guid: 881cb137eb3454853ad7709d1e944542, type: 3}
+  artist: Distatikal
   levelDesigner: Karen Jin

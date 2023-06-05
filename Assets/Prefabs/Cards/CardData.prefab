@@ -114,6 +114,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ea6baed7ad2049e9b19fd34261843fd, type: 2}
   emptyCard: {fileID: 11400000, guid: 3d69eb417023b9c49b5b28a6a131369f, type: 2}
   buttonClick: {fileID: 8300000, guid: 9759b40b39e9443feabd281c57fc4aab, type: 3}
+  audioSource: {fileID: 1803715510}
+  bgm: {fileID: 560712019}
 --- !u!82 &1803715510
 AudioSource:
   m_ObjectHideFlags: 0

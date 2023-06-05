@@ -11,6 +11,7 @@ public class ChangeGameplay : MonoBehaviour
     [SerializeField] private TMPro.TMP_InputField speedInput, offsetInput, transparentInput, brightnessInput;
     [SerializeField] private Slider transparentSlider, brightnessSlider;
     [SerializeField] private Toggle showSkills;
+    [SerializeField] private GameObject on;
 
     // Start is called before the first frame update
     void Start()
@@ -111,6 +112,7 @@ public class ChangeGameplay : MonoBehaviour
         brightnessInput.text = (Mathf.Round(settings.brightness * 100) / 100).ToString();
 
         showSkills.isOn = settings.showSkill;
+        on.SetActive(showSkills.isOn);
 
         Save();
     }

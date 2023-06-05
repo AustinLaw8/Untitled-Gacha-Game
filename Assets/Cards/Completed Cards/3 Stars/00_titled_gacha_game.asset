@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4cc7cd3980a34c75bff75774a53a9f0, type: 3}
-  m_Name: 00_title
+  m_Name: 00_titled_gacha_game
   m_EditorClassIdentifier: 
   ID: 0
   cardArt: {fileID: 2800000, guid: 0f15137d1abf64d89ac8799cfba15787, type: 3}
@@ -20,4 +20,4 @@ MonoBehaviour:
   zodiac: 0
   power: 5000
   numCopies: 1
-  title: Title
+  title: Titled Gacha Game

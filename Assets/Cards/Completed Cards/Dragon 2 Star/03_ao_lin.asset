@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 03_ao_lin
   m_EditorClassIdentifier: 
   ID: 3
-  cardArt: {fileID: 2800000, guid: bb5441cec5c564efca2fd92a1109098e, type: 3}
-  cardIcon: {fileID: 21300000, guid: bb5441cec5c564efca2fd92a1109098e, type: 3}
+  cardArt: {fileID: 2800000, guid: a795b5eb026ed43b3bc6de566e40c3b4, type: 3}
+  cardIcon: {fileID: 21300000, guid: c27aa26dba31a4b9cbd1496b2fcf38aa, type: 3}
   artist: Rachie
   rarity: 1
   zodiac: 1
