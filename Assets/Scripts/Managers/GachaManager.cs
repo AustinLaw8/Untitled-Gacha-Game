@@ -176,7 +176,7 @@ public class GachaManager : MonoBehaviour
             {
                 cardID = roll >= .9995f ? 63 : 64;
             }
-            if (roll < oneStarChance)
+            else if (roll < oneStarChance)
             {
                 cardID = GetCardOfRarity(Rarity.Three);
             }
@@ -197,16 +197,16 @@ public class GachaManager : MonoBehaviour
 
     int GetCardOfRarity(Rarity rarity)
     {
-        int infLoopCatch = 0;
+        // int infLoopCatch = 0;
         int id = Random.Range(0, CardManager.cardManager.cardDB.Length);
         while (CardManager.cardManager.cardDB[id].rarity != rarity)
         {
-            infLoopCatch++;
-            if (infLoopCatch > 999)
-            {
-                Debug.Log("infLoop while rolling");
-                break;
-            }
+            // infLoopCatch++;
+            // if (infLoopCatch > 999)
+            // {
+            //     Debug.Log("infLoop while rolling");
+            //     break;
+            // }
             id = Random.Range(0, CardManager.cardManager.cardDB.Length);
         }
         return id;

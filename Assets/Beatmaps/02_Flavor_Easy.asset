@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 2
   songName: Flavor
-  mapData: {fileID: 4900000, guid: daf6e47b3a0ac417b855cdddaf7dc48c, type: 3}
+  mapData: {fileID: 4900000, guid: 3bd26e32cbe4f440ca1237e470e23ae7, type: 3}
   clip: {fileID: 8300000, guid: 881cb137eb3454853ad7709d1e944542, type: 3}
   artist: Distatikal
   levelDesigner: Karen Jin
