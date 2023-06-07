@@ -72,9 +72,13 @@ public class CardManager : MonoBehaviour
             {
                 cardDB[cardId].power = (4 * 1000);
             }
-            else if (cardDB[cardId].rarity == Rarity.Five || cardDB[cardId].rarity == Rarity.Six)
+            else if (cardDB[cardId].rarity == Rarity.Five)
             {
-                cardDB[cardId].power = (5 * 1000);
+                cardDB[cardId].power = (7 * 1000);
+            }
+            else if (cardDB[cardId].rarity == Rarity.Six)
+            {
+                cardDB[cardId].power = (10 * 1000);
             }
             
         }
@@ -89,9 +93,13 @@ public class CardManager : MonoBehaviour
             {
                 cardDB[cardId].power += (4 * 500);
             }
-            else if (cardDB[cardId].rarity == Rarity.Five || cardDB[cardId].rarity == Rarity.Six)
+            else if (cardDB[cardId].rarity == Rarity.Five)
             {
-                cardDB[cardId].power += (5 * 500);
+                cardDB[cardId].power += (7 * 500);
+            }
+            else if (cardDB[cardId].rarity == Rarity.Six)
+            {
+                cardDB[cardId].power = (10 * 500);
             }
         }
         else
@@ -149,8 +157,10 @@ public class CardManager : MonoBehaviour
                 multiplier = 4;
                 break;
             case Rarity.Five:
+                multiplier = 7;
+                break;
             case Rarity.Six:
-                multiplier = 5;
+                multiplier = 10;
                 break;
             default:
                 multiplier = 0;

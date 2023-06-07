@@ -63,7 +63,7 @@ public class CardInventory : MonoBehaviour
     private bool ascState = true;
 
     //List of cards to display
-    public List<CardSO> ownedCards = new List<CardSO>();
+    [SerializeField] public List<CardSO> ownedCards = new List<CardSO>();
 
     //card manager for access to all cards the player has/ possibly can have
     [SerializeField] CardManager cardManager;
@@ -463,7 +463,7 @@ public class CardInventory : MonoBehaviour
                 obj.GetComponent<Image>().sprite = ownedCards[i].cardIcon;
                 obj.GetComponent<CardIDIdentifier>().cardID = (int) ownedCards[i].ID;
                 
-                if(ownedCards[i].numCopies == 1)
+                if(ownedCards[i].numCopies == 1 || ownedCards[i].numCopies == 0)
                 {
                     obj.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                     obj.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().enabled = false;
