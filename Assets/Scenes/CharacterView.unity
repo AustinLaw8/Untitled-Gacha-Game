@@ -1557,6 +1557,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 501109634}
     - target: {fileID: 3912878444610412251, guid: c9e2362357dcc480b849a7f83c133fa7, type: 3}
+      propertyPath: forAlbumDisplay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3912878444610412251, guid: c9e2362357dcc480b849a7f83c133fa7, type: 3}
       propertyPath: displayAllPossible
       value: 1
       objectReference: {fileID: 0}

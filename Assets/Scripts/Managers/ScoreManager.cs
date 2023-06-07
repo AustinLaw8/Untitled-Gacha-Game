@@ -32,7 +32,8 @@ public class ScoreManager : MonoBehaviour
      * a = .8
      * s = .935
      */
-    private static float MAX_SCORE=1_200_000f;
+    // private static float MAX_SCORE=1_200_000f;
+    private static float MAX_SCORE= 2_000_000f;
     private static float BREAKPOINT_C=MAX_SCORE * .255f;
     private static float BREAKPOINT_B=MAX_SCORE * .575f;
     private static float BREAKPOINT_A=MAX_SCORE * .800f;
@@ -98,7 +99,8 @@ public class ScoreManager : MonoBehaviour
             if (i == 3900) continue;
             power += CardManager.cardManager.cardDB[i].power;
         }
-        float scoreFromPower = power / 100f;
+        float scoreFromPower = power * 10 / BeatManager.beatManager.NumNotes*1f;
+        // float scoreFromPower = power / 100f;
         int mapDifficultyBonus = BeatManager.beatManager.container.ID % 2 == 0 ? 1 : 0;
         baseScore = scoreFromPower + BREAKPOINT_C / BeatManager.beatManager.NumNotes*1f + mapDifficultyBonus;
         
@@ -273,7 +275,7 @@ public class ScoreManager : MonoBehaviour
         }
         BeatmapSO beatmap = BeatManager.beatManager.container;
         string difficulty = beatmap.ID % 8 < 4 ? "easy" : "hard";
-        float percentCombo = Mathf.Round(100f * maxCombo / BeatManager.beatManager.NumNotes);
+        float percentCombo = Mathf.Round(100f * (maxCombo / BeatManager.beatManager.NumNotes));
         GiveTickets(playerSongInfo, beatmap);
         postGameHeader.text = $"Passed - {beatmap.songName} ({difficulty})";
         for (int i = 0; i < 4; i++)
