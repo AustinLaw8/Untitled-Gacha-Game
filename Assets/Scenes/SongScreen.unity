@@ -123,141 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &118286974
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 118286975}
-  - component: {fileID: 118286977}
-  - component: {fileID: 118286976}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &118286975
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118286974}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1722674303}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &118286976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118286974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Song Title 4
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 875657704ee1041fda42e6577cffbdd5, type: 2}
-  m_sharedMaterial: {fileID: 4995427049703098014, guid: edbfafd4898124c79bc421c2565fb390, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 72
-  m_fontSizeBase: 72
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 1
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 4096
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &118286977
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 118286974}
-  m_CullTransparentMesh: 1
 --- !u!1 &156896090
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +135,6 @@ GameObject:
   - component: {fileID: 156896095}
   - component: {fileID: 156896094}
   - component: {fileID: 156896093}
-  - component: {fileID: 156896096}
   m_Layer: 5
   m_Name: Song Button 3
   m_TagString: Untagged
@@ -343,14 +207,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 156896096}
+      - m_Target: {fileID: 1389711706}
         m_TargetAssemblyTypeName: SetSong, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
+        m_MethodName: SetSelectedSong
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -393,33 +257,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156896090}
   m_CullTransparentMesh: 1
---- !u!114 &156896096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156896090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 676a9fe1f0ada4b04918e77a23b1617a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selected: {fileID: 21300000, guid: 81bb9a8d420f24b2d868f0d197e158aa, type: 3}
-  unselected: {fileID: 21300000, guid: fc99309a67e39415eb55421c61b522f6, type: 3}
-  selectedButton: {fileID: 21300000, guid: c1171fbd26ccd4fc4843a06d754fd0e9, type: 3}
-  unSelectedButton: {fileID: 21300000, guid: c7c2f280cd31b4ddc9bba835e3e754df, type: 3}
-  allSongs:
-  - {fileID: 876556699}
-  - {fileID: 559361717}
-  - {fileID: 156896094}
-  - {fileID: 799295565}
-  easyButton: {fileID: 1436504164}
-  hardButton: {fileID: 232505031}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  easy: {fileID: 11400000, guid: c4498d1cfb5f1414799bb491c8a8d42d, type: 2}
-  hard: {fileID: 11400000, guid: 830f00b1dc97e4f179523426711e0f3e, type: 2}
-  songInfo: {fileID: 1183719092}
 --- !u!1 &175044432
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +342,6 @@ GameObject:
   - component: {fileID: 232505034}
   - component: {fileID: 232505033}
   - component: {fileID: 232505032}
-  - component: {fileID: 232505031}
   m_Layer: 5
   m_Name: Hard Button
   m_TagString: Untagged
@@ -533,24 +369,6 @@ RectTransform:
   m_AnchoredPosition: {x: 284, y: 18}
   m_SizeDelta: {x: 218, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &232505031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 232505029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c1aeaed2e354e20aaa67884c47b1b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beatmap: {fileID: 11400000, guid: bfa62e36828644c2cbc9d837081cad01, type: 2}
-  selected: {fileID: 21300000, guid: ac7d7cebe49af4c3bab4108c7acd787d, type: 3}
-  otherUnselected: {fileID: 21300000, guid: 5af7199dd6c8a4cba96d69ff46e5d952, type: 3}
-  other: {fileID: 1436504162}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  songInfo: {fileID: 1183719092}
 --- !u!114 &232505032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,21 +413,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 232505031}
-        m_TargetAssemblyTypeName: SetBeatmap, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1481698672}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: set_interactable
+      - m_Target: {fileID: 1389711706}
+        m_TargetAssemblyTypeName: SetSong, Assembly-CSharp
+        m_MethodName: SetDifficulty
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -617,7 +423,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &232505033
 MonoBehaviour:
@@ -936,7 +742,6 @@ GameObject:
   - component: {fileID: 559361718}
   - component: {fileID: 559361717}
   - component: {fileID: 559361716}
-  - component: {fileID: 559361719}
   m_Layer: 5
   m_Name: Song Button 2
   m_TagString: Untagged
@@ -1009,14 +814,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 559361719}
+      - m_Target: {fileID: 1389711706}
         m_TargetAssemblyTypeName: SetSong, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
+        m_MethodName: SetSelectedSong
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1059,33 +864,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 559361714}
   m_CullTransparentMesh: 1
---- !u!114 &559361719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559361714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 676a9fe1f0ada4b04918e77a23b1617a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selected: {fileID: 21300000, guid: 81bb9a8d420f24b2d868f0d197e158aa, type: 3}
-  unselected: {fileID: 21300000, guid: fc99309a67e39415eb55421c61b522f6, type: 3}
-  selectedButton: {fileID: 21300000, guid: c1171fbd26ccd4fc4843a06d754fd0e9, type: 3}
-  unSelectedButton: {fileID: 21300000, guid: c7c2f280cd31b4ddc9bba835e3e754df, type: 3}
-  allSongs:
-  - {fileID: 876556699}
-  - {fileID: 559361717}
-  - {fileID: 156896094}
-  - {fileID: 799295565}
-  easyButton: {fileID: 1436504164}
-  hardButton: {fileID: 232505031}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  easy: {fileID: 11400000, guid: 3b8cf14a77cbc4345a22af13214cbff0, type: 2}
-  hard: {fileID: 11400000, guid: f2116cdbeebf04c6680edce6bf42864a, type: 2}
-  songInfo: {fileID: 1183719092}
 --- !u!1001 &643568312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1529,7 +1307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &799295562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1657,21 +1435,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676a9fe1f0ada4b04918e77a23b1617a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: {fileID: 21300000, guid: 81bb9a8d420f24b2d868f0d197e158aa, type: 3}
-  unselected: {fileID: 21300000, guid: fc99309a67e39415eb55421c61b522f6, type: 3}
-  selectedButton: {fileID: 21300000, guid: c1171fbd26ccd4fc4843a06d754fd0e9, type: 3}
-  unSelectedButton: {fileID: 21300000, guid: c7c2f280cd31b4ddc9bba835e3e754df, type: 3}
-  allSongs:
-  - {fileID: 876556699}
-  - {fileID: 559361717}
-  - {fileID: 156896094}
-  - {fileID: 799295565}
-  easyButton: {fileID: 1436504164}
-  hardButton: {fileID: 232505031}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  easy: {fileID: 11400000, guid: bb3af99a107974e7da4505aff59003a5, type: 2}
-  hard: {fileID: 11400000, guid: 162c8a10fe6aa4147a1e09aaf90a1d88, type: 2}
+  selectedSong: {fileID: 0}
+  unselectedSong: {fileID: 0}
+  selectedEasy: {fileID: 0}
+  unselectedEasy: {fileID: 0}
+  selectedHard: {fileID: 0}
+  unselectedHard: {fileID: 0}
+  easyButton: {fileID: 0}
+  hardButton: {fileID: 0}
   songInfo: {fileID: 1183719092}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
+  beatmaps: []
 --- !u!1 &834882141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,7 +1591,6 @@ GameObject:
   - component: {fileID: 876556700}
   - component: {fileID: 876556699}
   - component: {fileID: 876556698}
-  - component: {fileID: 876556701}
   m_Layer: 5
   m_Name: Song Button 1
   m_TagString: Untagged
@@ -1890,10 +1663,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 876556701}
+      - m_Target: {fileID: 1389711706}
         m_TargetAssemblyTypeName: SetSong, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
+        m_MethodName: SetSelectedSong
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1940,33 +1713,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876556695}
   m_CullTransparentMesh: 1
---- !u!114 &876556701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876556695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 676a9fe1f0ada4b04918e77a23b1617a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selected: {fileID: 21300000, guid: 81bb9a8d420f24b2d868f0d197e158aa, type: 3}
-  unselected: {fileID: 21300000, guid: fc99309a67e39415eb55421c61b522f6, type: 3}
-  selectedButton: {fileID: 21300000, guid: c1171fbd26ccd4fc4843a06d754fd0e9, type: 3}
-  unSelectedButton: {fileID: 21300000, guid: c7c2f280cd31b4ddc9bba835e3e754df, type: 3}
-  allSongs:
-  - {fileID: 876556699}
-  - {fileID: 559361717}
-  - {fileID: 156896094}
-  - {fileID: 799295565}
-  easyButton: {fileID: 1436504164}
-  hardButton: {fileID: 232505031}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  easy: {fileID: 11400000, guid: b8730a4e228c2427db8817a749ee6e1c, type: 2}
-  hard: {fileID: 11400000, guid: bfa62e36828644c2cbc9d837081cad01, type: 2}
-  songInfo: {fileID: 1183719092}
 --- !u!1 &961855732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2598,6 +2344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1389711704}
   - component: {fileID: 1389711705}
+  - component: {fileID: 1389711706}
   m_Layer: 5
   m_Name: Wrapper
   m_TagString: Untagged
@@ -2621,7 +2368,6 @@ RectTransform:
   - {fileID: 559361715}
   - {fileID: 156896091}
   - {fileID: 799295562}
-  - {fileID: 1722674303}
   m_Father: {fileID: 1574718143}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2643,6 +2389,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
+--- !u!114 &1389711706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389711703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676a9fe1f0ada4b04918e77a23b1617a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedSong: {fileID: 21300000, guid: 81bb9a8d420f24b2d868f0d197e158aa, type: 3}
+  unselectedSong: {fileID: 21300000, guid: fc99309a67e39415eb55421c61b522f6, type: 3}
+  selectedEasy: {fileID: 21300000, guid: c1171fbd26ccd4fc4843a06d754fd0e9, type: 3}
+  unselectedEasy: {fileID: 21300000, guid: 5af7199dd6c8a4cba96d69ff46e5d952, type: 3}
+  selectedHard: {fileID: 21300000, guid: ac7d7cebe49af4c3bab4108c7acd787d, type: 3}
+  unselectedHard: {fileID: 21300000, guid: c7c2f280cd31b4ddc9bba835e3e754df, type: 3}
+  easyButton: {fileID: 1436504166}
+  hardButton: {fileID: 232505033}
+  songInfo: {fileID: 1183719092}
+  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
+  beatmaps:
+  - {fileID: 11400000, guid: b8730a4e228c2427db8817a749ee6e1c, type: 2}
+  - {fileID: 11400000, guid: bfa62e36828644c2cbc9d837081cad01, type: 2}
+  - {fileID: 11400000, guid: 3b8cf14a77cbc4345a22af13214cbff0, type: 2}
+  - {fileID: 11400000, guid: f2116cdbeebf04c6680edce6bf42864a, type: 2}
+  - {fileID: 11400000, guid: c4498d1cfb5f1414799bb491c8a8d42d, type: 2}
+  - {fileID: 11400000, guid: 830f00b1dc97e4f179523426711e0f3e, type: 2}
 --- !u!1 &1436504162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2655,7 +2430,6 @@ GameObject:
   - component: {fileID: 1436504167}
   - component: {fileID: 1436504166}
   - component: {fileID: 1436504165}
-  - component: {fileID: 1436504164}
   m_Layer: 5
   m_Name: Easy Button
   m_TagString: Untagged
@@ -2683,24 +2457,6 @@ RectTransform:
   m_AnchoredPosition: {x: -89, y: 116.6}
   m_SizeDelta: {x: 217, y: 224}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1436504164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436504162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c1aeaed2e354e20aaa67884c47b1b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beatmap: {fileID: 11400000, guid: b8730a4e228c2427db8817a749ee6e1c, type: 2}
-  selected: {fileID: 21300000, guid: c1171fbd26ccd4fc4843a06d754fd0e9, type: 3}
-  otherUnselected: {fileID: 21300000, guid: c7c2f280cd31b4ddc9bba835e3e754df, type: 3}
-  other: {fileID: 232505029}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  songInfo: {fileID: 1183719092}
 --- !u!114 &1436504165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2745,21 +2501,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1436504164}
-        m_TargetAssemblyTypeName: SetBeatmap, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1481698672}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: set_interactable
+      - m_Target: {fileID: 1389711706}
+        m_TargetAssemblyTypeName: SetSong, Assembly-CSharp
+        m_MethodName: SetDifficulty
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3351,164 +3095,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1722674302
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1722674303}
-  - component: {fileID: 1722674307}
-  - component: {fileID: 1722674306}
-  - component: {fileID: 1722674305}
-  - component: {fileID: 1722674304}
-  m_Layer: 5
-  m_Name: Song Button 5
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1722674303
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722674302}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 118286975}
-  m_Father: {fileID: 1389711704}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 458.5, y: -799.4326}
-  m_SizeDelta: {x: 917, y: 144.31836}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1722674304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722674302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 676a9fe1f0ada4b04918e77a23b1617a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selected: {fileID: 0}
-  unselected: {fileID: 0}
-  selectedButton: {fileID: 0}
-  unSelectedButton: {fileID: 0}
-  allSongs: []
-  easyButton: {fileID: 1436504164}
-  hardButton: {fileID: 232505031}
-  container: {fileID: 11400000, guid: 01428ea52b0494a3b819f1ca36ba094a, type: 2}
-  easy: {fileID: 11400000, guid: bb3af99a107974e7da4505aff59003a5, type: 2}
-  hard: {fileID: 11400000, guid: 162c8a10fe6aa4147a1e09aaf90a1d88, type: 2}
-  songInfo: {fileID: 0}
---- !u!114 &1722674305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722674302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1722674306}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1722674304}
-        m_TargetAssemblyTypeName: SetSong, Assembly-CSharp
-        m_MethodName: SetContainer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1722674306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722674302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 81bb9a8d420f24b2d868f0d197e158aa, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1722674307
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722674302}
-  m_CullTransparentMesh: 1
 --- !u!1 &2136603889
 GameObject:
   m_ObjectHideFlags: 0
