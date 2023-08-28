@@ -19,8 +19,14 @@ public class TeamManager : MonoBehaviour
 
     public static int[] GetTeam()
     {
-        var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
-        return FromJson(loadedTeam);
+        try {
+            var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
+            return FromJson(loadedTeam);
+        } catch (FileNotFoundException) {
+            SaveTeam(new int[5]{0,1,2,3,62});
+            var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
+            return FromJson(loadedTeam);
+        }
     }
 
     public static void SaveTeam(int[] teamIDs)
@@ -76,7 +82,7 @@ public class TeamManager : MonoBehaviour
             var loadedTeam = System.IO.File.ReadAllText(teamFilepath, System.Text.Encoding.UTF8);
             teamIDs = FromJson(loadedTeam);
         } catch (Exception) {
-            teamIDs = new int[5]{3900, 3900, 3900, 3900, 3900};
+            teamIDs = new int[5]{0,1,2,3,62};
             SaveTeam();
         }
 
