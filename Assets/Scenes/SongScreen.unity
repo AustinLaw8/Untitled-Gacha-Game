@@ -1670,7 +1670,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2418,6 +2418,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f2116cdbeebf04c6680edce6bf42864a, type: 2}
   - {fileID: 11400000, guid: c4498d1cfb5f1414799bb491c8a8d42d, type: 2}
   - {fileID: 11400000, guid: 830f00b1dc97e4f179523426711e0f3e, type: 2}
+  - {fileID: 11400000, guid: f1092f63acb29e741bf10ef62cf6cee7, type: 2}
 --- !u!1 &1436504162
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,7 +34,7 @@ public class SetSong : MonoBehaviour
         uint uid = (uint)id;
         // Set the stored beatmap to either the easy or hard version of the song
         // Depending on what is currently selected (keeps difficulty)
-        if (container.ID % 2 ==　0)
+        if (container.ID % 2 == 0)
         {
             Set(uid * 2);
         }
