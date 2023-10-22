@@ -233,8 +233,9 @@ public class BeatManager : MonoBehaviour
                 temp.Add( (float.Parse(times[j+1]), int.Parse(times[j])) );
             }
             holdNotes.Enqueue(temp);
-            numNotes += Mathf.RoundToInt((temp[temp.Count - 1].Item1 - temp[0].Item2) / 10f) + 2;
+            numNotes += Mathf.FloorToInt((temp[temp.Count - 1].Item1 - temp[0].Item1) / HoldNote.HOLD_NOTE_TICK_RATE) + 2;
         }
+        Debug.Log(numNotes);
     }
 
     public void EndGame()

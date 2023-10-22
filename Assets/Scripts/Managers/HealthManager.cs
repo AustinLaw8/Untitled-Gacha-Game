@@ -8,6 +8,7 @@ public class HealthManager : MonoBehaviour
 {
     public static int BAD_NOTE_AMOUNT = 3;
     public static int MISS_NOTE_AMOUNT = 5;
+    public static int HOLD_MISS_NOTE_AMOUNT = 1;
 
     public static HealthManager healthManager;
 

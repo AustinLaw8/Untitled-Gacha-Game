@@ -7,7 +7,7 @@ using TMPro;
 
 public enum Accuracy
 {
-    Perfect, Great, Good, Bad, Miss
+    Perfect, Great, Good, Bad, Miss, Hold
 }
 public enum Grade
 {
@@ -77,6 +77,10 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Color blue;
     [SerializeField] private Color purple;
 
+
+    [SerializeField] private TextMeshProUGUI temp;
+    private int tempNumNotes;
+
     void Awake()
     {
         if (scoreManager != null && scoreManager != this)
@@ -130,13 +134,6 @@ public class ScoreManager : MonoBehaviour
         UpdateScore(deltaScore);
     }
 
-    public void GiveHoldPoints()
-    {
-        float deltaScore = baseScore / 10f;
-        combo+=1;
-        UpdateScore(deltaScore);
-    }
-
     // Increases score and score bar
     private void UpdateScore(float deltaScore)
     {
@@ -185,6 +182,11 @@ public class ScoreManager : MonoBehaviour
      */
     private float GetAccuracyMultiplierAndUpdateCombo(Accuracy accuracy)
     {
+        tempNumNotes += 1;
+        temp.text = $"{tempNumNotes}";
+
+        AnimatorTryPlay(Which.Accuracy);
+
         switch (accuracy)
         { 
             case Accuracy.Perfect:
@@ -197,6 +199,9 @@ public class ScoreManager : MonoBehaviour
                 }
                 maxCombo = Math.Max(maxCombo,  combo);
                 break;
+            case Accuracy.Hold:
+                combo+=1;
+                break;
             case Accuracy.Good:
             case Accuracy.Bad:
             case Accuracy.Miss:
@@ -207,35 +212,28 @@ public class ScoreManager : MonoBehaviour
         }
         comboText.text = $"Combo\n{combo}";
 
-        string disp;
-        float ret;
         switch (accuracy)
         { 
             case Accuracy.Perfect:
-                disp = "Perfect";
-                ret = 1f;
-                break;
+                accuracyText.text = "Perfect";
+                return 1f;
+            case Accuracy.Hold:
+                accuracyText.text = "Perfect";
+                return .1f;
             case Accuracy.Great:
-                disp = "Great";
-                ret = .9f;
-                break;
+                accuracyText.text = "Great";
+                return.9f;
             case Accuracy.Good:
-                disp = "Good";
-                ret = .75f;
-                break;
+                accuracyText.text = "Good";
+                return .75f;
             case Accuracy.Bad:
-                disp = "Bad";
-                ret = .5f;
-                break;
+                accuracyText.text = "Bad";
+                return .5f;
             case Accuracy.Miss:
             default:
-                disp = "Miss";
-                ret = 0f;
-                break;
+                accuracyText.text = "Miss";
+                return 0f;
         }
-        accuracyText.text = disp;
-        AnimatorTryPlay(Which.Accuracy);
-        return ret;
     }
     
     // Returns the score muliplier for a given accuracy

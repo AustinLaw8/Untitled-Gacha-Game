@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 // Given the lines a hold note follows, handles the interactions of tapping, particle effects, and holding
 public class HoldNote : MonoBehaviour
 {
+    public static readonly float HOLD_NOTE_TICK_RATE = .1f;
     [SerializeField] private GameObject note;
     [SerializeField] private GameObject above;
     [SerializeField] private GameObject below;
@@ -34,8 +35,9 @@ public class HoldNote : MonoBehaviour
     private List<int> triangles;
 
     public float timer;
-    private float pointsTimer;
+    public int count;
     private float fallTime;
+    private float lastHoldableTime;
     private float lastHoldTime;
 
     private int start;
@@ -59,7 +61,6 @@ public class HoldNote : MonoBehaviour
         vertices = new List<Vector3>();
 
         timer = 0f;
-        pointsTimer = 0f;
         fallTime = Lane.DISTANCE / Note.fallSpeed;
         start = 0;
         end = 0;
@@ -67,56 +68,63 @@ public class HoldNote : MonoBehaviour
 
     void Update()
     {
-        if (BeatManager.beatManager.IsPlaying)
+        if (!BeatManager.beatManager.IsPlaying) return;
+
+        // Checks if it has to delete itself
+        // This is sort of a hack to ensure the note is destroyed by checking if the endNote is destroyed
+        if (endNoteSpawned && endNote == null)
         {
-            // Checks if it has to delete itself
-            // This is sort of a hack to ensure the note is destroyed by checking if the endNote is destroyed
-            if (endNoteSpawned && endNote == null)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
+        }
+
+        if (timer - fallTime > 0 && timer - fallTime < lastHoldableTime)
+        {
             // While holding, play particles and give points
             if (holding)
             {
-                pointsTimer += Time.deltaTime;
-                if (pointsTimer > .1f)
+                if (timer - fallTime > (count + 1) * HOLD_NOTE_TICK_RATE)
                 {
-                    pointsTimer = 0f;
-                    ScoreManager.scoreManager.GiveHoldPoints();
+                    ScoreManager.scoreManager.IncreaseScore(Accuracy.Hold);
+                    count += 1;
                 }
                 if (bottom != Vector2.zero)
                 {
                     PlayParticles();
+                    if (!audioSourceHold.isPlaying) audioSourceHold.Play();
                 }
-                if (!audioSourceHold.isPlaying) audioSourceHold.Play();
             }
             else
             {
+                if (timer - fallTime > (count + 1) * HOLD_NOTE_TICK_RATE)
+                {
+                    ScoreManager.scoreManager.IncreaseScore(Accuracy.Miss);
+                    count += 1;
+                }
                 if (particles) particles.Stop();
                 if (audioSourceHold.isPlaying) audioSourceHold.Stop();
-                pointsTimer = 0f;
             }
             
-            // Draws the sprite that represents where the "start" of the hold note is
-            if (bottom != Vector2.zero)
-            {
-                noteSprite.transform.position = new Vector3(bottom.x, bottom.y, -2f);
-                noteSprite.SetActive(bottom.y>-5.45f);
-            }
-
-            timer += Time.deltaTime;
-
-            // Update mesh and collider
-            UpdateAll();
         }
+
+        // Draws the sprite that represents where the "start" of the hold note is
+        if (bottom != Vector2.zero)
+        {
+            noteSprite.transform.position = new Vector3(bottom.x, bottom.y, -2f);
+            noteSprite.SetActive(bottom.y > -5.45f);
+        }
+
+        timer += Time.deltaTime;
+
+        // Update mesh and collider
+        UpdateAll();
     }
 
     // Gets particles if necessary, and then plays them at the bottom
     private void PlayParticles()
     {
-            if (particles == null) particles = ParticleManager.particleManager.AttachParticlesForHold(this.transform);
-            if(!particles.isPlaying) particles.Play();
-            particles.transform.position = new Vector3(bottom.x,bottom.y, -3f);
+        if (particles == null) particles = ParticleManager.particleManager.AttachParticlesForHold(this.transform);
+        if(!particles.isPlaying) particles.Play();
+        particles.transform.position = new Vector3(bottom.x,bottom.y, -3f);
     }
 
     /** 
@@ -130,6 +138,7 @@ public class HoldNote : MonoBehaviour
         newPoints = newPoints.ConvertAll<(float, int)>( delegate ((float timeX, int laneX) x) {
             return (x.timeX - offset, x.laneX);
         });
+        lastHoldableTime = newPoints[newPoints.Count - 1].Item1; 
         startNote = GameObject.Instantiate(note).GetComponent<Note>();
         startNote.transform.position = new Vector3(0f, BeatManager.SPAWN_POINT, -2f);
         startNote.SetLane(newPoints[0].Item2);
